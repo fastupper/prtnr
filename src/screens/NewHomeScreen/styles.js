@@ -304,13 +304,14 @@ const styles = StyleSheet.create({
   choiceTitle: {
     fontFamily: font.AkrobatSB,
     fontSize: 30,
-    width: wp(5),
+    // width: wp(5),
     color: '#000000',
   },
   modalText: {
     fontFamily: font.AkrobatSB,
     fontSize: 18,
     maxWidth: wp(65),
+    top : -5,
     color: '#000000',
     // borderWidth: 1,
     // flex: 1,
