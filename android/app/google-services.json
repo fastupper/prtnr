@@ -1,0 +1,130 @@
+{
+  "project_info": {
+    "project_number": "243216815010",
+    "project_id": "prtnr-3d97e",
+    "storage_bucket": "prtnr-3d97e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:243216815010:android:9403fdc26b3545242a18fb",
+        "android_client_info": {
+          "package_name": "com.prtnr.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "243216815010-71ph2jh8cvvn3aiuo7ss8dt5rond7cm9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.prtnr.app",
+            "certificate_hash": "cefde1b18a980dea14a40f2f26340098e3a4c7ca"
+          }
+        },
+        {
+          "client_id": "243216815010-8ul91brf8c7sfvu5cm5v7nps0s4d6ad8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.prtnr.app",
+            "certificate_hash": "4513f63f209c7270fc64442084c5c6935184f591"
+          }
+        },
+        {
+          "client_id": "243216815010-tf1evoeao1i9t2flb9o24p443c3dq5jo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.prtnr.app",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "243216815010-2ljcmh1qv82e69c0e756jf730290req4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFJLSFjkMgLHjSiltBoBGuXG0Z8-dvuYI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "243216815010-2ljcmh1qv82e69c0e756jf730290req4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "243216815010-aqf1ddvm7ll256i714jj20pcrvvpu9om.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.prtnr"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:243216815010:android:dad12b624fbdc49d2a18fb",
+        "android_client_info": {
+          "package_name": "com.prtnr.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "243216815010-psq9msa2qvsgh2es3cer3qdhmsiru0ti.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.prtnr.app",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "243216815010-tfm27e83cqj3o19qtb0hib51osqal5rm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.prtnr.app",
+            "certificate_hash": "cefde1b18a980dea14a40f2f26340098e3a4c7ca"
+          }
+        },
+        {
+          "client_id": "243216815010-v01reqh1s36i9aapn8u4spm1v69in99v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.prtnr.app",
+            "certificate_hash": "4513f63f209c7270fc64442084c5c6935184f591"
+          }
+        },
+        {
+          "client_id": "243216815010-2ljcmh1qv82e69c0e756jf730290req4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFJLSFjkMgLHjSiltBoBGuXG0Z8-dvuYI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "243216815010-2ljcmh1qv82e69c0e756jf730290req4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "243216815010-aqf1ddvm7ll256i714jj20pcrvvpu9om.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.prtnr"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

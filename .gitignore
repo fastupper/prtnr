@@ -65,7 +65,5 @@
 __tests__
 .bundle
 .vscode
-android
-ios
 node_modules
 
