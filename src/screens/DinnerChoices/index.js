@@ -37,6 +37,7 @@ const DinnerChoices = ({ navigation }) => {
   const [third, setThird] = useState('');
   const [listing, setListing] = useState([]);
   const [current, setCurrent] = useState(0);
+  const [partnerGmail, setPartnerGmail] = useState(0);
 
   const [questionsent, setIsQuestionSent] = useState(false);
 
@@ -55,11 +56,12 @@ const DinnerChoices = ({ navigation }) => {
   const Toast = useToast();
   const ontSelectPress = () => {
 
-    if (listing.length < 1 || current === 0) {
-      alert('Please select one choice to proceed');
-    } else {
-      navigation.goBack();
-    }
+    navigation.goBack();
+    // if (listing.length < 1 || current === 0) {
+    //   alert('Please select one choice to proceed');
+    // } else {
+    //   navigation.goBack();
+    // }
   };
 
   const getPartners = async () => {
@@ -70,8 +72,10 @@ const DinnerChoices = ({ navigation }) => {
         // console.log('prtnrdata',response)
         const prtnimg = response[0]['imageUrl'];
         setPrtnrImage(prtnimg);
+        // console.log("==>", response)
         const prtnrID = response[0]['prtnrRefId'];
         setIsPrtnrRefId(prtnrID);
+        setPartnerGmail(response[0]['partnerGmail']);
         setIsUserRefId(UserStorage.userRefId);
         setIsUserImage(UserStorage.imgUrl);
       }
@@ -115,7 +119,7 @@ const DinnerChoices = ({ navigation }) => {
           secondAnswer: second,
           thirdAnswer: third,
           userRefId: userRefId,
-          prtnrRefId: prtnrRefId
+          partnerGmail: partnerGmail
         }
         setisLoader(true);
         firebase.DinnerChoices(dinnerdata, (response) => {

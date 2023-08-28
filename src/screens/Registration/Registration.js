@@ -377,6 +377,8 @@ const MyComponent = ({ navigation, route }) => {
   }
 
   const handleVerifyCode = async (code) => {
+    nextStep(2);
+    return;
     setIsLoading(true);
     fetch('https://prtnrbackend.onrender.com/confirm-verification', {
       method: 'POST',

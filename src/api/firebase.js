@@ -85,19 +85,58 @@ const DinnerChoices = async (dinnerData, callback) => {
       secondAnswer: dinnerData.secondAnswer,
       thirdAnswer: dinnerData.thirdAnswer,
       userRefId: dinnerData.userRefId,
-      prtnrRefId: dinnerData.prtnrRefId,
+      partnerGmail: dinnerData.partnerGmail,
+      determined: false,
+      winner: 0,
+      markOne: 8,
+      markTwo: 5,
+      markThree: 1,
     });
     callback('success');
   } catch (error) {
     callback('error');
   }
 };
+const get3choices = async (userGmail, callback) => {
+  let choices = {};
+  try {
+    const userRef = collection(db, 'DinnerChoices');
+    const q = query(userRef, where('partnerGmail', '==', userGmail));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach(doc => {
+      choices = doc.data();
+      choices.choicesRefId = doc.id;
+    });
+    callback(choices);
+  } catch (error) {
+    callback(null);
+  }
+};
+
+const sendOrder = async (data, callback) => {
+  try {
+    collection("DinnerChoices").doc(data.id).get().then(query => {
+      // console.log(query);
+      const thing = query.docs[0];
+      // console.log(thing.data());
+      let tmp = thing.data();
+      tmp.current_game_play = tmp.current_game_play + 1;
+      // console.log(tmp);
+      thing.ref.update(tmp);
+  });
+    callback('success');
+  } catch (error) {
+    callback('error');
+  }
+};
+
 const addPartner = async (prtnrData, callback) => {
   userRedId(async userRef => {
     const userRefId = userRef.userRefId;
     if (userRefId !== null) {
       try {
         const docRef = await addDoc(collection(db, 'Partners'), {
+          partnerGmail: prtnrData.gmail,
           firstname: prtnrData.firstname,
           age: prtnrData.age,
           gender: prtnrData.gender,
@@ -107,6 +146,7 @@ const addPartner = async (prtnrData, callback) => {
           userRefId: userRefId,
         });
 
+        PartnerStorage.gmail = prtnrData.gmail;
         PartnerStorage.partnerRefId = docRef.id;
         PartnerStorage.firstName = prtnrData.firstname;
         PartnerStorage.age = prtnrData.age;
@@ -263,8 +303,6 @@ const getPartnersData = async (UserRefId, callback) => {
       prtnrdoc.prtnrRefId = doc.id;
       partners.push(prtnrdoc);
     });
-    const query = query(collection(db, "Registration"), where(("")))
-    // console.log("test->>>", prtnrList)
     let prtnrList = partners.filter(prtnr => prtnr.selected == true);
     if (prtnrList.length > 0) {
       callback(prtnrList);
@@ -337,4 +375,6 @@ export default {
   DinnerChoices,
   getInviteUser,
   getInvitePartner,
+  get3choices,
+  sendOrder
 };

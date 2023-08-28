@@ -147,6 +147,7 @@ const SplashScreen = ({ navigation, item }) => {
             .getRegisteredUser(userEmail, async response => {
               localStorage.googleDatastore(userValue).then(() => { });
               setIsLoader(false);
+              console.log('--->', response)
               if (response.data === 'true') {
                 localStorage.setUserTolocal(response);
                 Hand(response.userHand);

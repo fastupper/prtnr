@@ -34,6 +34,7 @@ const SplashScreen = ({navigation, item}) => {
   const windowHeight = useWindowDimensions().height;
   const windowWidth = useWindowDimensions().height;
   const [checked, setChecked] = React.useState('first');
+  const [gmail, setGmail] = useState('');
   const [name, setname] = useState('');
   const [Age, setAge] = useState('');
   const [Sex, setSex] = useState('');
@@ -251,6 +252,14 @@ const SplashScreen = ({navigation, item}) => {
               }}>
               <Text style={style.text}>2.</Text>
               <Text style={style.text}>Enter their details</Text>
+              <View style={[style.line]}>
+                <Textinput
+                  placeholder="Gmail"
+                  color="black"
+                  tstyle={style.textinput}
+                  onChangeText={text => setGmail(text)}
+                />
+              </View>
               <View style={[style.line]}>
                 <Textinput
                   placeholder="First Name"
@@ -472,13 +481,14 @@ const SplashScreen = ({navigation, item}) => {
             </Text>
             <TouchableOpacity
               onPress={() => {
-                if (name == null || todate == 'Their Birthdate') {
+                if (!gmail || !name || todate == 'Their Birthdate') {
                   setfill('fill all the details');
                   showToastMsg('fill all the details');
                 } else if (img == '') {
                   showToastMsg('Add your favorite SFW Photo.');
                 } else {
                   global.item = {
+                    gmail: gmail,
                     Age: Age,
                     todate1: todate,
                     name: name,
@@ -488,6 +498,7 @@ const SplashScreen = ({navigation, item}) => {
                   const relationType =
                     checked === 'first' ? 'Plutonic' : 'Intimate';
                   const prtnrData = {
+                    gmail: gmail,
                     firstname: name,
                     age: Age,
                     dateOfbirth: todate,

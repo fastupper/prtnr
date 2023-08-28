@@ -35,6 +35,7 @@ import {useIsFocused} from '@react-navigation/native';
 import moment from 'moment';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import UserProfileModal from '../../component/UserProfileModal';
+import localStorage from '../../api/localStorage';
 
 const window = Dimensions.get('window');
 
@@ -109,7 +110,7 @@ function ChoiceItem(props) {
               shadowRadius: 2,
             },
             android: {
-              width : '100%',
+              width: '100%',
               // width: window.width - 30 * 2,
               elevation: 0,
               // marginHorizontal: 30,
@@ -118,24 +119,24 @@ function ChoiceItem(props) {
         },
         style,
       ]}>
-      <View style={{flex:0.1}}>
-      <Text style={styles.choiceTitle}>{`${data.label}`}</Text>
+      <View style={{flex: 0.1}}>
+        <Text style={styles.choiceTitle}>{`${data.label}`}</Text>
       </View>
-      <View style={{marginLeft : wp(2), marginRight : wp(5)}}>
-      <Image
-        imageStyle={{resizeMode: 'stretch'}}
-        style={{
-          height: 10,
-          width: 22,
-          // marginHorizontal: wp(2),
-          alignSelf: 'center',
-        }}
-        source={require('../../assets/drag-handle.png')}
-      />
+      <View style={{marginLeft: wp(2), marginRight: wp(5)}}>
+        <Image
+          imageStyle={{resizeMode: 'stretch'}}
+          style={{
+            height: 10,
+            width: 22,
+            // marginHorizontal: wp(2),
+            alignSelf: 'center',
+          }}
+          source={require('../../assets/drag-handle.png')}
+        />
       </View>
       <View style={{flex: 1}}>
-      <Text style={[styles.choiceTitle,{fontSize : 20}]}>{`${data.answer}`}</Text>
-
+        <Text
+          style={[styles.choiceTitle, {fontSize: 20}]}>{`${data.answer}`}</Text>
       </View>
     </Animated.View>
   );
@@ -158,12 +159,15 @@ const NewHomeScreen = ({route, navigation}) => {
   const [prtnrRefId, setIsPartnersRefId] = useState('');
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [inviteUserData, setInviteUserData] = useState('');
-  const [question, setQuestion] = useState(
-    'What is today drink for dinner? dsf sdfds fds fds ds dsf ds fdsfds f',
-  );
-  const [firstAnswer, setFirstAnswer] = useState('Cappuccino');
-  const [secondAnswer, setSecondAnswer] = useState('Red Tea');
-  const [thirdAnswer, setThirdAnswer] = useState('Beer');
+  const [choicesId, setChoicesId] = useState('');
+  const [question, setQuestion] = useState('');
+  const [firstAnswer, setFirstAnswer] = useState('');
+  const [secondAnswer, setSecondAnswer] = useState('');
+  const [thirdAnswer, setThirdAnswer] = useState('');
+  const [markOne, setMarkOne] = useState(0);
+  const [markTwo, setMarkTwo] = useState(0);
+  const [markThree, setMarkThree] = useState(0);
+
 
   const [tasks, setIsTasks] = useState([]);
 
@@ -208,20 +212,20 @@ const NewHomeScreen = ({route, navigation}) => {
   //   {key: 'item-2', label: 3, answer: thirdAnswer},
   // ]);
 
-  const [choicesData] = useState({
-    0: {
-      label: '1',
-      answer: 'firstAnswer',
-    },
-    1: {
-      label: '2',
-      answer: 'secondAnswer',
-    },
-    2: {
-      label: '3',
-      answer: 'thirdAnswer',
-    },
-  });
+  // const [choicesData] = useState({
+  //   0: {
+  //     label: '1',
+  //     answer: 'firstAnswer',
+  //   },
+  //   1: {
+  //     label: '2',
+  //     answer: 'secondAnswer',
+  //   },
+  //   2: {
+  //     label: '3',
+  //     answer: 'thirdAnswer',
+  //   },
+  // });
 
   // choiceItem = ({item, index, move, moveEnd, isActive}) => {
   //   return (
@@ -329,6 +333,29 @@ const NewHomeScreen = ({route, navigation}) => {
       });
   };
 
+  const get3choices = () => {
+    localStorage.getUserFromlocal(userData => {
+      try {
+        setisLoader(true);
+        firebase.get3choices(userData.email, async response => {
+          if (response != null) {
+            setIsPartners(true);
+            setQuestion(response.Question);
+            setFirstAnswer(response.topAnswer);
+            setSecondAnswer(response.secondAnswer);
+            setThirdAnswer(response.thirdAnswer);
+            setChoicesId(response.choicesRefId);
+            console.log("=>", response)
+          } 
+          setisLoader(false);
+        });
+      } catch (error) {
+        setisLoader(false);
+        console.log('eroor', error);
+      }
+    });
+  };
+
   useEffect(() => {
     if (isFocused) {
       getCurrentdate();
@@ -336,6 +363,10 @@ const NewHomeScreen = ({route, navigation}) => {
       getTaskFromserver();
     }
   }, [isFocused]);
+
+  useEffect(() => {
+    get3choices();
+  }, [])
 
   //Nikunj
 
@@ -624,6 +655,17 @@ const NewHomeScreen = ({route, navigation}) => {
     );
   };
 
+  const sendOrder = () => {
+    firebase.sendOrder({
+      markOne,
+      markTwo,
+      markThree,
+      choicesId
+    }, (res) => {
+      console.log("--<>",res)
+    })
+  }
+
   const _renderImageModal = () => {
     return (
       <Modal animationType="none" transparent={true} visible={imageOpen}>
@@ -678,7 +720,8 @@ const NewHomeScreen = ({route, navigation}) => {
         visible={choicesModalVisible}>
         <View style={styles.modalBase}>
           <View style={styles.modalInnerContainer}>
-            <View style={[styles.rowContainer,{justifyContent : 'space-between'}]}>
+            <View
+              style={[styles.rowContainer, {justifyContent: 'space-between'}]}>
               <Text style={styles.modalText}>{`${question}`}</Text>
               <TouchableOpacity
                 onPress={() => setChoicesModalVisible(false)}
@@ -711,17 +754,64 @@ const NewHomeScreen = ({route, navigation}) => {
                     },
                   }),
                 }}
-                data={choicesData}
+                data={{
+                  0: {
+                    label: '1',
+                    answer: firstAnswer,
+                  },
+                  1: {
+                    label: '2',
+                    answer: secondAnswer,
+                  },
+                  2: {
+                    label: '3',
+                    answer: thirdAnswer,
+                  },
+                }}
                 renderRow={renderChoice}
+                onReleaseRow={(key, nextOrder) => {
+                  console.log('============================>', nextOrder)
+                  switch(nextOrder[0]){
+                    case "0":
+                      setMarkOne(8);
+                      break;
+                    case "1":
+                      setMarkTwo(8);
+                      break;
+                    default:
+                      setMarkThree(8);
+                  }
+                  switch(nextOrder[1]){
+                    case "0":
+                      setMarkOne(5);
+                      break;
+                    case "1":
+                      setMarkTwo(5);
+                      break;
+                    default:
+                      setMarkThree(5);
+                  }
+                  switch(nextOrder[2]){
+                    case "0":
+                      setMarkOne(1);
+                      break;
+                    case "1":
+                      setMarkTwo(1);
+                      break;
+                    default:
+                      setMarkThree(1);
+                  }
+                }}
               />
               {/* <Draggable index="1" answer={firstAnswer} />
               <Draggable index="2" answer={secondAnswer} />
               <Draggable index="3" answer={thirdAnswer} /> */}
-              <Pressable onPress={() => {}} style={styles.sendBtn}>
+              <Pressable onPress={sendOrder} style={styles.sendBtn}>
                 <Text
-                  style={
-                    [styles.btnText,{padding : 5}]
-                  }>{`Save order and send to ${prtnrName}`}</Text>
+                  style={[
+                    styles.btnText,
+                    {padding: 5},
+                  ]}>{`Save order and send to ${prtnrName}`}</Text>
               </Pressable>
             </View>
             <View />
@@ -873,7 +963,7 @@ const NewHomeScreen = ({route, navigation}) => {
                     />
                   </TouchableOpacity>
                 ) : null}
-                {true || isPartner ? (
+                {isPartner ? (
                   question ? (
                     <TouchableOpacity
                       onPress={() => setChoicesModalVisible(true)}
