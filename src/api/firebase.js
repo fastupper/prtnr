@@ -21,7 +21,9 @@ import localStorage from './localStorage';
 
 //Firebase storage
 const uploadImage = async (tblName, fileName, callback) => {
-  if (fileName == null) {return;}
+  if (fileName == null) {
+    return;
+  }
   try {
     const uri = fileName;
     let name = new Date().getTime() + '-media.jpg';
@@ -49,7 +51,7 @@ const uploadImage = async (tblName, fileName, callback) => {
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then(url => {
           callback(url);
-        });;
+        });
       },
     );
   } catch (error) {
@@ -115,18 +117,49 @@ const get3choices = async (userGmail, callback) => {
 
 const sendOrder = async (data, callback) => {
   try {
-    collection("DinnerChoices").doc(data.id).get().then(query => {
-      // console.log(query);
-      const thing = query.docs[0];
-      // console.log(thing.data());
-      let tmp = thing.data();
-      tmp.current_game_play = tmp.current_game_play + 1;
-      // console.log(tmp);
-      thing.ref.update(tmp);
-  });
-    callback('success');
+    const prtnrRef = doc(db, 'DinnerChoices', data.choicesId);
+    const docSnap = await getDoc(prtnrRef);
+    if (docSnap.exists()) {
+      const previousMarkOne = docSnap.data().markOne;
+      const previousMarkTwo = docSnap.data().markTwo;
+      const previousMarkThree = docSnap.data().markThree;
+      await updateDoc(prtnrRef, {
+        determined: true,
+        markOne: previousMarkOne + data.markOne,
+        markTwo: previousMarkTwo + data.markTwo,
+        markThree: previousMarkThree + data.markThree,
+      });
+      const updatedMarkOne = docSnap.data().markOne + data.markOne;
+      const updatedMarkTwo = docSnap.data().markTwo + data.markTwo;
+      const updatedMarkThree = docSnap.data().markThree + data.markThree;
+      console.log(updatedMarkOne, '\n', updatedMarkTwo, '\n', updatedMarkThree);
+      marksArray = [updatedMarkOne, updatedMarkTwo, updatedMarkThree];
+      const maxValue = Math.max(...marksArray);
+      let maxIndexes = [];
+      for (var i = 0; i < marksArray.length; i++) {
+        if (marksArray[i] === maxValue) {
+          maxIndexes.push(i);
+        }
+      }
+      let isTie = false;
+      if (maxIndexes.length > 1) {
+        const random = Math.floor(Math.random() * maxIndexes.length);
+        isTie = true;
+        await updateDoc(prtnrRef, {
+          winner: maxIndexes[random],
+          isTie: true,
+        });
+      } else {
+        await updateDoc(prtnrRef, {
+          winner: maxIndexes[0],
+          isTie: false,
+        });
+      }
+      
+      callback({success: true, winnder: maxIndexes[0], isTie});
+    }
   } catch (error) {
-    callback('error');
+    callback({successs: false, error});
   }
 };
 
@@ -283,7 +316,7 @@ const getAllPartnersData = async (UserRefId, callback) => {
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach(doc => {
       let prtnrdoc = doc.data();
-      console.log(doc)
+      console.log(doc);
       prtnrdoc.prtnrRefId = doc.id;
       partners.push(prtnrdoc);
     });
@@ -376,5 +409,5 @@ export default {
   getInviteUser,
   getInvitePartner,
   get3choices,
-  sendOrder
+  sendOrder,
 };

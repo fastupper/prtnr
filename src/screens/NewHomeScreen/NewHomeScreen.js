@@ -164,9 +164,10 @@ const NewHomeScreen = ({route, navigation}) => {
   const [firstAnswer, setFirstAnswer] = useState('');
   const [secondAnswer, setSecondAnswer] = useState('');
   const [thirdAnswer, setThirdAnswer] = useState('');
-  const [markOne, setMarkOne] = useState(0);
-  const [markTwo, setMarkTwo] = useState(0);
-  const [markThree, setMarkThree] = useState(0);
+  const [markOne, setMarkOne] = useState(8);
+  const [markTwo, setMarkTwo] = useState(5);
+  const [markThree, setMarkThree] = useState(1);
+  const [winner, setWinner] = useState();
 
 
   const [tasks, setIsTasks] = useState([]);
@@ -656,14 +657,32 @@ const NewHomeScreen = ({route, navigation}) => {
   };
 
   const sendOrder = () => {
-    firebase.sendOrder({
-      markOne,
-      markTwo,
-      markThree,
-      choicesId
-    }, (res) => {
-      console.log("--<>",res)
-    })
+    if (!winner) {
+      firebase.sendOrder({
+        markOne,
+        markTwo,
+        markThree,
+        choicesId
+      }, (res) => {
+        console.log("--<>", res)
+        if (res.success) {
+          setQuestion(res.success);
+          setIsTie(res.isTie);
+          switch(winner) {
+            case 0: 
+              setWinner(() => firstAnswer)
+              break;
+            case 1:
+              setWinner(() => secondAnswer)
+              break;
+            default:
+              setWinner(() => thirdAnswer)
+          }
+        }
+      })
+    } else {
+      setChoicesModalVisible(false)
+    }
   }
 
   const _renderImageModal = () => {
@@ -722,7 +741,7 @@ const NewHomeScreen = ({route, navigation}) => {
           <View style={styles.modalInnerContainer}>
             <View
               style={[styles.rowContainer, {justifyContent: 'space-between'}]}>
-              <Text style={styles.modalText}>{`${question}`}</Text>
+              <Text style={styles.modalText}>{!winner ? `${question}` : `Prtnr has calculated the results and the winner is listed below`}</Text>
               <TouchableOpacity
                 onPress={() => setChoicesModalVisible(false)}
                 style={{
@@ -742,6 +761,7 @@ const NewHomeScreen = ({route, navigation}) => {
               </TouchableOpacity>
             </View>
             <View style={{borderWidth: 0}}>
+              {!winner ? (
               <SortableList
                 contentContainerStyle={{
                   // width: window.width,
@@ -802,7 +822,11 @@ const NewHomeScreen = ({route, navigation}) => {
                       setMarkThree(1);
                   }
                 }}
-              />
+              />) : (
+              <Text style={{
+                textAlign: 'center',
+                fontSize: 17,
+                }}>{`The winner is ${winner}`}</Text>)}
               {/* <Draggable index="1" answer={firstAnswer} />
               <Draggable index="2" answer={secondAnswer} />
               <Draggable index="3" answer={thirdAnswer} /> */}
@@ -811,7 +835,7 @@ const NewHomeScreen = ({route, navigation}) => {
                   style={[
                     styles.btnText,
                     {padding: 5},
-                  ]}>{`Save order and send to ${prtnrName}`}</Text>
+                  ]}>{!winner ? `Save order and send to ${prtnrName}` : `Close`}</Text>
               </Pressable>
             </View>
             <View />
