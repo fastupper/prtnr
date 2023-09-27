@@ -88,7 +88,7 @@ const DinnerChoices = async (dinnerData, callback) => {
       thirdAnswer: dinnerData.thirdAnswer,
       userRefId: dinnerData.userRefId,
       partnerGmail: dinnerData.partnerGmail,
-      determined: false,
+      determined: 0,
       winner: 0,
       markOne: 8,
       markTwo: 5,
@@ -103,7 +103,23 @@ const get3choices = async (userGmail, callback) => {
   let choices = {};
   try {
     const userRef = collection(db, 'DinnerChoices');
-    const q = query(userRef, where('partnerGmail', '==', userGmail));
+    const q = query(userRef, where('determined', '==', 0), where('partnerGmail', '==', userGmail));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach(doc => {
+      choices = doc.data();
+      choices.choicesRefId = doc.id;
+    });
+    callback(choices);
+  } catch (error) {
+    callback(null);
+  }
+};
+
+const getMy3choices = async (userId, callback) => {
+  let choices = {};
+  try {
+    const userRef = collection(db, 'DinnerChoices');
+    const q = query(userRef, where('determined', '==', 1), where('userRefId', '==', userId));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach(doc => {
       choices = doc.data();
@@ -124,7 +140,7 @@ const sendOrder = async (data, callback) => {
       const previousMarkTwo = docSnap.data().markTwo;
       const previousMarkThree = docSnap.data().markThree;
       await updateDoc(prtnrRef, {
-        determined: true,
+        determined: 1,
         markOne: previousMarkOne + data.markOne,
         markTwo: previousMarkTwo + data.markTwo,
         markThree: previousMarkThree + data.markThree,
@@ -156,10 +172,26 @@ const sendOrder = async (data, callback) => {
         });
       }
       
-      callback({success: true, winnder: maxIndexes[0], isTie});
+      callback({success: true, winner: maxIndexes[0], isTie});
     }
   } catch (error) {
-    callback({successs: false, error});
+    callback({success: false, error});
+  }
+};
+
+const confirm3choicesResult = async (data, callback) => {
+  try {
+    const prtnrRef = doc(db, 'DinnerChoices', data.choicesId);
+    const docSnap = await getDoc(prtnrRef);
+    if (docSnap.exists()) {
+      await updateDoc(prtnrRef, {
+        determined: 2,
+      });
+      
+      callback({success: true});
+    }
+  } catch (error) {
+    callback({success: false, error});
   }
 };
 
@@ -409,5 +441,7 @@ export default {
   getInviteUser,
   getInvitePartner,
   get3choices,
+  getMy3choices,
   sendOrder,
+  confirm3choicesResult
 };

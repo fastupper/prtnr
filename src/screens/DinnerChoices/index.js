@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
   Text,
@@ -11,18 +11,23 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import styles from './styles';
-import Swiper from 'react-native-swiper';
-import { wp, hp } from '../../utils/size';
+// import Swiper from 'react-native-swiper';
+import {wp, hp} from '../../utils/size';
 import FastImage from 'react-native-fast-image';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import firebase from '../../api/firebase';
 import UserStorage from '../../Data/UserStorage';
-import { useIsFocused } from '@react-navigation/native';
-import ChoosedPrtnr from '../../Data/ChoosedPrtnr';
+import {useIsFocused} from '@react-navigation/native';
+// import ChoosedPrtnr from '../../Data/ChoosedPrtnr';
 import ActivityIndicator from '../../components/ActivityIndicator';
-import { useToast } from 'react-native-toast-notifications';
+import {useToast} from 'react-native-toast-notifications';
+import io from 'socket.io-client';
 
-const DinnerChoices = ({ navigation }) => {
+const socket = io(String(process.env.BACKEND_API_URL), {
+  secure: true,
+});
+
+const DinnerChoices = ({navigation}) => {
   // const partner_1 = require('../../assets/pic_2.png');
   // const partner_2 = require('../../assets/pic_3.png');
 
@@ -46,16 +51,14 @@ const DinnerChoices = ({ navigation }) => {
   const [prtnrRefId, setIsPrtnrRefId] = useState('');
   const [selectBtn, setIsSelectBtn] = useState('Select');
 
-  const [isLoader, setisLoader] = useState(false);
+  const [isLoader, setIsLoader] = useState(false);
   const [prtnrImage, setPrtnrImage] = useState('');
   const [isPartner, setIsPartners] = useState(false);
   const isFocused = useIsFocused();
   const [userImage, setIsUserImage] = useState('');
 
-
   const Toast = useToast();
   const ontSelectPress = () => {
-
     navigation.goBack();
     // if (listing.length < 1 || current === 0) {
     //   alert('Please select one choice to proceed');
@@ -65,8 +68,8 @@ const DinnerChoices = ({ navigation }) => {
   };
 
   const getPartners = async () => {
-    setisLoader(true);
-    firebase.getPartnersData(UserStorage.userRefId, (response) => {
+    setIsLoader(true);
+    firebase.getPartnersData(UserStorage.userRefId, response => {
       if (response != null && response.length > 0) {
         setIsPartners(true);
         // console.log('prtnrdata',response)
@@ -78,23 +81,19 @@ const DinnerChoices = ({ navigation }) => {
         setPartnerGmail(response[0]['partnerGmail']);
         setIsUserRefId(UserStorage.userRefId);
         setIsUserImage(UserStorage.imgUrl);
-      }
-      else {
-        showToastMsg('You have no partner added...')
+      } else {
+        showToastMsg('You have no partner added...');
         setIsPartners(false);
       }
-      setisLoader(false);
-    })
-  }
+      setIsLoader(false);
+    });
+  };
   useEffect(() => {
     getPartners();
-    return function cleanup() {
-    }
-  }, [isFocused])
+    return function cleanup() {};
+  }, [isFocused]);
   const onSendPress = () => {
-
     if (isPartner) {
-
       let error = '';
       if (question.trim() == '') {
         error = 'Please add some question to continue';
@@ -113,33 +112,32 @@ const DinnerChoices = ({ navigation }) => {
         let arr = [`${question} (3 Choices)`, top, second, third];
         setListing(arr);
         setChoiceModalVisible(false);
-        dinnerdata = {
+        dinnerDate = {
           question: question,
           topAnswer: top,
           secondAnswer: second,
           thirdAnswer: third,
           userRefId: userRefId,
-          partnerGmail: partnerGmail
-        }
-        setisLoader(true);
-        firebase.DinnerChoices(dinnerdata, (response) => {
+          partnerGmail: partnerGmail,
+        };
+        setIsLoader(true);
+        firebase.DinnerChoices(dinnerDate, response => {
           if (response === 'success') {
-            showToastMsg('Successfully quetion sent');
+            showToastMsg('Successfully question sent.');
             setIsSelectBtn('done');
-          }
-          else {
+            socket.emit("new 3choices", {to: partnerGmail});
+
+          } else {
             showToastMsg('Something went wrong...');
           }
-          setisLoader(false);
-        })
+          setIsLoader(false);
+        });
       } else {
         alert(error);
       }
     }
-
   };
   const onSwipe = direction => {
-
     if (direction == 'DOWN') {
       setCurrent(current == 3 ? 0 : current + 1);
     } else if (direction == 'UP') {
@@ -153,7 +151,7 @@ const DinnerChoices = ({ navigation }) => {
     setThird('');
 
     navigation.goBack();
-  }
+  };
   const _renderQuestionSent = () => {
     return (
       <Modal visible={Quesent} transparent={true}>
@@ -164,7 +162,18 @@ const DinnerChoices = ({ navigation }) => {
         </View>
       </Modal>
     );
-  }
+  };
+
+  useEffect(() => {
+    socket.on('connect', () => {
+      console.log("Socket connected on dinnerChoices page.")
+    });
+
+    return () => {
+      socket.disconnect();
+    }
+  }, [])
+
   const _renderChoiceModal = () => {
     return (
       <Modal visible={choiceModalVisible} transparent={true}>
@@ -187,35 +196,36 @@ const DinnerChoices = ({ navigation }) => {
               <TouchableOpacity
                 onPress={() => setChoiceModalVisible(false)}
                 style={{
-                  height: 25, width: 25,
+                  height: 25,
+                  width: 25,
                   alignItems: 'flex-end',
-                  marginHorizontal: 5
+                  marginHorizontal: 5,
                 }}>
                 <Image
-                  imageStyle={{ resizeMode: 'stretch' }}
+                  imageStyle={{resizeMode: 'stretch'}}
                   style={{
-                    height: 15, width: 15,
+                    height: 15,
+                    width: 15,
                   }}
                   source={require('../../assets/close3.png')}
                 />
               </TouchableOpacity>
-
             </View>
-            <View style={{ borderWidth: 0, paddingRight: wp(5) }}>
+            <View style={{borderWidth: 0, paddingRight: wp(5)}}>
               <Text
                 style={[
                   styles.modalText,
-                  { marginBottom: hp(4), marginTop: hp(2) },
+                  {marginBottom: hp(4), marginTop: hp(2)},
                 ]}>
                 What’s the question?
               </Text>
               <TextInput
                 value={question}
                 onChangeText={setQuestion}
-                style={[styles.textInput, { marginBottom: hp(2.5), flex: 0 }]}
+                style={[styles.textInput, {marginBottom: hp(2.5), flex: 0}]}
               />
               <View style={styles.rowContainer}>
-                <Text style={[styles.modalText, { marginHorizontal: wp(3) }]}>
+                <Text style={[styles.modalText, {marginHorizontal: wp(3)}]}>
                   Top
                 </Text>
                 <TextInput
@@ -225,7 +235,7 @@ const DinnerChoices = ({ navigation }) => {
                 />
               </View>
               <View style={styles.rowContainer}>
-                <Text style={[styles.modalText, { marginHorizontal: wp(3) }]}>
+                <Text style={[styles.modalText, {marginHorizontal: wp(3)}]}>
                   2nd
                 </Text>
                 <TextInput
@@ -235,7 +245,7 @@ const DinnerChoices = ({ navigation }) => {
                 />
               </View>
               <View style={styles.rowContainer}>
-                <Text style={[styles.modalText, { marginHorizontal: wp(3) }]}>
+                <Text style={[styles.modalText, {marginHorizontal: wp(3)}]}>
                   3rd
                 </Text>
                 <TextInput
@@ -262,66 +272,87 @@ const DinnerChoices = ({ navigation }) => {
   const showToastMsg = (msg = 'Something went wrong...', duration1 = 2000) => {
     Toast.hideAll();
     Toast.show(msg, {
-      type: "normal",
-      placement: "center",
+      type: 'normal',
+      placement: 'center',
       duration: duration1,
       offset: 30,
-      animationType: "slide-in | zoom-in",
+      animationType: 'slide-in | zoom-in',
     });
-  }
+  };
   return (
     <>
       <ActivityIndicator visible={isLoader} />
-      <View stylele={{ flex: 1 }} >
-
+      <View stylele={{flex: 1}}>
         <GestureRecognizer
           onSwipeUp={() => onSwipe('UP')}
           onSwipeDown={() => onSwipe('DOWN')}
           config={config}>
-          <FastImage style={styles.upperHalf}
-            source={!isPartner ? partner_1 : {
-              uri: prtnrImage,
-              headers: { Authorization: 'someAuthToken' },
-              priority: FastImage.priority.normal
+          <FastImage
+            style={styles.upperHalf}
+            source={
+              !isPartner
+                ? partner_1
+                : {
+                    uri: prtnrImage,
+                    headers: {Authorization: 'someAuthToken'},
+                    priority: FastImage.priority.normal,
+                  }
             }
-            } />
-          <FastImage style={styles.lowerHalf} source={{
-            uri: userImage,
-            headers: { Authorization: 'someAuthToken' },
-            priority: FastImage.priority.normal
-          }} />
-          {isPartner ? <Pressable
-            style={styles.swiperView}
-            onPress={() => setChoiceModalVisible(true)}>
+          />
+          <FastImage
+            style={styles.lowerHalf}
+            source={{
+              uri: userImage,
+              headers: {Authorization: 'someAuthToken'},
+              priority: FastImage.priority.normal,
+            }}
+          />
+          {isPartner ? (
+            <Pressable
+              style={styles.swiperView}
+              onPress={() => setChoiceModalVisible(true)}>
+              <Image
+                style={styles.swipeIcons}
+                source={require('../../assets/ic_up_down.png')}
+              />
+              <Text numberOfLines={2} style={styles.swipeText}>
+                {listing.length < 1
+                  ? `What's for Dinner (3 Choices)`
+                  : listing[current]}
+              </Text>
+              <Image
+                style={styles.swipeIcons}
+                source={require('../../assets/ic_up_down.png')}
+              />
+            </Pressable>
+          ) : (
+            <View />
+          )}
+          <TouchableOpacity
+            onPress={() => navigation.goBack()}
+            style={styles.backBtn}>
             <Image
-              style={styles.swipeIcons}
-              source={require('../../assets/ic_up_down.png')}
-            />
-            <Text numberOfLines={2} style={styles.swipeText}>
-              {listing.length < 1
-                ? `What's for Dinner (3 Choices)`
-                : listing[current]}
-            </Text>
-            <Image
-              style={styles.swipeIcons}
-              source={require('../../assets/ic_up_down.png')}
-            />
-          </Pressable> : <View />}
-          <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backBtn}>
-            <Image
-              style={isPartner ? styles.backIcon : [styles.backIcon, { tintColor: '#000' }]}
+              style={
+                isPartner
+                  ? styles.backIcon
+                  : [styles.backIcon, {tintColor: '#000'}]
+              }
               source={require('../../assets/ic_back.png')}
             />
           </TouchableOpacity>
-          {isPartner ? <TouchableOpacity onPress={ontSelectPress} style={styles.selectButton}>
-            <Text style={styles.selectBtn}>{selectBtn}</Text>
-          </TouchableOpacity> : <View />}
-
+          {isPartner ? (
+            <TouchableOpacity
+              onPress={ontSelectPress}
+              style={styles.selectButton}>
+              <Text style={styles.selectBtn}>{selectBtn}</Text>
+            </TouchableOpacity>
+          ) : (
+            <View />
+          )}
         </GestureRecognizer>
         {_renderChoiceModal()}
         {/* {_renderQuestionSent()} */}
       </View>
-
     </>
   );
 };
@@ -329,10 +360,10 @@ const DinnerChoices = ({ navigation }) => {
 export default DinnerChoices;
 
 // if (response[0]['secondimageUrl'] !== '' && response[0]['secondimageUrl'] !== undefined) {
-        //   const sImg = response[0]['secondimageUrl'];
-        //   setIsprtnrsecondImage(sImg);
-        // }
-        // else {
-        //   const scndImg = UserStorage.imgUrl;
-        //   setIsprtnrsecondImage(scndImg);
-        // }
+//   const sImg = response[0]['secondimageUrl'];
+//   setIsprtnrsecondImage(sImg);
+// }
+// else {
+//   const scndImg = UserStorage.imgUrl;
+//   setIsprtnrsecondImage(scndImg);
+// }

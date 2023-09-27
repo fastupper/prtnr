@@ -14,6 +14,7 @@ import {
   Animated,
   Easing,
   Dimensions,
+  TextInput,
 } from 'react-native';
 import Header from './Components/Header';
 import Sections from './Components/Sections';
@@ -36,8 +37,17 @@ import moment from 'moment';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import UserProfileModal from '../../component/UserProfileModal';
 import localStorage from '../../api/localStorage';
+import io from 'socket.io-client';
 
 const window = Dimensions.get('window');
+
+const socket = io(String(process.env.BACKEND_API_URL), {
+  secure: true,
+});
+
+function isEmptyObject(obj) {
+  return Object.keys(obj).length === 0 && obj.constructor === Object;
+}
 
 function ChoiceItem(props) {
   const {active, data} = props;
@@ -144,6 +154,8 @@ function ChoiceItem(props) {
 
 const NewHomeScreen = ({route, navigation}) => {
   const isRightHand = route?.params?.right == 'right' ? 'right' : 'left';
+  const [myEmail, setMyEmail] = useState("");
+  const [partnerGmail, setPartnerGmail] = useState("");
   const [popUp, setPopup] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   //Girish Chauhan
@@ -155,20 +167,23 @@ const NewHomeScreen = ({route, navigation}) => {
   const [isLoader, setisLoader] = useState(false);
   const [imageOpen, setImageOpen] = useState(false);
   const [choicesModalVisible, setChoicesModalVisible] = useState(false);
+  const [myChoicesResultModalVisible, setMyChoicesResultModalVisible] =
+    useState(false);
   const [secondImg, setIssecondImage] = useState(false);
   const [prtnrRefId, setIsPartnersRefId] = useState('');
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [inviteUserData, setInviteUserData] = useState('');
   const [choicesId, setChoicesId] = useState('');
   const [question, setQuestion] = useState('');
+  const [myQuestion, setMyQuestion] = useState('');
   const [firstAnswer, setFirstAnswer] = useState('');
   const [secondAnswer, setSecondAnswer] = useState('');
   const [thirdAnswer, setThirdAnswer] = useState('');
   const [markOne, setMarkOne] = useState(8);
   const [markTwo, setMarkTwo] = useState(5);
   const [markThree, setMarkThree] = useState(1);
-  const [winner, setWinner] = useState();
-
+  const [winner, setWinner] = useState(undefined);
+  const [isTie, setIsTie] = useState();
 
   const [tasks, setIsTasks] = useState([]);
 
@@ -292,6 +307,7 @@ const NewHomeScreen = ({route, navigation}) => {
           const ptrnrname = response[0].firstname;
           const prtnimg = response[0].imageUrl;
           const prRefId = response[0].prtnrRefId;
+          setPartnerGmail(response[0]['partnerGmail']);
           setIsPartnersRefId(prRefId);
           setPrtnrImage(prtnimg);
           setPrtnrName(ptrnrname);
@@ -339,22 +355,56 @@ const NewHomeScreen = ({route, navigation}) => {
       try {
         setisLoader(true);
         firebase.get3choices(userData.email, async response => {
-          if (response != null) {
+          console.log('get3choices: ', response);
+          if (!!response && !isEmptyObject(response)) {
             setIsPartners(true);
             setQuestion(response.Question);
             setFirstAnswer(response.topAnswer);
             setSecondAnswer(response.secondAnswer);
             setThirdAnswer(response.thirdAnswer);
             setChoicesId(response.choicesRefId);
-            console.log("=>", response)
-          } 
+          }
           setisLoader(false);
         });
       } catch (error) {
         setisLoader(false);
-        console.log('eroor', error);
+        console.log('error', error);
       }
     });
+  };
+
+  const getMy3choices = () => {
+    // localStorage.getUserFromlocal(userData => {
+    // try {
+    setisLoader(true);
+    firebase.getMy3choices(UserStorage.userRefId, async response => {
+      console.log('getMy3choices: ', response);
+      if (!!response && !isEmptyObject(response)) {
+        setIsPartners(true);
+        switch (response.winner) {
+          case 0:
+            setWinner(() => response.topAnswer);
+            break;
+          case 1:
+            setWinner(() => response.secondAnswer);
+            break;
+          default:
+            setWinner(() => response.thirdAnswer);
+        }
+        setMyQuestion(() => response.Question);
+        setFirstAnswer(() => response.topAnswer);
+        setSecondAnswer(() => response.secondAnswer);
+        setThirdAnswer(() => response.thirdAnswer);
+        setChoicesId(() => response.choicesRefId);
+        setMyChoicesResultModalVisible(true);
+      }
+      setisLoader(false);
+    });
+    // } catch (error) {
+    //   setisLoader(false);
+    //   console.log('error', error);
+    // }
+    // });
   };
 
   useEffect(() => {
@@ -366,8 +416,40 @@ const NewHomeScreen = ({route, navigation}) => {
   }, [isFocused]);
 
   useEffect(() => {
+    // console.log('=====<><><>', myChoicesResultModalVisible, '...', winner);
     get3choices();
-  }, [])
+    getMy3choices();
+  }, []);
+
+  // useEffect(() => {
+    // console.log('=====<>--------<>', firstAnswer, '...', winner);
+  // }, [firstAnswer, winner]);
+
+  useEffect(() => {
+    localStorage.getUserFromlocal(userData => {
+      console.log(userData)
+      setMyEmail(userData.email)
+
+      socket.on('connect', () => {
+        socket.emit('mapEmail2socket', {email: userData.email});
+      });
+
+      socket.on('new 3choices', () => {
+        get3choices();
+      })
+
+      socket.on('sendOrder', () => {
+        getMy3choices();
+      })
+  
+      return () => {
+        socket.off('connect');
+        socket.off('new 3choices');
+        socket.off('sendOrder');
+      };
+    })
+    
+  }, []);
 
   //Nikunj
 
@@ -657,33 +739,54 @@ const NewHomeScreen = ({route, navigation}) => {
   };
 
   const sendOrder = () => {
-    if (!winner) {
-      firebase.sendOrder({
-        markOne,
-        markTwo,
-        markThree,
-        choicesId
-      }, (res) => {
-        console.log("--<>", res)
-        if (res.success) {
-          setQuestion(res.success);
-          setIsTie(res.isTie);
-          switch(winner) {
-            case 0: 
-              setWinner(() => firstAnswer)
-              break;
-            case 1:
-              setWinner(() => secondAnswer)
-              break;
-            default:
-              setWinner(() => thirdAnswer)
+    if (winner == undefined) {
+      firebase.sendOrder(
+        {
+          markOne,
+          markTwo,
+          markThree,
+          choicesId,
+        },
+        res => {
+          console.log('--<>', res);
+          if (res.success) {
+            setIsTie(res.isTie);
+            setQuestion('');
+            setFirstAnswer('');
+            setSecondAnswer('');
+            setThirdAnswer('');
+            switch (res.winner) {
+              case 0:
+                setWinner(() => firstAnswer);
+                break;
+              case 1:
+                setWinner(() => secondAnswer);
+                break;
+              default:
+                setWinner(() => thirdAnswer);
+            }
+
+            socket.emit("sendOrder", {to: partnerGmail})
           }
-        }
-      })
+          setChoicesModalVisible(false);
+        },
+      );
     } else {
-      setChoicesModalVisible(false)
+      setChoicesModalVisible(false);
     }
-  }
+  };
+
+  const confirm3choicesResult = () => {
+    firebase.confirm3choicesResult(
+      {
+        choicesId,
+      },
+      res => {
+        console.log('confirm3choicesResult: ', res.success);
+        setMyChoicesResultModalVisible(false);
+      },
+    );
+  };
 
   const _renderImageModal = () => {
     return (
@@ -741,7 +844,11 @@ const NewHomeScreen = ({route, navigation}) => {
           <View style={styles.modalInnerContainer}>
             <View
               style={[styles.rowContainer, {justifyContent: 'space-between'}]}>
-              <Text style={styles.modalText}>{!winner ? `${question}` : `Prtnr has calculated the results and the winner is listed below`}</Text>
+              <Text style={styles.modalText}>
+                {winner == undefined
+                  ? `${question}`
+                  : `Prtnr has calculated the results and the winner is listed below`}
+              </Text>
               <TouchableOpacity
                 onPress={() => setChoicesModalVisible(false)}
                 style={{
@@ -761,81 +868,170 @@ const NewHomeScreen = ({route, navigation}) => {
               </TouchableOpacity>
             </View>
             <View style={{borderWidth: 0}}>
-              {!winner ? (
-              <SortableList
-                contentContainerStyle={{
-                  // width: window.width,
-                  ...Platform.select({
-                    ios: {
-                      paddingHorizontal: 30,
+              {winner == undefined ? (
+                <SortableList
+                  contentContainerStyle={{
+                    // width: window.width,
+                    ...Platform.select({
+                      ios: {
+                        paddingHorizontal: 30,
+                      },
+                      android: {
+                        paddingHorizontal: 0,
+                      },
+                    }),
+                  }}
+                  data={{
+                    0: {
+                      label: '1',
+                      answer: firstAnswer,
                     },
-                    android: {
-                      paddingHorizontal: 0,
+                    1: {
+                      label: '2',
+                      answer: secondAnswer,
                     },
-                  }),
-                }}
-                data={{
-                  0: {
-                    label: '1',
-                    answer: firstAnswer,
-                  },
-                  1: {
-                    label: '2',
-                    answer: secondAnswer,
-                  },
-                  2: {
-                    label: '3',
-                    answer: thirdAnswer,
-                  },
-                }}
-                renderRow={renderChoice}
-                onReleaseRow={(key, nextOrder) => {
-                  console.log('============================>', nextOrder)
-                  switch(nextOrder[0]){
-                    case "0":
-                      setMarkOne(8);
-                      break;
-                    case "1":
-                      setMarkTwo(8);
-                      break;
-                    default:
-                      setMarkThree(8);
-                  }
-                  switch(nextOrder[1]){
-                    case "0":
-                      setMarkOne(5);
-                      break;
-                    case "1":
-                      setMarkTwo(5);
-                      break;
-                    default:
-                      setMarkThree(5);
-                  }
-                  switch(nextOrder[2]){
-                    case "0":
-                      setMarkOne(1);
-                      break;
-                    case "1":
-                      setMarkTwo(1);
-                      break;
-                    default:
-                      setMarkThree(1);
-                  }
-                }}
-              />) : (
-              <Text style={{
-                textAlign: 'center',
-                fontSize: 17,
-                }}>{`The winner is ${winner}`}</Text>)}
-              {/* <Draggable index="1" answer={firstAnswer} />
-              <Draggable index="2" answer={secondAnswer} />
-              <Draggable index="3" answer={thirdAnswer} /> */}
-              <Pressable onPress={sendOrder} style={styles.sendBtn}>
+                    2: {
+                      label: '3',
+                      answer: thirdAnswer,
+                    },
+                  }}
+                  renderRow={renderChoice}
+                  onReleaseRow={(key, nextOrder) => {
+                    console.log('============================>', nextOrder);
+                    switch (nextOrder[0]) {
+                      case '0':
+                        setMarkOne(8);
+                        break;
+                      case '1':
+                        setMarkTwo(8);
+                        break;
+                      default:
+                        setMarkThree(8);
+                    }
+                    switch (nextOrder[1]) {
+                      case '0':
+                        setMarkOne(5);
+                        break;
+                      case '1':
+                        setMarkTwo(5);
+                        break;
+                      default:
+                        setMarkThree(5);
+                    }
+                    switch (nextOrder[2]) {
+                      case '0':
+                        setMarkOne(1);
+                        break;
+                      case '1':
+                        setMarkTwo(1);
+                        break;
+                      default:
+                        setMarkThree(1);
+                    }
+                  }}
+                />
+              ) : (
                 <Text
-                  style={[
-                    styles.btnText,
-                    {padding: 5},
-                  ]}>{!winner ? `Save order and send to ${prtnrName}` : `Close`}</Text>
+                  style={{
+                    textAlign: 'center',
+                    fontSize: 17,
+                  }}>{`The winner is ${winner}`}</Text>
+              )}
+              <Pressable onPress={sendOrder} style={styles.sendBtn}>
+                <Text style={[styles.btnText, {padding: 5}]}>
+                  {winner == undefined
+                    ? `Save order and send to ${prtnrName}`
+                    : `Close`}
+                </Text>
+              </Pressable>
+            </View>
+            <View />
+          </View>
+        </View>
+      </Modal>
+    );
+  };
+
+  const _renderMyChoicesResultModal = () => {
+    return (
+      <Modal
+        animationType="none"
+        transparent={true}
+        visible={myChoicesResultModalVisible && winner != undefined}>
+        <View style={styles.modalBase}>
+          <View style={styles.modalInnerContainer}>
+            <View
+              style={[styles.rowContainer, {justifyContent: 'space-between'}]}>
+              <Text
+                style={
+                  styles.modalText
+                }>{`Prtnr has calculated the results and the winner is listed below`}</Text>
+              <TouchableOpacity
+                onPress={() => setMyChoicesResultModalVisible(false)}
+                style={{
+                  height: 25,
+                  width: 25,
+                  alignItems: 'flex-end',
+                  marginHorizontal: 5,
+                }}>
+                <Image
+                  imageStyle={{resizeMode: 'stretch'}}
+                  style={{
+                    height: 15,
+                    width: 15,
+                  }}
+                  source={require('../../assets/close3.png')}
+                />
+              </TouchableOpacity>
+            </View>
+
+            <View style={{borderWidth: 0, paddingRight: wp(5)}}>
+              <Text style={[styles.modalText]}>Question:</Text>
+              <TextInput
+                value={myQuestion}
+                style={[styles.textInput, {marginBottom: hp(2.5), flex: 0}]}
+                editable={false}
+              />
+              <View style={styles.rowContainer}>
+                <Text style={[styles.modalText, {marginHorizontal: wp(3)}]}>
+                  Top
+                </Text>
+                <TextInput
+                  value={firstAnswer}
+                  style={styles.textInput}
+                  editable={false}
+                />
+              </View>
+              <View style={styles.rowContainer}>
+                <Text style={[styles.modalText, {marginHorizontal: wp(3)}]}>
+                  2nd
+                </Text>
+                <TextInput
+                  value={secondAnswer}
+                  style={styles.textInput}
+                  editable={false}
+                />
+              </View>
+              <View style={styles.rowContainer}>
+                <Text style={[styles.modalText, {marginHorizontal: wp(3)}]}>
+                  3rd
+                </Text>
+                <TextInput
+                  value={thirdAnswer}
+                  style={styles.textInput}
+                  editable={false}
+                />
+              </View>
+            </View>
+
+            <View style={{borderWidth: 0}}>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  fontSize: 17,
+                }}>{`The winner is ${winner}`}</Text>
+              <Pressable onPress={confirm3choicesResult} style={styles.sendBtn}>
+                <Text style={[styles.btnText, {padding: 5}]}>{`Confirm`}</Text>
               </Pressable>
             </View>
             <View />
@@ -1139,6 +1335,7 @@ const NewHomeScreen = ({route, navigation}) => {
         {_renderMenuModal()}
         {_renderImageModal()}
         {_renderChoicesModal()}
+        {_renderMyChoicesResultModal()}
         <SafeAreaView />
       </View>
     </>

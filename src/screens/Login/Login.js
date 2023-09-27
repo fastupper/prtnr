@@ -99,8 +99,8 @@ const SplashScreen = ({ navigation, item }) => {
     }
   };
   const randomBackground = () => {
-    const randomValue = backgroundItems[Math.floor(Math.random() * backgroundItems.length)];
-    // const randomValue = backgroundItems[0];
+    // const randomValue = backgroundItems[Math.floor(Math.random() * backgroundItems.length)];
+    const randomValue = backgroundItems[0];
     setIsRandomItem(randomValue);
   };
   //Google SignIn...

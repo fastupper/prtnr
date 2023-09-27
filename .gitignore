@@ -3,4 +3,5 @@ __tests__
 .vscode
 node_modules
 android/app/build
-
+app-release.apk
+prtnr.7z
