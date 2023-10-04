@@ -27,6 +27,8 @@ import io.invertase.firebase.app.ReactNativeFirebaseAppPackage;
 import io.invertase.firebase.dynamiclinks.ReactNativeFirebaseDynamicLinksPackage;
 // @react-native-google-signin/google-signin
 import com.reactnativegooglesignin.RNGoogleSigninPackage;
+// @react-native-picker/picker
+import com.reactnativecommunity.picker.RNCPickerPackage;
 // lottie-react-native
 import com.airbnb.android.react.lottie.LottiePackage;
 // react-native-biometrics
@@ -102,6 +104,7 @@ public class PackageList {
       new ReactNativeFirebaseAppPackage(),
       new ReactNativeFirebaseDynamicLinksPackage(),
       new RNGoogleSigninPackage(),
+      new RNCPickerPackage(),
       new LottiePackage(),
       new ReactNativeBiometricsPackage(),
       new ReactNativeContacts(),

@@ -16,6 +16,7 @@ import {
   Dimensions,
   TextInput,
 } from 'react-native';
+import { Tooltip, Text as TextElement } from 'react-native-elements';
 import Header from './Components/Header';
 import Sections from './Components/Sections';
 import strings from '../../utils/strings';
@@ -154,8 +155,8 @@ function ChoiceItem(props) {
 
 const NewHomeScreen = ({route, navigation}) => {
   const isRightHand = route?.params?.right == 'right' ? 'right' : 'left';
-  const [myEmail, setMyEmail] = useState("");
-  const [partnerGmail, setPartnerGmail] = useState("");
+  const [myEmail, setMyEmail] = useState('');
+  const [partnerGmail, setPartnerGmail] = useState('');
   const [popUp, setPopup] = useState(true);
   const [menuOpen, setMenuOpen] = useState(false);
   //Girish Chauhan
@@ -187,94 +188,81 @@ const NewHomeScreen = ({route, navigation}) => {
 
   const [tasks, setIsTasks] = useState([]);
 
-  const [taskTexy1, setIsTaskText1] = useState('Ask them how their day was?');
+  const [taskTexy1, setIsTaskText1] = useState([
+    'Take a walk together',
+    'Cook a meal together',
+    'Write a love letter',
+    'Have a picnic',
+    'Watch a movie together',
+    'Listen to music together',
+    'Make a scrapbook',
+    'Stargaze together',
+    'Visit a museum',
+    'Go for a bike ride',
+    'Read a book together',
+    'Have a game night',
+    'Take a day trip',
+    'Dance together',
+    'Plant a tree together',
+    'Share a dessert',
+    'Watch the sunset',
+    'Visit a park',
+    'Go for a swim',
+    'Cuddle and talk',
+  ]);
   const [taskId1, setIsTaskId1] = useState('1');
 
-  const [taskTexy2, setIsTaskText2] = useState(
-    'Figure out dinner before they ask about it and tell them it’s taken care of as they are on their way home.',
-  );
+  const [taskTexy2, setIsTaskText2] = useState([
+    'Book a weekend getaway',
+    'Take a dance class',
+    'Visit a theme park',
+    'Plan a surprise date',
+    'Attend a concert',
+    'Explore a new city',
+    'Go on a hiking trip',
+    'Visit a winery',
+    'Go to a spa',
+    'Take a cooking class',
+    'Book a fancy dinner',
+    'Go horseback riding',
+    'Visit an art gallery',
+    'Go for a boat ride',
+    'Attend a live show',
+    'Go to a zoo or aquarium',
+    'Take a pottery class',
+    'Go to a beach resort',
+    'Visit a historical site',
+    'Have a themed movie night',
+  ]);
   const [taskId2, setIsTaskId2] = useState('2');
 
-  const [taskTexy3, setIsTaskText3] = useState(
-    "Write a note and leave it in their coat pocket and let them know that they are very special to you and your life wouldn't be the same without them. You could probably write something better than that but I'm just saying.",
-  );
+  const [taskTexy3, setIsTaskText3] = useState([
+    'Book a vacation abroad',
+    'Renew your wedding vows',
+    'Buy a special gift',
+    'Plan a surprise party',
+    'Attend a luxury retreat',
+    'Go on a cruise',
+    'Book a helicopter ride',
+    'Go on a safari',
+    'Attend a major event or festival',
+    'Visit a castle',
+    'Go on a hot air balloon ride',
+    'Go scuba diving',
+    'Take a painting class',
+    'Book a mountain cabin',
+    'Go on a road trip',
+    'Stay in a luxury hotel',
+    'Visit an exotic island',
+    'Go skiing or snowboarding',
+    'Go to a Broadway show',
+    'Rent a luxury car for a day',
+  ]);
   const [taskId3, setIsTaskId3] = useState('3');
 
   const [localDate, setIslocalDate] = useState('');
   const Toast = useToast();
   const isFocused = useIsFocused();
-
-  // const [data, setdata] = useState([
-  //   {text: 'Ask them how their day was?'},
-  //   {
-  //     text: 'Figure out dinner before they ask about it and tell them it’s taken care of as they are on their way home.',
-  //   },
-  //   {
-  //     text: "Write a note and leave it in their coat pocket and let them know that they are very special to you and your life wouldn't be the same without them. You could probably write something better than that but I'm just saying.",
-  //   },
-  //   {text: 'Send a random text message'},
-  //   {
-  //     text: 'Figure out dinner before they ask about it and tell them it’s taken care of as they are on their way home.',
-  //   },
-  //   {text: 'Send a random text message'},
-  //   {
-  //     text: "Write a note and leave it in their coat pocket and let them know that they are very special to you and your life wouldn't be the same without them. You could probably write something better than that but I'm just saying.",
-  //   },
-  // ]);
-
-  // const [choicesData, setChoicesData] = useState([
-  //   {key: 'item-0', label: 1, answer: firstAnswer},
-  //   {key: 'item-1', label: 2, answer: secondAnswer},
-  //   {key: 'item-2', label: 3, answer: thirdAnswer},
-  // ]);
-
-  // const [choicesData] = useState({
-  //   0: {
-  //     label: '1',
-  //     answer: 'firstAnswer',
-  //   },
-  //   1: {
-  //     label: '2',
-  //     answer: 'secondAnswer',
-  //   },
-  //   2: {
-  //     label: '3',
-  //     answer: 'thirdAnswer',
-  //   },
-  // });
-
-  // choiceItem = ({item, index, move, moveEnd, isActive}) => {
-  //   return (
-  //     <TouchableOpacity
-  //       style={{
-  //         height: 100,
-  //         // backgroundColor: isActive ? 'blue' : item.backgroundColor,
-  //         alignItems: 'center',
-  //         justifyContent: 'center',
-  //       }}
-  //       onLongPress={move}
-  //       onPressOut={moveEnd}>
-  //       <View style={styles.rowContainerChoice}>
-  //         <Text style={[styles.choiceTitle, {marginLeft: wp(2)}]}>
-  //           {`${index}`}
-  //         </Text>
-  //         <Image
-  //           imageStyle={{resizeMode: 'stretch'}}
-  //           style={{
-  //             height: 10,
-  //             width: 22,
-  //             marginLeft: wp(2),
-  //             alignSelf: 'center',
-  //           }}
-  //           source={require('../../assets/drag-handle.png')}
-  //         />
-  //         <Text style={[styles.modalText, {marginLeft: wp(6)}]}>
-  //           {`${answer}`}
-  //         </Text>
-  //       </View>
-  //     </TouchableOpacity>
-  //   );
-  // };
 
   const renderChoice = useCallback(({data, active}) => {
     return <ChoiceItem data={data} active={active} />;
@@ -295,7 +283,8 @@ const NewHomeScreen = ({route, navigation}) => {
     // var date = moment()
     //   .utcOffset('+05:30')
     //   .format('YYYY-MM-DD hh:mm:ss a');
-    const date = moment().utcOffset('+05:30').format('MMM-DD-YYYY');
+    // const date = moment().utcOffset('+05:30').format('MMM-DD-YYYY');
+    const date = moment().format('MMM-DD-YYYY');
     setIslocalDate(date);
   };
   const getPartners = async () => {
@@ -422,13 +411,13 @@ const NewHomeScreen = ({route, navigation}) => {
   }, []);
 
   // useEffect(() => {
-    // console.log('=====<>--------<>', firstAnswer, '...', winner);
+  // console.log('=====<>--------<>', firstAnswer, '...', winner);
   // }, [firstAnswer, winner]);
 
   useEffect(() => {
     localStorage.getUserFromlocal(userData => {
-      console.log(userData)
-      setMyEmail(userData.email)
+      console.log(userData);
+      setMyEmail(userData.email);
 
       socket.on('connect', () => {
         socket.emit('mapEmail2socket', {email: userData.email});
@@ -436,19 +425,18 @@ const NewHomeScreen = ({route, navigation}) => {
 
       socket.on('new 3choices', () => {
         get3choices();
-      })
+      });
 
       socket.on('sendOrder', () => {
         getMy3choices();
-      })
-  
+      });
+
       return () => {
         socket.off('connect');
         socket.off('new 3choices');
         socket.off('sendOrder');
       };
-    })
-    
+    });
   }, []);
 
   //Nikunj
@@ -766,7 +754,7 @@ const NewHomeScreen = ({route, navigation}) => {
                 setWinner(() => thirdAnswer);
             }
 
-            socket.emit("sendOrder", {to: partnerGmail})
+            socket.emit('sendOrder', {to: partnerGmail});
           }
           setChoicesModalVisible(false);
         },
@@ -1110,13 +1098,34 @@ const NewHomeScreen = ({route, navigation}) => {
     setIsTaskId3(randomValue.id);
   };
 
+  const [score, setScore] = useState(0);
+  const [isGameOver, setIsGameOver] = useState(false);
+  const [color1, setColor1] = useState('#ffffff');
+  const [color2, setColor2] = useState('#ffffff');
+  const [color3, setColor3] = useState('#ffffff');
+
+  const addPoints = points => {
+    if (isGameOver) return;
+    if (points === 1) {
+      setColor1('grey');
+    } else if (points === 2) {
+      setColor2('grey');
+    } else if (points === 3) {
+      setColor3('grey');
+    }
+    setScore(score + points);
+    if (score + points >= 6) {
+      setIsGameOver(true);
+    }
+  };
+
   return (
     <>
       <ActivityIndicator visible={isLoader} />
       <View style={styles.container}>
         <SafeAreaView />
         <ScrollView showsVerticalScrollIndicator={false}>
-          <Header />
+          <Header onProfilePress={() => navigateTo('Tabs')}/>
           {inviteUserData && showProfileModal ? (
             <UserProfileModal
               user={inviteUserData}
@@ -1156,7 +1165,7 @@ const NewHomeScreen = ({route, navigation}) => {
             />
           ) : null}
           <View style={styles.profile}>
-            {popUp && (
+            {/* {popUp && (
               <>
                 <View style={styles.connectPopup}>
                   <Text style={styles.connectText}>
@@ -1165,7 +1174,7 @@ const NewHomeScreen = ({route, navigation}) => {
                   <View style={[styles.triangle, styles.arrowDown]} />
                 </View>
               </>
-            )}
+            )} */}
             <View style={[styles.profileNameCon]}>
               <View style={{flex: 1}}>
                 <Text style={[styles.profileNameText]}>
@@ -1174,7 +1183,7 @@ const NewHomeScreen = ({route, navigation}) => {
               </View>
               <View style={{flexDirection: 'row'}}>
                 {/*Connect Icon */}
-                {isPartner ? (
+                {/* {isPartner ? (
                   <TouchableOpacity style={styles.connectIcCon}>
                     <Image
                       style={styles.connectIc}
@@ -1182,7 +1191,7 @@ const NewHomeScreen = ({route, navigation}) => {
                       source={require('../../assets/ic_dot_circle.png')}
                     />
                   </TouchableOpacity>
-                ) : null}
+                ) : null} */}
                 {isPartner ? (
                   question ? (
                     <TouchableOpacity
@@ -1206,15 +1215,20 @@ const NewHomeScreen = ({route, navigation}) => {
                     </TouchableOpacity>
                   )
                 ) : null}
+                <Tooltip popover={<Text>Info here</Text>}>
+                  <Text>Press me</Text>
+                </Tooltip>
                 {isPartner ? (
                   <TouchableOpacity
-                    onPress={() => setPopup(!popUp)}
+                    // onPress={() => setPopup(!popUp)}
                     style={styles.connectIcCon}>
-                    <Image
-                      style={styles.connectIc}
-                      resizeMode="contain"
-                      source={require('../../assets/ic_connect.png')}
-                    />
+                    <Tooltip popover={<TextElement>Connected</TextElement>}>
+                      <Image
+                        style={styles.connectIc}
+                        resizeMode="contain"
+                        source={require('../../assets/ic_connect.png')}
+                      />
+                    </Tooltip>
                   </TouchableOpacity>
                 ) : (
                   <TouchableOpacity
@@ -1269,14 +1283,16 @@ const NewHomeScreen = ({route, navigation}) => {
             </TouchableOpacity>
           </View>
           <View style={styles.tasksCon}>
-            <Text style={styles.tasksText}>Tasks - 0/6</Text>
+            <Text style={styles.tasksText}>Tasks - {score}/6</Text>
             <Text style={styles.dateDayText}>{localDate}</Text>
           </View>
           <Sections
-            indexText={'1'}
+            indexText={1}
             ptText={'pt'}
-            sectionText={taskTexy1}
-            onPress={() => taskRefreshed(taskId1)}
+            // sectionText={taskTexy1}
+            onGesturePress={addPoints}
+            backgroundColor={color1}
+            status={color1 === 'grey' ? true : false}
           />
           <Text
             style={[
@@ -1291,17 +1307,19 @@ const NewHomeScreen = ({route, navigation}) => {
             Don't like the suggestion just press refresh
           </Text>
           <Sections
-            indexText={'2'}
+            indexText={2}
             ptText={'pts'}
-            sectionText={taskTexy2}
-            onPress={() => taskRefreshed1(taskId2)}
+            onGesturePress={addPoints}
+            backgroundColor={color2}
+            status={color2 === 'grey' ? true : false}
           />
 
           <Sections
-            indexText={'3'}
+            indexText={3}
             ptText={'pts'}
-            sectionText={taskTexy3}
-            onPress={() => taskRefreshed2(taskId3)}
+            onGesturePress={addPoints}
+            backgroundColor={color3}
+            status={color3 === 'grey' ? true : false}
           />
           <Text style={styles.forumsText}>{strings.FORUMS}</Text>
           <View style={styles.forumCon}>
@@ -1343,80 +1361,3 @@ const NewHomeScreen = ({route, navigation}) => {
 };
 
 export default NewHomeScreen;
-
-// setisLoader(true);
-// localStorage.getPartnerFromlocal().then((jsonValue) => {
-//   if (jsonValue !== null) {
-//     setIsPartners(true);
-//     setPrtnrImage(jsonValue['imageUrl']);
-//     setPrtnrName(jsonValue['firstname']);
-//     setisLoader(false);
-//     localStorage.getSecondPrtnrFromlocal().then((secondPrtnr) => {
-
-//       if (secondPrtnr !== null) {
-//         setSecondPrtnrImg(jsonValue['imageUrl']);
-//       }
-//       else {
-
-//       }
-//     });
-
-//   }
-//   else {
-//     try {
-//       // setisLoader(true);
-//       firebase.getPartnersData(UserStorage.userRefId, async (response) => {
-//         if (response != null && response.length > 0) {
-//           setIsPartners(true);
-//           const ptrnrname = response[0]['firstname'];
-//           const prtnimg = response[0]['imageUrl'];
-//           setPrtnrImage(prtnimg);
-//           setPrtnrName(ptrnrname);
-//           const value = response[0];
-//           localStorage.setPartnerTolocal(value);
-//           if (response.length > 1) {
-//             const jsnValue = response[1];
-//             const secondImg = response[1]['imageUrl'];
-//             setSecondPrtnrImg(secondImg);
-//             localStorage.setSecondPrtnrTolocal(jsnValue);
-//           }
-//         }
-//         else {
-//           setIsPartners(false);
-//         }
-//         setisLoader(false);
-//       })
-
-//     } catch (error) {
-//       console.log('eroor', error);
-//     }
-//   }
-// });
-
-// if (ChoosedPrtnr.partnerRefId !== "") {
-//   let selectedPrtnr = response.filter(prtnr => prtnr.prtnrRefId == ChoosedPrtnr.partnerRefId);
-//   if (selectedPrtnr.length > 0) {
-//     const ptrnrname = selectedPrtnr[0]['firstname'];
-//     const prtnimg = selectedPrtnr[0]['imageUrl'];
-//     setPrtnrImage(prtnimg);
-//     setPrtnrName(ptrnrname);
-//   }
-//   let otherPrtnr = response.filter(prtnr => prtnr.prtnrRefId !== ChoosedPrtnr.partnerRefId);
-//   if (otherPrtnr.length > 0) {
-//     const secondImg = otherPrtnr[0]['imageUrl'];
-//     setSecondPrtnrImg(secondImg);
-//   }
-// }
-// else {
-//   const ptrnrname = response[0]['firstname'];
-//   const prtnimg = response[0]['imageUrl'];
-//   const prRefId = response[0]['prtnrRefId'];
-//   setIsPartnersRefId(prRefId);
-//   setPrtnrImage(prtnimg);
-//   setPrtnrName(ptrnrname);
-//   if (response.length > 1) {
-//     const jsnValue = response[1];
-//     const secondImg = response[1]['imageUrl'];
-//     setSecondPrtnrImg(secondImg);
-//   }
-// }

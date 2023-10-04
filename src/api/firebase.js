@@ -103,7 +103,11 @@ const get3choices = async (userGmail, callback) => {
   let choices = {};
   try {
     const userRef = collection(db, 'DinnerChoices');
-    const q = query(userRef, where('determined', '==', 0), where('partnerGmail', '==', userGmail));
+    const q = query(
+      userRef,
+      where('determined', '==', 0),
+      where('partnerGmail', '==', userGmail),
+    );
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach(doc => {
       choices = doc.data();
@@ -119,7 +123,11 @@ const getMy3choices = async (userId, callback) => {
   let choices = {};
   try {
     const userRef = collection(db, 'DinnerChoices');
-    const q = query(userRef, where('determined', '==', 1), where('userRefId', '==', userId));
+    const q = query(
+      userRef,
+      where('determined', '==', 1),
+      where('userRefId', '==', userId),
+    );
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach(doc => {
       choices = doc.data();
@@ -171,7 +179,7 @@ const sendOrder = async (data, callback) => {
           isTie: false,
         });
       }
-      
+
       callback({success: true, winner: maxIndexes[0], isTie});
     }
   } catch (error) {
@@ -187,7 +195,7 @@ const confirm3choicesResult = async (data, callback) => {
       await updateDoc(prtnrRef, {
         determined: 2,
       });
-      
+
       callback({success: true});
     }
   } catch (error) {
@@ -197,6 +205,7 @@ const confirm3choicesResult = async (data, callback) => {
 
 const addPartner = async (prtnrData, callback) => {
   userRedId(async userRef => {
+    console.log('here is add partner', userRef);
     const userRefId = userRef.userRefId;
     if (userRefId !== null) {
       try {
@@ -210,6 +219,7 @@ const addPartner = async (prtnrData, callback) => {
           imageUrl: prtnrData.imageUrl,
           userRefId: userRefId,
         });
+        console.log('added');
 
         PartnerStorage.gmail = prtnrData.gmail;
         PartnerStorage.partnerRefId = docRef.id;
@@ -294,6 +304,22 @@ const updatePartnerImage = async (imageURL, isSecond, prntrRefId, callback) => {
     callback('error');
   }
 };
+
+const updateUserInfo = async (updateInfo, callback) => {
+  try {
+    const updateRef = doc(db, 'Registration', updateInfo.userId);
+    await updateDoc(updateRef, {
+      profileImg: updateInfo.image,
+      birthday: updateInfo.birthday,
+      phone: updateInfo.phone,
+    });
+    callback('success');
+  } catch (error) {
+    console.log(error);
+    callback('error');
+  }
+};
+
 const getRegisteredUser = async (emailId, callback) => {
   let user = {data: 'false'};
   try {
@@ -419,10 +445,26 @@ const userRedId = async callback => {
       jsonValue = JSON.parse(jsonValue);
       callback(jsonValue);
     } else {
-      callback('error');
+      return false;
     }
   } catch (e) {
     callback('error');
+  }
+};
+
+const getUserId = async () => {
+  try {
+    let jsonValue = await AsyncStorage.getItem('USER');
+    if (jsonValue != null) {
+      jsonValue = JSON.parse(jsonValue);
+      return jsonValue;
+      // callback(jsonValue);
+    } else {
+      return false;
+    }
+  } catch (e) {
+    // callback('error');
+    console.log(e);
   }
 };
 export default {
@@ -443,5 +485,8 @@ export default {
   get3choices,
   getMy3choices,
   sendOrder,
-  confirm3choicesResult
+  confirm3choicesResult,
+  userRedId,
+  getUserId,
+  updateUserInfo,
 };

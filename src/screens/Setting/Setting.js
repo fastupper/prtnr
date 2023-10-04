@@ -1,28 +1,33 @@
-import React, { useEffect, useState } from 'react';
-import { Text, Image, SafeAreaView, View, TouchableOpacity, useWindowDimensions } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  Text,
+  Image,
+  SafeAreaView,
+  View,
+  TouchableOpacity,
+  useWindowDimensions,
+} from 'react-native';
 import styles from './styles';
 //Girish Chauhan
 
 import SwitchToggle from 'react-native-switch-toggle';
 
 const SplashScreen = (navigation, item) => {
-
-    const [on, off] = useState(false);
-    const OpneModal = async (onOpen) => {
-
-    }
-    return (
-        <SafeAreaView style={{ alignItems: "center", flex: 1 }} >
-
-
-            <View style={[styles.Biometric, { marginTop: 28, }]}>
-                <View style={{ width: '70%' }}>
+  const [on, off] = useState(false);
+  const OpneModal = async onOpen => {};
+  return (
+    <SafeAreaView style={{alignItems: 'center', flex: 1}}>
+      <View style={[styles.Biometric, {marginTop: 28}]}>
+        <Text style={[styles.Accountdata, {width: '95%', fontSize: 18}]}>
+          Nothing Here Yet...
+        </Text>
+        {/* <View style={{ width: '70%' }}>
                     <Text style={[styles.Accountdata, { width: '95%', fontSize: 18 }]}>
                         Setup simple authentication with your existing security from your
                         device.
                     </Text>
-                </View>
-                <View style={{ width: '30%', alignItems: 'center' }}>
+                </View> */}
+        {/* <View style={{ width: '30%', alignItems: 'center' }}>
                     <SwitchToggle
                         switchOn={on}
                         onPress={() => {
@@ -53,10 +58,10 @@ const SplashScreen = (navigation, item) => {
                         {' '}
                         Tap to turn on
                     </Text>
-                </View>
-            </View>
-        </SafeAreaView>
-    );
+                </View> */}
+      </View>
+    </SafeAreaView>
+  );
 };
 export default SplashScreen;
 //    <Text style={styles.nothing}>

@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useEffect, useState} from 'react';
 import Contact from 'react-native-contacts';
 import SendSMS from 'react-native-sms';
-
+import {nanoid} from 'nanoid';
 import {
   ImageBackground,
   KeyboardAvoidingView,
@@ -19,6 +19,7 @@ import {
   FlatList,
   Alert,
 } from 'react-native';
+import dynamicLinks from '@react-native-firebase/dynamic-links';
 import style from './Styles';
 import Arrowwhite from '../../assets/svg/arrowwhite';
 import ListItem from './ListItem';
@@ -127,7 +128,13 @@ const SplashScreen = ({navigation, item, route}) => {
                 source={require('../../assets/close3.png')}
               />
             </TouchableOpacity>
-            <Text style={{padding: 25, fontSize: 16, textAlign: 'center'}}>
+            <Text
+              style={{
+                padding: 25,
+                fontSize: 16,
+                textAlign: 'center',
+                color: '#000',
+              }}>
               Send your other an invite so they can connect and work on this
               relationship thing together.
             </Text>
@@ -151,30 +158,61 @@ const SplashScreen = ({navigation, item, route}) => {
     );
   };
 
-  const buildLink = async () => {
-    const data = JSON.stringify({
-      dynamicLinkInfo: {
-        domainUriPrefix: 'https://prtnr.page.link',
-        link: `https://prtnr.page.link/${localUser.userRefId}`,
-        androidInfo: {
-          androidPackageName: 'com.prtnr.app',
-        },
+  const createDynamicLink = async invitationCode => {
+    const link = await dynamicLinks().buildLink({
+      link: `https://prtnr.page.link/${localUser.userRefId}`,
+      domainUriPrefix: 'https://prtnr.page.link',
+      android: {
+        packageName: 'com.prtnr.app',
+      },
+      ios: {
+        bundleId: 'com.prtnr.bundle',
+      },
+      social: {
+        title: 'Join My App!',
+        descriptionText: 'Use this link to join my app.',
+      },
+      navigation: {
+        forcedRedirectEnabled: true,
+      },
+      parameters: {
+        // Add custom parameters here
+        invitationCode: invitationCode,
       },
     });
-    var config = {
-      method: 'post',
-      url: 'https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=AIzaSyAFJLSFjkMgLHjSiltBoBGuXG0Z8-dvuYI',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: data,
-    };
 
-    let link = await axios(config);
-    if (link.status === 200) {
-      return link.data.shortLink;
-    }
+    console.log('Dynamic link created:', link);
+    return link;
   };
+
+  // const buildLink = async () => {
+  //   const data = JSON.stringify({
+  //     dynamicLinkInfo: {
+  //       domainUriPrefix: 'https://prtnr.page.link',
+  //       link: `https://prtnr.page.link/${localUser.userRefId}`,
+  //       androidInfo: {
+  //         androidPackageName: 'com.prtnr.app',
+  //       },
+  //     },
+  //   });
+  //   var config = {
+  //     method: 'post',
+  //     url: 'https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=AIzaSyAFJLSFjkMgLHjSiltBoBGuXG0Z8-dvuYI',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     data: data,
+  //   };
+  //   console.log('build link');
+  //   let link = await axios(config)
+  //     .then()
+  //     .catch(err => console.log(err));
+
+  //   console.log(link);
+  //   if (link.status === 200) {
+  //     return link.data.shortLink;
+  //   }
+  // };
 
   const onConfirm = link => {
     /* let data = new FormData();
@@ -213,9 +251,10 @@ const SplashScreen = ({navigation, item, route}) => {
       .catch(error =>
         console.error(`Failed to send message: ${error.message}`),
       ); */
+    console.log(selectedContactNumber);
     SendSMS.send(
       {
-        body: `Hey! Your partner sends you an invitation link: ${link}`,
+        body: `Hey! Your partner sends you an invitation link:`,
         recipients: [selectedContactNumber],
         successTypes: ['sent', 'queued'],
         allowAndroidSendWithoutReadPermission: true,
@@ -319,9 +358,12 @@ const SplashScreen = ({navigation, item, route}) => {
                           onPress: async () => {
                             if (localUser) {
                               try {
-                                const shareUrl = await buildLink();
+                                const invitationCode = nanoid();
+                                const shareUrl = await createDynamicLink(
+                                  invitationCode,
+                                );
                                 onConfirm(shareUrl);
-                                console.log(shareUrl);
+                                console.log("shareUrl===>", shareUrl);
                               } catch (error) {
                                 console.log(error);
                               }

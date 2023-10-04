@@ -154,7 +154,9 @@ const SplashScreen = ({navigation}) => {
                     //   borderWidth: 1,
                   }}>
                   <View style={{width: '60%'}}>
-                    <Text>Write the Name of the Event</Text>
+                    <Text style={{color: '#000'}}>
+                      Write the Name of the Event
+                    </Text>
                     <Textinput
                       color={'rgba(0,0,0,0.2)'}
                       placeholder="Our First Kiss"
@@ -164,7 +166,7 @@ const SplashScreen = ({navigation}) => {
                     />
                   </View>
                   <View onPress={showDatePicker} style={styles.datePicker}>
-                    <Text>When is it?</Text>
+                    <Text style={{color: '#000'}}>When is it?</Text>
                     <Textinput
                       onPress={() => {
                         showDatePicker(), setisTO(true);
@@ -276,7 +278,7 @@ const SplashScreen = ({navigation}) => {
             // }
           }}
           style={style.next1}>
-          <Text style={[style.text, {fontSize: 23, color: '#707070'}]}>
+          <Text style={[style.text, {fontSize: 23, color: 'black'}]}>
             Next
           </Text>
         </TouchableOpacity>

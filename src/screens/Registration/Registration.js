@@ -1,5 +1,11 @@
 //import liraries
-import React, { Component, useEffect, useRef, useState, useCallback } from 'react';
+import React, {
+  Component,
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+} from 'react';
 import {
   View,
   Text,
@@ -10,9 +16,9 @@ import {
   Modal,
   Platform,
   useWindowDimensions,
-  Dimensions
+  Dimensions,
 } from 'react-native';
-import { TabView, SceneMap } from 'react-native-tab-view';
+import {TabView, SceneMap} from 'react-native-tab-view';
 import Textinput from '../../component/textinput';
 import font from '../../utils/CustomFont';
 import styles from './Styles';
@@ -23,16 +29,17 @@ import SwitchToggle from 'react-native-switch-toggle';
 import Lefthandsvg from '../../assets/svg/lefthand.svg';
 import Righthandsvg from '../../assets/svg/righthand.svg';
 import Backarrow from '../../assets/svg/arrowback';
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-import { PermissionsAndroid } from 'react-native';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {PermissionsAndroid} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Button, Card } from 'react-native-elements';
+import {Button, Card} from 'react-native-elements';
 // import Icon from 'react-native-vector-icons/FontAwesome';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
-import { useToast } from "react-native-toast-notifications";
+import {useToast} from 'react-native-toast-notifications';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 //validation by girish
-const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+const phoneRegExp =
+  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 import * as Yup from 'yup';
 import ActivityIndicator from '../../components/ActivityIndicator';
 import firebase from '../../api/firebase';
@@ -43,14 +50,13 @@ import Slider from '@react-native-community/slider';
 import CheckBox from 'react-native-check-box';
 import SelectDropdown from 'react-native-select-dropdown';
 import LinearGradient from 'react-native-linear-gradient';
+import {Backend_api_endpoint} from '../../utils/config';
+import axios from 'axios';
 
-
-const FirstRoute = () => (
-  <View style={{ flex: 1, backgroundColor: '#ff4081' }} />
-);
+const FirstRoute = () => <View style={{flex: 1, backgroundColor: '#ff4081'}} />;
 
 const SecondRoute = () => (
-  <View style={{ flex: 1, backgroundColor: '#673ab7' }} />
+  <View style={{flex: 1, backgroundColor: '#673ab7'}} />
 );
 
 const renderScene = SceneMap({
@@ -60,15 +66,15 @@ const renderScene = SceneMap({
 
 const screenHeight = Dimensions.get('window').height;
 
-const MyComponent = ({ navigation, route }) => {
+const MyComponent = ({navigation, route}) => {
   try {
     var isGoogle = route.params.isGoogle;
     var isVerified = route.params.isVerified;
   } catch (error) {
-    let previousCaller = error.previousCaller
-    if (!typeof (error.previousCaller) == 'undefined')
+    let previousCaller = error.previousCaller;
+    if (!typeof error.previousCaller == 'undefined')
       //this will now only run if error.previousCaller is defined.
-      console.error(error.previousCaller.name)
+      console.error(error.previousCaller.name);
   }
 
   const OTPInput = useRef(null);
@@ -108,9 +114,10 @@ const MyComponent = ({ navigation, route }) => {
   // Step Form Buttons
   const [sliderValue, setSliderValue] = useState(0);
   const [stepIndex, setStepIndex] = useState(0);
-  const [verifyCode, setVerifyCode] = useState("");
-  const [handed, setHanded] = useState("Right");
-  const [langType, setLangType] = useState("Sugar");
+  const [verifyCode, setVerifyCode] = useState('');
+  const [handed, setHanded] = useState('Right');
+  const [langType, setLangType] = useState('Sugar');
+  const [clear, setClear] = useState(false);
 
   // const stepButton1 = () => <TouchableOpacity
   //   style={styles.stepBtn}
@@ -123,27 +130,26 @@ const MyComponent = ({ navigation, route }) => {
   // const stepButton4 = () => <Button title="START" type="clear" />
   // const stepButtons = [{ element: stepButton1 }, { element: stepButton2 }, { element: stepButton3 }, { element: stepButton4 }]
 
-  const handleStepIndex = (selectedIndex) => {
+  const handleStepIndex = selectedIndex => {
     setStepIndex(selectedIndex);
-  }
+  };
 
   const getGoogleSignIn = () => {
     if (isGoogle) {
-      localStorage.getGoogleSignedData().then((response) => {
+      localStorage.getGoogleSignedData().then(response => {
         setProfileImg(response['photo']);
         setImg(response['photo']);
         setname(response['givenName']);
         setEmail(response['email']);
         setlastname(response['familyName']);
-
-      })
+      });
     }
-  }
+  };
   useEffect(() => {
     getGoogleSignIn();
   }, []);
 
-  const nextStep = useCallback((index) => {
+  const nextStep = useCallback(index => {
     setStepIndex(index);
     setSliderValue(index);
   }, []);
@@ -157,47 +163,30 @@ const MyComponent = ({ navigation, route }) => {
     if (isTO) {
       setBirthday(moment(date).format('ll'));
     }
-    hideDatePicker()
-  }
+    hideDatePicker();
+  };
   const Hand = async item => {
     await AsyncStorage.setItem('Hand', item);
     // const result = await AsyncStorage.getItem('Hand');
-  }
+  };
   const showDatePicker = () => {
     setDatePickerVisibility(true);
-  }
+  };
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
-  }
+  };
   let options = {
     storageOptions: {
       skipBackup: true,
       path: 'images',
     },
-  }
+  };
   const cameraLaunch = () => {
     launchCamera(options, res => {
       if (res.errorCode) {
         //console.warn('Camera unavailable');
         showToastMsg('Camera unavailable');
-      }
-      else if (res.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (res.error) {
-        console.log('ImagePicker Error: ', res.error);
-      } else if (res.customButton) {
-        console.log('User tapped custom button: ', res.customButton);
-        alert(res.customButton);
-      } else {
-        setImg(res.assets[0].uri)
-        uploadImage(res.assets[0].uri);
-      }
-    });
-  };
-  const imageGalleryLaunch = async () => {
-
-    setTimeout(() => launchImageLibrary(options, res => {
-      if (res.didCancel) {
+      } else if (res.didCancel) {
         console.log('User cancelled image picker');
       } else if (res.error) {
         console.log('ImagePicker Error: ', res.error);
@@ -208,8 +197,27 @@ const MyComponent = ({ navigation, route }) => {
         setImg(res.assets[0].uri);
         uploadImage(res.assets[0].uri);
       }
-    }), 500);
-  }
+    });
+  };
+  const imageGalleryLaunch = async () => {
+    setTimeout(
+      () =>
+        launchImageLibrary(options, res => {
+          if (res.didCancel) {
+            console.log('User cancelled image picker');
+          } else if (res.error) {
+            console.log('ImagePicker Error: ', res.error);
+          } else if (res.customButton) {
+            console.log('User tapped custom button: ', res.customButton);
+            alert(res.customButton);
+          } else {
+            setImg(res.assets[0].uri);
+            uploadImage(res.assets[0].uri);
+          }
+        }),
+      500,
+    );
+  };
   const requestCameraPermission = async () => {
     try {
       const granted = await PermissionsAndroid.request(
@@ -226,11 +234,9 @@ const MyComponent = ({ navigation, route }) => {
     }
   };
   const checkOpenCameraPermission = async () => {
-
     if (Platform.OS == 'ios') {
       cameraLaunch();
-    }
-    else {
+    } else {
       const result = await PermissionsAndroid.check(
         PermissionsAndroid.PERMISSIONS.CAMERA,
       );
@@ -248,25 +254,19 @@ const MyComponent = ({ navigation, route }) => {
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         imageGalleryLaunch();
-      }
-      else if (granted === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
+      } else if (granted === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
         imageGalleryLaunch();
-
-      }
-      else {
+      } else {
         console.log(granted);
       }
     } catch (err) {
       console.warn(err);
-
     }
   };
   const checkSTORAGE = async () => {
-
     if (Platform.OS == 'ios') {
       imageGalleryLaunch();
-    }
-    else {
+    } else {
       const result = await PermissionsAndroid.check(
         PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
       );
@@ -279,32 +279,33 @@ const MyComponent = ({ navigation, route }) => {
     }
   };
   //Girish Chauhan...
-  const showToastMsg = (msg = 'Something went wrong...', position = 'center') => {
+  const showToastMsg = (
+    msg = 'Something went wrong...',
+    position = 'center',
+  ) => {
     Toast.hideAll();
     Toast.show(msg, {
-      type: "normal",
-      placement: "bottom",
+      type: 'normal',
+      placement: 'bottom',
       duration: 2000,
       offset: 30,
-      animationType: "slide-in | zoom-in",
+      animationType: 'slide-in | zoom-in',
     });
-  }
-  const uploadImage = async (filename) => {
-
+  };
+  const uploadImage = async filename => {
     if (!filename) return;
-    setIsLoading(true)
-    firebase.uploadImage('Registration', filename, (result) => {
+    setIsLoading(true);
+    firebase.uploadImage('Registration', filename, result => {
       if (result == 'error') {
         showToastMsg('Image uploading is faild...');
-      }
-      else {
+      } else {
         showToastMsg('uploaded successfully...');
         setProfileImg(result);
         setIsprfileImg(true);
       }
       setIsLoading(false);
     });
-  }
+  };
   const writeUserData = async () => {
     const userData = {
       firstName: name,
@@ -317,30 +318,27 @@ const MyComponent = ({ navigation, route }) => {
       profileImg,
       isBiometric,
       userRefId: '',
-    }
-    setIsLoading(true)
-    firebase.userRegistration(userData, async (result) => {
+    };
+    setIsLoading(true);
+    firebase.userRegistration(userData, async result => {
       if (result.isSuccess === true) {
         right == 'true' ? Hand('right') : Hand('left');
         await AsyncStorage.setItem('REGISTRATION', 'success');
         navigation.navigate('Addpartner');
-      }
-      else {
+      } else {
         showToastMsg(`Error: ${error}`);
       }
       setIsLoading(false);
     });
-  }
-  const validateEmail = (text) => {
+  };
+  const validateEmail = text => {
     let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
     if (reg.test(text) === false) {
       return false;
-    }
-    else {
-
+    } else {
       return true;
     }
-  }
+  };
 
   const handleVerify = (flag = 0) => {
     //const emailText = formikref.current.values.email;
@@ -348,52 +346,42 @@ const MyComponent = ({ navigation, route }) => {
     //   showToastMsg('Please enter email address to verify')
     //   return;
     // }
-    console.log(flag)
+    console.log(flag);
     if (flag) setIsLoading(true);
-    fetch('https://prtnrbackend.onrender.com/send-mail', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        to: email
-      }),
-    })
-      .then(response => response.json())
+    axios
+      .post(`${Backend_api_endpoint}/send-mail`, {
+        to: phone,
+      })
+      // .then(response => response.json())
       .then(responseData => {
         if (flag) {
           setIsLoading(false);
-          showToastMsg('The verification sent to your email again.');
+          showToastMsg('The verification sent to your phone again.');
         } else {
           nextStep(1);
         }
         console.log(responseData);
       })
       .catch(error => {
+        console.log(error);
         showToastMsg('Error:', error);
         if (flag) setIsLoading(false);
       });
-  }
+  };
 
-  const handleVerifyCode = async (code) => {
-    nextStep(2);
-    return;
+  const handleVerifyCode = async code => {
+    // nextStep(2);
+    // return;
+    console.log(code, Backend_api_endpoint);
     setIsLoading(true);
-    fetch('https://prtnrbackend.onrender.com/confirm-verification', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: email,
+    axios
+      .post(`${Backend_api_endpoint}/confirm-verification`, {
+        phone: phone,
         verifCode: code,
-      }),
-    })
-      .then(response => response.json())
+      })
+      // .then(response => response.json())
       .then(responseData => {
-        if (responseData.title == 'true') {
+        if (responseData.data.title == 'true') {
           nextStep(2);
           showToastMsg('Validate successfully!');
         } else {
@@ -403,12 +391,13 @@ const MyComponent = ({ navigation, route }) => {
         console.log(responseData);
       })
       .catch(error => {
+        console.log('Eror', error);
         showToastMsg('Error:', error);
         setIsLoading(false);
       });
-  }
+  };
 
-  const handleStep = (currentIndex) => {
+  const handleStep = currentIndex => {
     switch (currentIndex) {
       case 0:
         if (
@@ -448,14 +437,14 @@ const MyComponent = ({ navigation, route }) => {
         handleVerify();
         break;
       case 1:
-        if (verifyCode === "") {
+        if (verifyCode === '') {
           showToastMsg('Fill out the verification code');
           return;
         }
         handleVerifyCode(verifyCode);
         break;
       default:
-        if (!isViewedTerm){
+        if (!isViewedTerm) {
           showToastMsg('You should check the term and conditions.');
           return;
         }
@@ -476,104 +465,105 @@ const MyComponent = ({ navigation, route }) => {
     // }
     // writeUserData(userInfo.name, userInfo.lastname, userInfo.email, userInfo.phone, birthday);
     // //navigation.navigate('Addpartner');
-  }
+  };
   const isBiometricSupport = async () => {
-    Biomatric.CallCheckBiomatrics((resultObject) => {
-      const { available } = resultObject;
+    Biomatric.CallCheckBiomatrics(resultObject => {
+      const {available} = resultObject;
       if (available) {
-        Biomatric.CallAuthBiomatrics(async (result) => {
+        Biomatric.CallAuthBiomatrics(async result => {
           if (result == true) {
             setIsBiometric(true);
             await AsyncStorage.setItem('PopUPEnable', JSON.stringify(result));
             await AsyncStorage.setItem('BIO_METRIC', JSON.stringify(result));
-          }
-          else if (result == false) {
+          } else if (result == false) {
             showToastMsg('Biometric authentication failed or cancel');
             off(!on);
-          }
-          else {
-
+          } else {
             showToastMsg('Biometric authentication error...');
           }
-        })
+        });
       }
-
     });
   };
-  const OpneModal = async (onOpen) => {
-
+  const OpneModal = async onOpen => {
     if (onOpen === true) {
-
-      Biomatric.CallCheckBiomatrics(async (result) => {
-        const { available } = result;
+      Biomatric.CallCheckBiomatrics(async result => {
+        const {available} = result;
         if (available) {
           let PopUPEnable = await AsyncStorage.getItem('PopUPEnable');
           if (PopUPEnable) {
             PopUPEnable = JSON.parse(PopUPEnable);
           }
           if (PopUPEnable === null || PopUPEnable === false) {
-            setBioMatricModal(true)
-          }
-          else {
+            setBioMatricModal(true);
+          } else {
             showToastMsg('Biometric authentication turns ON');
           }
-        }
-        else {
-
+        } else {
           if (result == 'notSupport') {
-            alert('There was a problem setting up Biometric authentication on this devices. Please try again later...');
+            alert(
+              'There was a problem setting up Biometric authentication on this devices. Please try again later...',
+            );
           }
-
         }
-      })
+      });
     }
-
-  }
-  const CallBack = async (data) => {
+  };
+  const CallBack = async data => {
     setBioMatricModal(false);
     if (data === true) {
       isBiometricSupport();
-    }
-    else {
-
+    } else {
       setIsBiometric(false);
-      await AsyncStorage.setItem("PopUPEnable", JSON.stringify(data));
+      await AsyncStorage.setItem('PopUPEnable', JSON.stringify(data));
       off(!on);
     }
-  }
+  };
   const BiomatricModal = () => {
-
-    return <Modal animationType="none" transparent={true} visible={BioMatricModal}>
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
-        <View style={{
-          flexDirection: 'column', backgroundColor: 'white', margin: 20, padding: 20, alignItems: "center", justifyContent: 'center'
-          , borderRadius: 20
-        }}>
-          <Text style={{ padding: 25, fontSize: 16, textAlign: 'center' }}>Do you want to allow prtnr App to use biometrci authentication ?</Text>
-          <TouchableOpacity
-            style={{ padding: 10 }}
-            onPress={() => CallBack(true)}
-          >
-            <Text style={{ fontWeight: 'bold', fontSize: 16 }}>Enable</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{ padding: 10 }}
-            onPress={() => CallBack(false)}
-          >
-            <Text style={{ fontWeight: 'bold', fontSize: 16 }}>Skip</Text>
-          </TouchableOpacity>
+    return (
+      <Modal animationType="none" transparent={true} visible={BioMatricModal}>
+        <View
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+            backgroundColor: 'rgba(0,0,0,0.5)',
+          }}>
+          <View
+            style={{
+              flexDirection: 'column',
+              backgroundColor: 'white',
+              margin: 20,
+              padding: 20,
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: 20,
+            }}>
+            <Text style={{padding: 25, fontSize: 16, textAlign: 'center'}}>
+              Do you want to allow prtnr App to use biometrci authentication ?
+            </Text>
+            <TouchableOpacity
+              style={{padding: 10}}
+              onPress={() => CallBack(true)}>
+              <Text style={{fontWeight: 'bold', fontSize: 16}}>Enable</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{padding: 10}}
+              onPress={() => CallBack(false)}>
+              <Text style={{fontWeight: 'bold', fontSize: 16}}>Skip</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
-    </Modal>;
-  }
+      </Modal>
+    );
+  };
 
   return (
     <>
       <ActivityIndicator visible={isLoading} />
-      <SafeAreaView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
-        <ScrollView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
-          <View style={{ minHeight: screenHeight }}>
-
+      <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}>
+        <ScrollView style={{flex: 1, backgroundColor: '#FFFFFF'}}>
+          <View style={{minHeight: screenHeight}}>
             <View
               style={{
                 width: '100%',
@@ -592,58 +582,80 @@ const MyComponent = ({ navigation, route }) => {
                     marginTop: 0,
                     marginBottom: 0,
                     marginRight: 40,
-                    color: '#020C19'
+                    color: '#020C19',
                   },
                 ]}>
                 prtnr
               </Text>
             </View>
-            {stepIndex === 0 && <Text style={styles.welcome}>Welcome to the show</Text>}
-            {stepIndex === 1 && <Text style={styles.welcome}>Verification</Text>}
+            {stepIndex === 0 && (
+              <Text style={styles.welcome}>Welcome to the show</Text>
+            )}
+            {stepIndex === 1 && (
+              <Text style={styles.welcome}>Verification</Text>
+            )}
             {stepIndex === 2 && <Text style={styles.welcome}>Settings</Text>}
-            {stepIndex === 0 &&
+            {stepIndex === 0 && (
               <View style={styles.setup}>
                 <Text
                   style={[
                     styles.Account,
-                    { fontFamily: font.OpenSansR, color: '#252323', width: '100%', fontSize: 15 },
+                    {
+                      fontFamily: font.OpenSansR,
+                      color: '#252323',
+                      width: '100%',
+                      fontSize: 15,
+                    },
                   ]}>
                   {`Account confirmation and setup \nLet\’s confirm account settings, and a few other things to get you going.
               `}
                 </Text>
-              </View>}
-            {stepIndex === 1 &&
+              </View>
+            )}
+            {stepIndex === 1 && (
               <View style={styles.setup}>
                 <Text
                   style={[
                     styles.Account,
-                    { fontFamily: font.OpenSansR, color: '#252323', width: '100%', fontSize: 15 },
+                    {
+                      fontFamily: font.OpenSansR,
+                      color: '#252323',
+                      width: '100%',
+                      fontSize: 15,
+                    },
                   ]}>
                   {`We sent you a unique code to your email to verify your account.
               `}
                 </Text>
-              </View>}
-            {stepIndex === 2 &&
+              </View>
+            )}
+            {stepIndex === 2 && (
               <View style={styles.setup}>
                 <Text
                   style={[
                     styles.Account,
-                    { fontFamily: font.OpenSansR, color: '#252323', width: '100%', fontSize: 15 },
+                    {
+                      fontFamily: font.OpenSansR,
+                      color: '#252323',
+                      width: '100%',
+                      fontSize: 15,
+                    },
                   ]}>
                   {`Customize your experience to make things smooth for you.
               `}
                 </Text>
-              </View>}
+              </View>
+            )}
 
-
-            <SafeAreaView style={{ flex: 1 }}>
-              <View style={{
-                flex: 1,
-                paddingVertical: 15,
-                paddingHorizontal: 32,
-                justifyContent: 'center',
-                // backgroundColor: '#000000',
-              }}>
+            <SafeAreaView style={{flex: 1}}>
+              <View
+                style={{
+                  flex: 1,
+                  paddingVertical: 15,
+                  paddingHorizontal: 32,
+                  justifyContent: 'center',
+                  // backgroundColor: '#000000',
+                }}>
                 {/*Slider with max, min, step and initial value*/}
                 <Slider
                   maximumValue={2}
@@ -652,286 +664,331 @@ const MyComponent = ({ navigation, route }) => {
                   maximumTrackTintColor="#252323"
                   step={1}
                   value={sliderValue}
-                // onValueChange={
-                //   (sliderValue) => setSliderValue(sliderValue)
-                // }
-                // disabled
+                  // onValueChange={
+                  //   (sliderValue) => setSliderValue(sliderValue)
+                  // }
+                  // disabled
                 />
               </View>
             </SafeAreaView>
-            <View style={{
-              display: 'flex',
-              flexDirection: 'row',
-              flex: 1,
-              // paddingVertical: 0,
-              paddingHorizontal: 20,
-              justifyContent: 'space-between',
-              // backgroundColor: '#000000',
-            }}>
-              <TouchableOpacity disabled={stepIndex !== 0} style={{ flex: 1 }}>
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                flex: 1,
+                // paddingVertical: 0,
+                paddingHorizontal: 20,
+                justifyContent: 'space-between',
+                // backgroundColor: '#000000',
+              }}>
+              <TouchableOpacity disabled={stepIndex !== 0} style={{flex: 1}}>
                 <Text
-                  style={[styles.stepBtn, stepIndex !== 0 && styles.stepBtnDisable, { textAlign: 'left' }]}
-                > INFO </Text>
+                  style={[
+                    styles.stepBtn,
+                    stepIndex !== 0 && styles.stepBtnDisable,
+                    {textAlign: 'left'},
+                  ]}>
+                  {' '}
+                  INFO{' '}
+                </Text>
               </TouchableOpacity>
-              <TouchableOpacity disabled={stepIndex !== 1} style={{ flex: 1 }}>
+              <TouchableOpacity disabled={stepIndex !== 1} style={{flex: 1}}>
                 <Text
-                  style={[styles.stepBtn, stepIndex !== 1 && styles.stepBtnDisable, { textAlign: 'center' }]}
-                > VERIFY </Text>
+                  style={[
+                    styles.stepBtn,
+                    stepIndex !== 1 && styles.stepBtnDisable,
+                    {textAlign: 'center'},
+                  ]}>
+                  {' '}
+                  VERIFY{' '}
+                </Text>
               </TouchableOpacity>
-              <TouchableOpacity disabled={stepIndex !== 2} style={{ flex: 1 }}>
+              <TouchableOpacity disabled={stepIndex !== 2} style={{flex: 1}}>
                 <Text
-                  style={[styles.stepBtn, stepIndex !== 2 && styles.stepBtnDisable, { textAlign: 'right' }]}
-                > SETTINGS </Text>
+                  style={[
+                    styles.stepBtn,
+                    stepIndex !== 2 && styles.stepBtnDisable,
+                    {textAlign: 'right'},
+                  ]}>
+                  {' '}
+                  SETTINGS{' '}
+                </Text>
               </TouchableOpacity>
             </View>
 
             <Card containerStyle={styles.formCard}>
-              {stepIndex === 0 && (<>
-                <View>
-                  <View style={{ backgroundColor: "#DDEEF8" }}>
-                    <View style={styles.imageContainer}>
-                      <TouchableOpacity onPress={() => {
-                        setopen(true);
-                      }}>
-                        {img == '' ? (
-                          <Image
-                            // resizeMode="stretch"
-                            style={[styles.profile]}
-                            source={require('../../assets/user.png')}
-                          />
-                        ) : (
-                          <Image
-                            // imageStyle={{resizeMode: 'stretch'}}
-                            source={{ uri: img }}
-                            style={styles.profileImage}
-                          />
-                        )}
-                      </TouchableOpacity>
+              {stepIndex === 0 && (
+                <>
+                  <View>
+                    <View style={{backgroundColor: '#DDEEF8'}}>
+                      <View style={styles.imageContainer}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            setopen(true);
+                          }}>
+                          {img == '' ? (
+                            <Image
+                              // resizeMode="stretch"
+                              style={[styles.profile]}
+                              source={require('../../assets/user.png')}
+                            />
+                          ) : (
+                            <Image
+                              // imageStyle={{resizeMode: 'stretch'}}
+                              source={{uri: img}}
+                              style={styles.profileImage}
+                            />
+                          )}
+                        </TouchableOpacity>
+                      </View>
                     </View>
+                    <LinearGradient
+                      colors={['#DDEEF8', '#FFFFFF']}
+                      style={styles.linearGradient}>
+                      <View>
+                        <TouchableOpacity
+                          onPress={() => {
+                            setopen(true);
+                          }}
+                          style={[
+                            styles.Accountdata,
+                            {
+                              alignSelf: 'flex-end',
+                              fontSize: 14,
+                              marginBottom: 0,
+                              marginTop: 10,
+                              marginRight: 17,
+                            },
+                          ]}>
+                          <Text>Select Photo</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </LinearGradient>
                   </View>
-                  <LinearGradient colors={['#DDEEF8', '#FFFFFF']} style={styles.linearGradient}>
-                    <View>
-                      <TouchableOpacity
-                        onPress={() => {
-                          setopen(true);
-                        }}
-                        style={[
-                          styles.Accountdata,
-                          {
-                            alignSelf: 'flex-end',
-                            fontSize: 14,
-                            marginBottom: 0,
-                            marginTop: 10,
-                            marginRight: 17,
-                          },
-                        ]}
-                      >
-                        <Text>
-                          Select Photo
-                        </Text>
-                      </TouchableOpacity>
+                  <View style={{marginHorizontal: 24, marginTop: 0}}>
+                    <View style={styles.line}>
+                      <Textinput
+                        name="name"
+                        value={name}
+                        autoCorrect={false}
+                        autoCapitalize="words"
+                        placeholder="First"
+                        color="black"
+                        tstyle={{width: '90%'}}
+                        onChangeText={text => setname(text)}
+                      />
                     </View>
-                  </LinearGradient>
-                </View>
-                <View style={{ marginHorizontal: 24, marginTop: 0 }}>
-                  <View style={styles.line}>
-                    <Textinput
-                      name='name'
-                      value={name}
-                      autoCorrect={false}
-                      autoCapitalize="words"
-                      placeholder="First"
-                      color="black"
-                      tstyle={{ width: '90%' }}
-                      onChangeText={text => setname(text)}
-                    />
-                  </View>
-                  <View style={styles.line}>
-                    <Textinput
-                      name='lastname'
-                      value={lastname}
-                      autoCorrect={false}
-                      autoCapitalize="words"
-                      placeholder="Last"
-                      color="black"
-                      tstyle={{ width: '90%' }}
-                      onChangeText={text => setlastname(text)}
-                    />
-                  </View>
-                  {/* <ErrorMessage error={errors.name} visible={touched.name} /> */}
-                  {/* {nameError && <ErrorMessage error={'Name is required'} visible={!nameError}/>} */}
+                    <View style={styles.line}>
+                      <Textinput
+                        name="lastname"
+                        value={lastname}
+                        autoCorrect={false}
+                        autoCapitalize="words"
+                        placeholder="Last"
+                        color="black"
+                        tstyle={{width: '90%'}}
+                        onChangeText={text => setlastname(text)}
+                      />
+                    </View>
+                    {/* <ErrorMessage error={errors.name} visible={touched.name} /> */}
+                    {/* {nameError && <ErrorMessage error={'Name is required'} visible={!nameError}/>} */}
 
-                  <View style={[styles.line]}>
-                    <Textinput
-                      name='email'
-                      value={email}
-                      autoCapitalize="none"
-                      autoCorrect={false}
-                      placeholder="Email address"
-                      keyboardType="email-address"
-                      textContentType="emailAddress"
-                      color="black"
-                      tstyle={{ width: '90%' }}
-                      onChangeText={text => setEmail(text)}
-
-                    />
-                  </View>
-                  {/* <ErrorMessage error={errors.email} visible={touched.email} /> */}
-                  <TouchableOpacity
-                    onPress={() => {
-                      showDatePicker(), setisTO(true);
-                    }}
-                    style={[
-                      styles.line,
-                      {
-                        flexDirection: 'row',
-                        // alignItems: 'center',
-                        justifyContent: 'flex-start',
-                      },
-                    ]}>
-                    <Text>
-                      {birthday}
-                    </Text>
-                    {/* <TouchableOpacity
+                    <View style={[styles.line]}>
+                      <Textinput
+                        name="email"
+                        value={email}
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        placeholder="Email address"
+                        keyboardType="email-address"
+                        textContentType="emailAddress"
+                        color="black"
+                        tstyle={{width: '90%'}}
+                        onChangeText={text => setEmail(text)}
+                      />
+                    </View>
+                    {/* <ErrorMessage error={errors.email} visible={touched.email} /> */}
+                    <TouchableOpacity
+                      onPress={() => {
+                        showDatePicker(), setisTO(true);
+                      }}
+                      style={[
+                        styles.line,
+                        {
+                          flexDirection: 'row',
+                          // alignItems: 'center',
+                          justifyContent: 'flex-start',
+                        },
+                      ]}>
+                      <Text>{birthday}</Text>
+                      {/* <TouchableOpacity
                         onPress={() => { showDatePicker(), setisTO(true) }}
                         style={styles.date}>
                         <Image imageStyle={{ resizeMode: "stretch" }} style={{ height: 25, width: 25, marginRight: 5 }} source={require('../../assets/calendar.png')} ></Image>
                     </TouchableOpacity>*/}
-                  </TouchableOpacity>
-                  <View style={[styles.line, { marginBottom: 20 }]}>
-                    <Textinput
-                      name='phone'
-                      placeholder="Phone number"
-                      keyboardType="phone-pad"
-                      color="black"
-                      tstyle={{ width: '90%' }}
-                      onChangeText={text => setphone(text)}
+                    </TouchableOpacity>
+                    <View style={[styles.line, {marginBottom: 20}]}>
+                      <Textinput
+                        name="phone"
+                        placeholder="Phone number"
+                        keyboardType="phone-pad"
+                        color="black"
+                        tstyle={{width: '90%'}}
+                        onChangeText={text => setphone(text)}
+                      />
+                    </View>
+                    {/* <ErrorMessage error={errors.phone} visible={touched.phone} /> */}
+                    <DateTimePickerModal
+                      isVisible={isDatePickerVisible}
+                      mode="date"
+                      minimumDate={new Date(moment().subtract(100, 'years'))}
+                      maximumDate={new Date(moment().subtract(18, 'years'))}
+                      onConfirm={handleConfirm}
+                      onCancel={hideDatePicker}
                     />
-                  </View>
-                  {/* <ErrorMessage error={errors.phone} visible={touched.phone} /> */}
-                  <DateTimePickerModal
-                    isVisible={isDatePickerVisible}
-                    mode="date"
-                    minimumDate={new Date(moment().subtract(100, "years"))}
-                    maximumDate={new Date(moment().subtract(18, "years"))}
-                    onConfirm={handleConfirm}
-                    onCancel={hideDatePicker}
-                  />
-                  {/* <TouchableOpacity
+                    {/* <TouchableOpacity
                   //navigation.navigate('Otp')
                   onPress={() => handleVerify()}
                   // onPress={handleSubmit}
                   style={styles.Verify}>
                   <Text style={styles.very}>Next</Text>
                 </TouchableOpacity> */}
-                </View>
-              </>)}
+                  </View>
+                </>
+              )}
               {stepIndex === 1 && (
-                <View style={{ width: '100%', paddingTop: 10, paddingBottom: 10 }}>
-                  <Text style={{
-                    marginTop: 10,
-                    marginBottom: 32,
-                    textAlign: 'center',
-                    fontFamily: font.QuicksandM,
-                    fontSize: 16,
-                    color: '#000000'
-                  }}>{'Enter verification code'}</Text>
-                  <View style={{ width: "90%", alignSelf: "center", height: 60, }}>
+                <View
+                  style={{width: '100%', paddingTop: 10, paddingBottom: 10}}>
+                  <Text
+                    style={{
+                      marginTop: 10,
+                      marginBottom: 32,
+                      textAlign: 'center',
+                      fontFamily: font.QuicksandM,
+                      fontSize: 16,
+                      color: '#000000',
+                    }}>
+                    {'Enter verification code'}
+                  </Text>
+                  <View style={{width: '90%', alignSelf: 'center', height: 60}}>
                     <OTPInputView
                       ref={OTPInput}
                       pinCount={5}
-                      style={{ height: 50 }}
+                      style={{height: 50}}
                       autoFocusOnLoad={false}
                       codeInputHighlightStyle={styles.underlineStyleHighLighted}
                       codeInputFieldStyle={styles.underlineStyleBase}
-                      onCodeFilled={(code) => {
+                      onCodeFilled={code => {
                         setVerifyCode(code);
                       }}
                     />
                   </View>
-                  <Text style={{
-                    fontSize: 16,
-                    fontFamily: font.QuicksandM,
-                    textAlign: 'center',
-                    marginTop: 20,
-                    color: 'black'
-                  }}>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      fontFamily: font.QuicksandM,
+                      textAlign: 'center',
+                      marginTop: 20,
+                      color: 'black',
+                    }}>
                     {`The code was sent to ${email}`}.
                   </Text>
-                  <View style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginTop: 20
-                  }}>
-                    <Text style={{
-                      fontSize: 19,
-                      fontFamily: font.QuicksandM,
-                      color: 'black'
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      marginTop: 20,
                     }}>
-                      {`Didn't get it? `}
-                    </Text>
-                    <TouchableOpacity onPress={() => handleVerify(1)}>
-                      <Text style={{
+                    <Text
+                      style={{
                         fontSize: 19,
                         fontFamily: font.QuicksandM,
-                        color: '#DE0101'
-                      }} >
+                        color: 'black',
+                      }}>
+                      {`Didn't get it? `}
+                    </Text>
+                    <TouchableOpacity
+                      onPress={() => {
+                        OTPInput.current.focusField(0);
+                        setVerifyCode('');
+                        handleVerify(1);
+                        // setClear(true);
+                      }}>
+                      <Text
+                        style={{
+                          fontSize: 19,
+                          fontFamily: font.QuicksandM,
+                          color: '#DE0101',
+                        }}>
                         {'Resend Code'}
                       </Text>
                     </TouchableOpacity>
                   </View>
-                  {verifyCodeError && <Text
-                    style={{ alignSelf: 'center', marginTop: 20, color: 'red', fontSize: 20 }}>
-                    {verifyCodeError}
-                  </Text>}
+                  {verifyCodeError && (
+                    <Text
+                      style={{
+                        alignSelf: 'center',
+                        marginTop: 20,
+                        color: 'red',
+                        fontSize: 20,
+                      }}>
+                      {verifyCodeError}
+                    </Text>
+                  )}
                 </View>
               )}
               {stepIndex === 2 && (
                 <View>
-                  <Text style={{
-                    fontFamily: font.QuicksandR,
-                    fontSize: 16,
-                    color: '#000000',
-                    marginTop: 9
-                  }}>
+                  <Text
+                    style={{
+                      fontFamily: font.QuicksandR,
+                      fontSize: 16,
+                      color: '#000000',
+                      marginTop: 9,
+                    }}>
                     {'Confirm Term and Conditions'}
                   </Text>
-                  <View style={{
-                    flexDirection: 'row',
-                    alignContent: 'space-between',
-                    marginTop: 7
-                  }}>
-                    <Text style={{
-                      fontFamily: font.QuicksandM,
-                      color: 'black',
-                      fontSize: 14
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignContent: 'space-between',
+                      marginTop: 7,
                     }}>
+                    <Text
+                      style={{
+                        fontFamily: font.QuicksandM,
+                        color: 'black',
+                        fontSize: 14,
+                      }}>
                       {'View Term and Conditions'}
                     </Text>
-                    <CheckBox style={{
-                      display: 'flex',
-                      alignContent: 'flex-end',
-                      justifyContent: 'flex-end',
-                      marginLeft: 115
-                    }}
+                    <CheckBox
+                      style={{
+                        display: 'flex',
+                        alignContent: 'flex-end',
+                        justifyContent: 'flex-end',
+                        marginLeft: 115,
+                      }}
                       onClick={() => {
-                        setIsViewedTerm((prev) => !prev);
+                        setIsViewedTerm(prev => !prev);
                       }}
                       isChecked={isViewedTerm}
                     />
                   </View>
-                  <View style={{
-                    flexDirection: 'row',
-                    alignContent: 'space-between',
-                    marginTop: 35
-                  }}>
-                    <Text style={{
-                      fontFamily: font.QuicksandR,
-                      fontSize: 16,
-                      color: 'black',
-                      marginRight: 30
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignContent: 'space-between',
+                      marginTop: 35,
                     }}>
+                    <Text
+                      style={{
+                        fontFamily: font.QuicksandR,
+                        fontSize: 16,
+                        color: 'black',
+                        marginRight: 30,
+                      }}>
                       {'Left or Right handed?'}
                     </Text>
                     <SelectDropdown
@@ -944,17 +1001,23 @@ const MyComponent = ({ navigation, route }) => {
                       buttonTextAfterSelection={(selectedItem, index) => {
                         // text represented after item is selected
                         // if data array is an array of objects then return selectedItem.property to render after item is selected
-                        return selectedItem
+                        return selectedItem;
                       }}
                       rowTextForSelection={(item, index) => {
                         // text represented for each item in dropdown
                         // if data array is an array of objects then return item.property to represent item in dropdown
-                        return item
+                        return item;
                       }}
                       buttonStyle={styles.dropdown1BtnStyle}
                       buttonTextStyle={styles.dropdown1BtnTxtStyle}
                       renderDropdownIcon={isOpened => {
-                        return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#444'} size={18} />;
+                        return (
+                          <FontAwesome
+                            name={isOpened ? 'chevron-up' : 'chevron-down'}
+                            color={'#444'}
+                            size={18}
+                          />
+                        );
                       }}
                       dropdownIconPosition={'right'}
                       dropdownStyle={styles.dropdown1DropdownStyle}
@@ -962,18 +1025,20 @@ const MyComponent = ({ navigation, route }) => {
                       rowTextStyle={styles.dropdown1RowTxtStyle}
                     />
                   </View>
-                  <View style={{
-                    flexDirection: 'row',
-                    alignContent: 'space-between',
-                    marginTop: 35
-                  }}>
-                    <Text style={{
-                      fontFamily: font.QuicksandR,
-                      fontSize: 16,
-                      color: 'black',
-                      marginRight: 80
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignContent: 'space-between',
+                      marginTop: 35,
                     }}>
-                      {"Sugar or Salty \n Language"}
+                    <Text
+                      style={{
+                        fontFamily: font.QuicksandR,
+                        fontSize: 16,
+                        color: 'black',
+                        marginRight: 80,
+                      }}>
+                      {'Sugar or Salty \n Language'}
                     </Text>
                     <SelectDropdown
                       data={['Sugar', 'Salty']}
@@ -985,17 +1050,23 @@ const MyComponent = ({ navigation, route }) => {
                       buttonTextAfterSelection={(selectedItem, index) => {
                         // text represented after item is selected
                         // if data array is an array of objects then return selectedItem.property to render after item is selected
-                        return selectedItem
+                        return selectedItem;
                       }}
                       rowTextForSelection={(item, index) => {
                         // text represented for each item in dropdown
                         // if data array is an array of objects then return item.property to represent item in dropdown
-                        return item
+                        return item;
                       }}
                       buttonStyle={styles.dropdown1BtnStyle}
                       buttonTextStyle={styles.dropdown1BtnTxtStyle}
                       renderDropdownIcon={isOpened => {
-                        return <FontAwesome name={isOpened ? 'chevron-up' : 'chevron-down'} color={'#444'} size={18} />;
+                        return (
+                          <FontAwesome
+                            name={isOpened ? 'chevron-up' : 'chevron-down'}
+                            color={'#444'}
+                            size={18}
+                          />
+                        );
                       }}
                       dropdownIconPosition={'right'}
                       dropdownStyle={styles.dropdown1DropdownStyle}
@@ -1003,25 +1074,27 @@ const MyComponent = ({ navigation, route }) => {
                       rowTextStyle={styles.dropdown1RowTxtStyle}
                     />
                   </View>
-                  <View style={{
-                    flexDirection: 'row',
-                    alignContent: 'space-between',
-                    marginTop: 35,
-                    marginBottom: 20
-                  }}>
-                    <Text style={{
-                      fontFamily: font.QuicksandR,
-                      fontSize: 16,
-                      color: 'black',
-                      marginRight: 80
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignContent: 'space-between',
+                      marginTop: 35,
+                      marginBottom: 20,
                     }}>
-                      {"Login with Biometrics"}
+                    <Text
+                      style={{
+                        fontFamily: font.QuicksandR,
+                        fontSize: 16,
+                        color: 'black',
+                        marginRight: 80,
+                      }}>
+                      {'Login with Biometrics'}
                     </Text>
-                    <View style={{ width: '30%', alignItems: 'center' }}>
+                    <View style={{width: '30%', alignItems: 'center'}}>
                       <SwitchToggle
                         switchOn={on}
                         onPress={() => {
-                          off(!on)
+                          off(!on);
                           OpneModal(!on);
                         }}
                         circleColorOff="#f4f3f4"
@@ -1063,38 +1136,50 @@ const MyComponent = ({ navigation, route }) => {
                 }
               }}
               // onPress={handleStep()}
-              style={[styles.button, { marginBottom: 40 }]}>
-              {stepIndex === 0 && <Text style={styles.buttontext}>{`Next`}</Text>}
-              {stepIndex === 1 && <Text style={styles.buttontext}>{`Confirm Validation`}</Text>}
-              {stepIndex === 2 && <Text style={styles.buttontext}>{`Let\’s get started!`}</Text>}
+              style={[styles.button, {marginBottom: 40}]}>
+              {stepIndex === 0 && (
+                <Text style={styles.buttontext}>{`Next`}</Text>
+              )}
+              {stepIndex === 1 && (
+                <Text style={styles.buttontext}>{`Confirm Validation`}</Text>
+              )}
+              {stepIndex === 2 && (
+                <Text style={styles.buttontext}>{`Let\’s get started!`}</Text>
+              )}
             </TouchableOpacity>
-            <View style={{
-              // flexDirection: 'row',
-              // justifyContent: 'center',
-            }}>
+            <View
+              style={
+                {
+                  // flexDirection: 'row',
+                  // justifyContent: 'center',
+                }
+              }>
               <TouchableOpacity
                 onPress={() => navigation.goBack()}
                 style={{
                   flexDirection: 'row',
-                  justifyContent: 'center'
+                  justifyContent: 'center',
                 }}>
                 <Backarrow />
-                <Text style={{
-                  marginLeft: 4,
-                  fontFamily: font.QuicksandM,
-                  color: '#000000',
-                  fontSize: 12
-                }}>
+                <Text
+                  style={{
+                    marginLeft: 4,
+                    fontFamily: font.QuicksandM,
+                    color: '#000000',
+                    fontSize: 12,
+                  }}>
                   {'Cancel Registration'}
                 </Text>
               </TouchableOpacity>
             </View>
             <Text
-              style={[styles.Accountdata, { alignSelf: 'center', marginBottom: 40, color: 'red' }]}>
+              style={[
+                styles.Accountdata,
+                {alignSelf: 'center', marginBottom: 40, color: 'red'},
+              ]}>
               {text}
             </Text>
-            <View style={[styles.infoStepBack]}>
-            </View>
+            <View style={[styles.infoStepBack]}></View>
             <Modal
               animationType="none"
               transparent={true}
@@ -1110,8 +1195,8 @@ const MyComponent = ({ navigation, route }) => {
                     }}
                     style={styles.close}>
                     <Image
-                      imageStyle={{ resizeMode: 'stretch' }}
-                      style={{ height: 10, width: 10 }}
+                      imageStyle={{resizeMode: 'stretch'}}
+                      style={{height: 10, width: 10}}
                       source={require('../../assets/close3.png')}
                     />
                   </TouchableOpacity>
@@ -1122,7 +1207,7 @@ const MyComponent = ({ navigation, route }) => {
                         checkOpenCameraPermission(), setopen(!open);
                       }}>
                       <Image
-                        imageStyle={{ resizeMode: 'stretch' }}
+                        imageStyle={{resizeMode: 'stretch'}}
                         style={styles.Icon}
                         source={require('../../assets/camera.png')}
                       />
@@ -1133,7 +1218,7 @@ const MyComponent = ({ navigation, route }) => {
                         checkSTORAGE(), setopen(!open);
                       }}>
                       <Image
-                        imageStyle={{ resizeMode: 'stretch' }}
+                        imageStyle={{resizeMode: 'stretch'}}
                         style={styles.Icon}
                         source={require('../../assets/gallery.png')}
                       />
@@ -1146,7 +1231,7 @@ const MyComponent = ({ navigation, route }) => {
           </View>
           {/*Header view*/}
         </ScrollView>
-      </SafeAreaView >
+      </SafeAreaView>
     </>
   );
 };

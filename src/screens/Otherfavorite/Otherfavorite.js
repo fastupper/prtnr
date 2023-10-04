@@ -244,7 +244,7 @@ const SplashScreen = ({ navigation, route }) => {
               }
             }}
             style={style.next}>
-            <Text style={[style.text, { fontSize: 23, color: '#707070' }]}>
+            <Text style={[style.text, { fontSize: 23, color: 'black' }]}>
               Next
             </Text>
           </TouchableOpacity>

@@ -204,6 +204,7 @@ const SplashScreen = ({navigation, item}) => {
   };
   const addPartner = async prtnrData => {
     setisLoader(true);
+    console.log('------------> add partner');
     firebase.addPartner(prtnrData, result => {
       if (result == 'success') {
         setisLoader(false);
@@ -510,7 +511,7 @@ const SplashScreen = ({navigation, item}) => {
                 }
               }}
               style={[style.next, {marginRight: 24}]}>
-              <Text style={[style.text, {fontSize: 23, color: '#707070'}]}>
+              <Text style={[style.text, {fontSize: 23, color: 'black'}]}>
                 Next
               </Text>
             </TouchableOpacity>

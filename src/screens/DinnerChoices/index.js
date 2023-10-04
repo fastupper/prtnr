@@ -125,8 +125,7 @@ const DinnerChoices = ({navigation}) => {
           if (response === 'success') {
             showToastMsg('Successfully question sent.');
             setIsSelectBtn('done');
-            socket.emit("new 3choices", {to: partnerGmail});
-
+            socket.emit('new 3choices', {to: partnerGmail});
           } else {
             showToastMsg('Something went wrong...');
           }
@@ -166,13 +165,13 @@ const DinnerChoices = ({navigation}) => {
 
   useEffect(() => {
     socket.on('connect', () => {
-      console.log("Socket connected on dinnerChoices page.")
+      console.log('Socket connected on dinnerChoices page.');
     });
 
     return () => {
       socket.disconnect();
-    }
-  }, [])
+    };
+  }, []);
 
   const _renderChoiceModal = () => {
     return (

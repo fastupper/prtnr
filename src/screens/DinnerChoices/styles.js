@@ -1,6 +1,7 @@
-import { StyleSheet, Platform } from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 import font from '../../utils/CustomFont';
-import { wp, hp, isIphone } from '../../utils/size';
+import {wp, hp, isIphone} from '../../utils/size';
+import colors from '../../utils/colors';
 
 const styles = StyleSheet.create({
   upperHalf: {
@@ -18,10 +19,9 @@ const styles = StyleSheet.create({
     // resizeMode: 'stretch',
   },
   swiperView: {
-
-    height: hp(10),//10
+    height: hp(10), //10
     width: wp(104), //+ 100
-    transform: [{ skewY: '-10deg' }], //-10deg
+    transform: [{skewY: '-10deg'}], //-10deg
     backgroundColor: '#fff',
     position: 'absolute',
     top: hp(45),
@@ -31,9 +31,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: wp(5),
     borderWidth: 1,
     marginLeft: -7, //extra
-    marginStart: -8 //extra added
-
-
+    marginStart: -8, //extra added
   },
   swipeIcons: {
     height: hp(6),
@@ -73,7 +71,6 @@ const styles = StyleSheet.create({
     fontFamily: font.AkrobatSB,
     fontSize: 20,
     color: '#000',
-
   },
 
   modalBase: {
@@ -131,6 +128,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     flex: 1,
     borderBottomWidth: 1,
+    color: colors.black.default,
     // borderWidth: 1,
   },
   sendBtn: {

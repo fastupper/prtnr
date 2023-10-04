@@ -1,14 +1,13 @@
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 import colors from '../../utils/colors';
 import font from '../../utils/CustomFont';
-import { wp, hp } from '../../utils/size';
+import {wp, hp} from '../../utils/size';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.white.default,
     paddingHorizontal: '5%',
-
   },
   profileNameCon: {
     width: '60%',
@@ -118,7 +117,7 @@ const styles = StyleSheet.create({
     marginTop: '4%',
     fontSize: 22,
     textAlign: 'center',
-    // color: colors.orange.lightOrange,
+    color: colors.grey.default,
   },
   authorText: {
     paddingVertical: '2%',
@@ -311,7 +310,7 @@ const styles = StyleSheet.create({
     fontFamily: font.AkrobatSB,
     fontSize: 18,
     maxWidth: wp(65),
-    top : -5,
+    top: -5,
     color: '#000000',
     // borderWidth: 1,
     // flex: 1,
