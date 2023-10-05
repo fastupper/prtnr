@@ -39,6 +39,8 @@ import dynamicLinks from '@react-native-firebase/dynamic-links';
 import UserProfileModal from '../../component/UserProfileModal';
 import localStorage from '../../api/localStorage';
 import io from 'socket.io-client';
+import DraggableFlatList, { ScaleDecorator } from 'react-native-draggable-flatlist'
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const window = Dimensions.get('window');
 
@@ -90,14 +92,14 @@ function ChoiceItem(props) {
     }),
     [],
   );
-  useEffect(() => {
-    Animated.timing(activeAnim.current, {
-      duration: 300,
-      easing: Easing.bounce,
-      toValue: Number(active),
-      useNativeDriver: true,
-    }).start();
-  }, [active]);
+  // useEffect(() => {
+  //   Animated.timing(activeAnim.current, {
+  //     duration: 300,
+  //     easing: Easing.bounce,
+  //     toValue: Number(active),
+  //     useNativeDriver: true,
+  //   }).start();
+  // }, [active]);
 
   return (
     <Animated.View
@@ -185,7 +187,21 @@ const NewHomeScreen = ({route, navigation}) => {
   const [markThree, setMarkThree] = useState(1);
   const [winner, setWinner] = useState(undefined);
   const [isTie, setIsTie] = useState();
-
+  const [listData, setListData] = useState([{
+    label: '1',
+    answer: "First answer",
+    originalIndex : '0',
+  },
+  {
+    label: '2',
+    answer: "Second Answer",
+    originalIndex : '1'
+  },
+  {
+    label: '3',
+    answer: "Third Answer",
+    originalIndex : '2'
+  },])
   const [tasks, setIsTasks] = useState([]);
 
   const [taskTexy1, setIsTaskText1] = useState([
@@ -827,8 +843,10 @@ const NewHomeScreen = ({route, navigation}) => {
       <Modal
         animationType="none"
         transparent={true}
-        visible={choicesModalVisible}>
-        <View style={styles.modalBase}>
+        // visible={choicesModalVisible}
+        visible={true}
+        >
+        <GestureHandlerRootView style={styles.modalBase}>
           <View style={styles.modalInnerContainer}>
             <View
               style={[styles.rowContainer, {justifyContent: 'space-between'}]}>
@@ -857,67 +875,119 @@ const NewHomeScreen = ({route, navigation}) => {
             </View>
             <View style={{borderWidth: 0}}>
               {winner == undefined ? (
-                <SortableList
-                  contentContainerStyle={{
-                    // width: window.width,
-                    ...Platform.select({
-                      ios: {
-                        paddingHorizontal: 30,
-                      },
-                      android: {
-                        paddingHorizontal: 0,
-                      },
-                    }),
-                  }}
-                  data={{
-                    0: {
-                      label: '1',
-                      answer: firstAnswer,
-                    },
-                    1: {
-                      label: '2',
-                      answer: secondAnswer,
-                    },
-                    2: {
-                      label: '3',
-                      answer: thirdAnswer,
-                    },
-                  }}
-                  renderRow={renderChoice}
-                  onReleaseRow={(key, nextOrder) => {
-                    console.log('============================>', nextOrder);
-                    switch (nextOrder[0]) {
-                      case '0':
-                        setMarkOne(8);
-                        break;
-                      case '1':
-                        setMarkTwo(8);
-                        break;
-                      default:
-                        setMarkThree(8);
-                    }
-                    switch (nextOrder[1]) {
-                      case '0':
-                        setMarkOne(5);
-                        break;
-                      case '1':
-                        setMarkTwo(5);
-                        break;
-                      default:
-                        setMarkThree(5);
-                    }
-                    switch (nextOrder[2]) {
-                      case '0':
-                        setMarkOne(1);
-                        break;
-                      case '1':
-                        setMarkTwo(1);
-                        break;
-                      default:
-                        setMarkThree(1);
-                    }
-                  }}
+                <DraggableFlatList
+                data={listData}
+                renderItem={({item, drag})=>{
+                  let data = item;
+                  return(
+                    <ScaleDecorator>
+                      <TouchableOpacity onLongPress={drag}>
+                        {/* <Text>
+                          dfhjbdf
+                        </Text> */}
+                        <ChoiceItem data={item}/>
+                      </TouchableOpacity>
+                    </ScaleDecorator>
+                  )
+                }}
+                keyExtractor={(item)=> item.label}
+                onDragEnd={(params)=> {
+                  let newOrder = params.data;
+                  switch (newOrder[0].originalIndex) {
+                    case '0':
+                      setMarkOne(8);
+                      break;
+                    case '1':
+                      setMarkTwo(8);
+                      break;
+                    default:
+                      setMarkThree(8);
+                  }
+                  switch (newOrder[1].originalIndex) {
+                    case '0':
+                      setMarkOne(5);
+                      break;
+                    case '1':
+                      setMarkTwo(5);
+                      break;
+                    default:
+                      setMarkThree(5);
+                  }
+                  switch (newOrder[2].originalIndex) {
+                    case '0':
+                      setMarkOne(1);
+                      break;
+                    case '1':
+                      setMarkTwo(1);
+                      break;
+                    default:
+                      setMarkThree(1);
+                  }
+                  setListData(params.data);
+                  // console.log('from___',params.from)
+                }}
                 />
+                // <SortableList
+                //   contentContainerStyle={{
+                //     // width: window.width,
+                //     ...Platform.select({
+                //       ios: {
+                //         paddingHorizontal: 30,
+                //       },
+                //       android: {
+                //         paddingHorizontal: 0,
+                //       },
+                //     }),
+                //   }}
+                //   data={{
+                //     0: {
+                //       label: '1',
+                //       answer: firstAnswer,
+                //     },
+                //     1: {
+                //       label: '2',
+                //       answer: secondAnswer,
+                //     },
+                //     2: {
+                //       label: '3',
+                //       answer: thirdAnswer,
+                //     },
+                //   }}
+                //   renderRow={renderChoice}
+                //   onReleaseRow={(key, nextOrder) => {
+                //     console.log('============================>', nextOrder);
+                //     switch (nextOrder[0]) {
+                //       case '0':
+                //         setMarkOne(8);
+                //         break;
+                //       case '1':
+                //         setMarkTwo(8);
+                //         break;
+                //       default:
+                //         setMarkThree(8);
+                //     }
+                //     switch (nextOrder[1]) {
+                //       case '0':
+                //         setMarkOne(5);
+                //         break;
+                //       case '1':
+                //         setMarkTwo(5);
+                //         break;
+                //       default:
+                //         setMarkThree(5);
+                //     }
+                //     switch (nextOrder[2]) {
+                //       case '0':
+                //         setMarkOne(1);
+                //         break;
+                //       case '1':
+                //         setMarkTwo(1);
+                //         break;
+                //       default:
+                //         setMarkThree(1);
+                //     }
+                //   }}
+                // />
               ) : (
                 <Text
                   style={{
@@ -935,7 +1005,7 @@ const NewHomeScreen = ({route, navigation}) => {
             </View>
             <View />
           </View>
-        </View>
+        </GestureHandlerRootView>
       </Modal>
     );
   };
@@ -1215,14 +1285,14 @@ const NewHomeScreen = ({route, navigation}) => {
                     </TouchableOpacity>
                   )
                 ) : null}
-                <Tooltip popover={<Text>Info here</Text>}>
+                {/* <Tooltip skipAndroidStatusBar popover={<Text style={{color : 'white'}}>Info here</Text>}>
                   <Text>Press me</Text>
-                </Tooltip>
+                </Tooltip> */}
                 {isPartner ? (
                   <TouchableOpacity
                     // onPress={() => setPopup(!popUp)}
                     style={styles.connectIcCon}>
-                    <Tooltip popover={<TextElement>Connected</TextElement>}>
+                    <Tooltip skipAndroidStatusBar containerStyle={{height : 30, padding : 0, width : 80, left : 40+'%'}} popover={<View style={{}}><TextElement style={{fontSize : 10, color : 'white'}}>Connected</TextElement></View>}>
                       <Image
                         style={styles.connectIc}
                         resizeMode="contain"

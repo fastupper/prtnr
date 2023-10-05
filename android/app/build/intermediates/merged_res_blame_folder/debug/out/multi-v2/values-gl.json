@@ -4,7 +4,7 @@
             "outputFile": "com.prtnr.app-mergeDebugResources-35:/values-gl/values-gl.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\379b9c382e05560c07790cc947999a16\\transformed\\appcompat-1.4.1\\res\\values-gl\\values-gl.xml",
+                    "source": "/Users/saurabhbhati/.gradle/caches/transforms-3/a913613fb737ac3219ddaf7056ff6200/transformed/appcompat-1.4.1/res/values-gl/values-gl.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -21,41 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\ab54b150735509447df04405a46f720c\\transformed\\jetified-play-services-basement-18.2.0\\res\\values-gl\\values.xml",
-                    "from": {
-                        "startLines": "4",
-                        "startColumns": "0",
-                        "startOffsets": "195",
-                        "endColumns": "129",
-                        "endOffsets": "324"
-                    },
-                    "to": {
-                        "startLines": "37",
-                        "startColumns": "4",
-                        "startOffsets": "3880",
-                        "endColumns": "133",
-                        "endOffsets": "4009"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\161cf945ef84af3cada060b7f66486c8\\transformed\\biometric-1.1.0\\res\\values-gl\\values-gl.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,165,272,397,543,687,826,958,1101,1203,1350,1499",
-                        "endColumns": "109,106,124,145,143,138,131,142,101,146,148,121",
-                        "endOffsets": "160,267,392,538,682,821,953,1096,1198,1345,1494,1616"
-                    },
-                    "to": {
-                        "startLines": "47,48,49,50,51,52,53,54,55,56,57,58",
-                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "5136,5246,5353,5478,5624,5768,5907,6039,6182,6284,6431,6580",
-                        "endColumns": "109,106,124,145,143,138,131,142,101,146,148,121",
-                        "endOffsets": "5241,5348,5473,5619,5763,5902,6034,6177,6279,6426,6575,6697"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\fbca82fcbeac1ca90fe3bb53466b2e1a\\transformed\\jetified-play-services-base-18.0.1\\res\\values-gl\\values.xml",
+                    "source": "/Users/saurabhbhati/.gradle/caches/transforms-3/aa9ab88417ae1a3fa651de3b86b74039/transformed/jetified-play-services-base-18.0.1/res/values-gl/values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -72,7 +38,24 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\5723e2d830da67719db8312efd8e701c\\transformed\\core-1.7.0\\res\\values-gl\\values-gl.xml",
+                    "source": "/Users/saurabhbhati/.gradle/caches/transforms-3/ced71e11c1b1fec55f0265154b15a710/transformed/jetified-play-services-basement-18.2.0/res/values-gl/values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "195",
+                        "endColumns": "129",
+                        "endOffsets": "324"
+                    },
+                    "to": {
+                        "startLines": "37",
+                        "startColumns": "4",
+                        "startOffsets": "3880",
+                        "endColumns": "133",
+                        "endOffsets": "4009"
+                    }
+                },
+                {
+                    "source": "/Users/saurabhbhati/.gradle/caches/transforms-3/86e2375dd586ad291f8af3be3af3c84b/transformed/core-1.7.0/res/values-gl/values-gl.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -86,6 +69,23 @@
                         "startOffsets": "6785",
                         "endColumns": "100",
                         "endOffsets": "6881"
+                    }
+                },
+                {
+                    "source": "/Users/saurabhbhati/.gradle/caches/transforms-3/1c052239de42691aec880dc3a9c45e2d/transformed/biometric-1.1.0/res/values-gl/values-gl.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12,13",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,165,272,397,543,687,826,958,1101,1203,1350,1499",
+                        "endColumns": "109,106,124,145,143,138,131,142,101,146,148,121",
+                        "endOffsets": "160,267,392,538,682,821,953,1096,1198,1345,1494,1616"
+                    },
+                    "to": {
+                        "startLines": "47,48,49,50,51,52,53,54,55,56,57,58",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "5136,5246,5353,5478,5624,5768,5907,6039,6182,6284,6431,6580",
+                        "endColumns": "109,106,124,145,143,138,131,142,101,146,148,121",
+                        "endOffsets": "5241,5348,5473,5619,5763,5902,6034,6177,6279,6426,6575,6697"
                     }
                 }
             ]
