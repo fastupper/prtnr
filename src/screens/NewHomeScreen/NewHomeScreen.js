@@ -190,14 +190,17 @@ const NewHomeScreen = ({route, navigation}) => {
   const [listData, setListData] = useState([{
     label: '1',
     answer: "First answer",
+    originalIndex : '0',
   },
   {
     label: '2',
     answer: "Second Answer",
+    originalIndex : '1'
   },
   {
     label: '3',
     answer: "Third Answer",
+    originalIndex : '2'
   },])
   const [tasks, setIsTasks] = useState([]);
 
@@ -840,7 +843,8 @@ const NewHomeScreen = ({route, navigation}) => {
       <Modal
         animationType="none"
         transparent={true}
-        visible={choicesModalVisible}
+        // visible={choicesModalVisible}
+        visible={true}
         >
         <GestureHandlerRootView style={styles.modalBase}>
           <View style={styles.modalInnerContainer}>
@@ -887,7 +891,41 @@ const NewHomeScreen = ({route, navigation}) => {
                   )
                 }}
                 keyExtractor={(item)=> item.label}
-                onDragEnd={(params)=> setListData(params.data)}
+                onDragEnd={(params)=> {
+                  let newOrder = params.data;
+                  switch (newOrder[0].originalIndex) {
+                    case '0':
+                      setMarkOne(8);
+                      break;
+                    case '1':
+                      setMarkTwo(8);
+                      break;
+                    default:
+                      setMarkThree(8);
+                  }
+                  switch (newOrder[1].originalIndex) {
+                    case '0':
+                      setMarkOne(5);
+                      break;
+                    case '1':
+                      setMarkTwo(5);
+                      break;
+                    default:
+                      setMarkThree(5);
+                  }
+                  switch (newOrder[2].originalIndex) {
+                    case '0':
+                      setMarkOne(1);
+                      break;
+                    case '1':
+                      setMarkTwo(1);
+                      break;
+                    default:
+                      setMarkThree(1);
+                  }
+                  setListData(params.data);
+                  // console.log('from___',params.from)
+                }}
                 />
                 // <SortableList
                 //   contentContainerStyle={{
