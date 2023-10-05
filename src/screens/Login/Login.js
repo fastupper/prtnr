@@ -38,7 +38,9 @@ const SplashScreen = ({ navigation, item }) => {
 
   //Random background
   const [randomItem, setIsRandomItem] = useState('');
-
+  navigation.navigate('Placeholder', {
+    // backgroundImg: randomItem,
+  });
   const [backgroundItems, setIsBackgroundItems] = useState([
     require('../../assets/splashimage/s1.png'),
     require('../../assets/splashimage/s2.png'),

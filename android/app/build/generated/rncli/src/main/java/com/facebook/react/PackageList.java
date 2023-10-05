@@ -37,12 +37,16 @@ import com.rnbiometrics.ReactNativeBiometricsPackage;
 import com.rt2zz.reactnativecontacts.ReactNativeContacts;
 // react-native-fast-image
 import com.dylanvann.fastimage.FastImageViewPackage;
+// react-native-gesture-handler
+import com.swmansion.gesturehandler.RNGestureHandlerPackage;
 // react-native-image-picker
 import com.imagepicker.ImagePickerPackage;
 // react-native-linear-gradient
 import com.BV.LinearGradient.LinearGradientPackage;
 // react-native-pager-view
 import com.reactnativepagerview.PagerViewPackage;
+// react-native-reanimated
+import com.swmansion.reanimated.ReanimatedPackage;
 // react-native-safe-area-context
 import com.th3rdwave.safeareacontext.SafeAreaContextPackage;
 // react-native-screens
@@ -109,9 +113,11 @@ public class PackageList {
       new ReactNativeBiometricsPackage(),
       new ReactNativeContacts(),
       new FastImageViewPackage(),
+      new RNGestureHandlerPackage(),
       new ImagePickerPackage(),
       new LinearGradientPackage(),
       new PagerViewPackage(),
+      new ReanimatedPackage(),
       new SafeAreaContextPackage(),
       new RNScreensPackage(),
       new SendSMSPackage(),

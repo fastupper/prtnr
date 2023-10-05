@@ -10,7 +10,7 @@ public final class BuildConfig {
   public static final int VERSION_CODE = 1;
   public static final String VERSION_NAME = " 0.1.13";
   // Field from default config.
-  public static final boolean IS_HERMES_ENABLED = false;
+  public static final boolean IS_HERMES_ENABLED = true;
   // Field from default config.
   public static final boolean IS_NEW_ARCHITECTURE_ENABLED = false;
 }

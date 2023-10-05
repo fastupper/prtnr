@@ -4,7 +4,7 @@
             "outputFile": "com.prtnr.app-mergeDebugResources-35:/values-hdpi-v4/values-hdpi-v4.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\Admin\\.gradle\\caches\\transforms-3\\379b9c382e05560c07790cc947999a16\\transformed\\appcompat-1.4.1\\res\\values-hdpi-v4\\values-hdpi-v4.xml",
+                    "source": "/Users/saurabhbhati/.gradle/caches/transforms-3/a913613fb737ac3219ddaf7056ff6200/transformed/appcompat-1.4.1/res/values-hdpi-v4/values-hdpi-v4.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
