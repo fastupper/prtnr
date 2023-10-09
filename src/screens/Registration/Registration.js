@@ -820,7 +820,7 @@ const MyComponent = ({navigation, route}) => {
                           justifyContent: 'flex-start',
                         },
                       ]}>
-                      <Text>{birthday}</Text>
+                      <Text style={{color : 'black', fontFamily : font.QuicksandR}}>{birthday}</Text>
                       {/* <TouchableOpacity
                         onPress={() => { showDatePicker(), setisTO(true) }}
                         style={styles.date}>

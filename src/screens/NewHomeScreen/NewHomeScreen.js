@@ -843,8 +843,8 @@ const NewHomeScreen = ({route, navigation}) => {
       <Modal
         animationType="none"
         transparent={true}
-        // visible={choicesModalVisible}
-        visible={true}
+        visible={choicesModalVisible}
+        // visible={true}
         >
         <GestureHandlerRootView style={styles.modalBase}>
           <View style={styles.modalInnerContainer}>
