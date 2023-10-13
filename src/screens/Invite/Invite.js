@@ -2,11 +2,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useEffect, useState} from 'react';
 import Contact from 'react-native-contacts';
-import SendSMS from 'react-native-sms';
-import {nanoid} from 'nanoid';
 import {
-  ImageBackground,
-  KeyboardAvoidingView,
   Modal,
   SafeAreaView,
   ScrollView,
@@ -19,18 +15,18 @@ import {
   FlatList,
   Alert,
 } from 'react-native';
-import dynamicLinks from '@react-native-firebase/dynamic-links';
+import Backarrow from '../../assets/svg/arrowback';
+import ActivityIndicator from '../../components/ActivityIndicator';
 import style from './Styles';
-import Arrowwhite from '../../assets/svg/arrowwhite';
 import ListItem from './ListItem';
 import axios from 'axios';
 import localStorage from '../../api/localStorage';
-import firebase from '../../api/firebase';
+import {Backend_api_endpoint} from '../../utils/config';
+import {useToast} from 'react-native-toast-notifications';
+import PartnerStorage from '../../Data/PartnerStorage';
 
 const SplashScreen = ({navigation, item, route}) => {
-  const {prtnrId} = route.params;
   const windowHeight = useWindowDimensions().height;
-  const windowWidth = useWindowDimensions().width;
   const [right, setright] = useState('');
   const [open, setopen] = useState(false);
   const [isContact, setIsContactList] = useState(false);
@@ -38,6 +34,10 @@ const SplashScreen = ({navigation, item, route}) => {
   const [selectedContact, setIsSelectedContact] = useState('');
   const [selectedContactNumber, setIsSelectedContactNumber] = useState('');
   const [localUser, setLocalUser] = useState('');
+  const Toast = useToast();
+  const [invited, setInvited] = useState(false);
+  const [btnTxt, setBtnTxt] = useState('Go Solo for Now');
+  const [isLoader, setIsLoader] = useState(false);
 
   const Hand = async () => {
     try {
@@ -57,11 +57,13 @@ const SplashScreen = ({navigation, item, route}) => {
   useEffect(() => {
     Hand();
     fetchUserdataFromlocal();
-    /* firebase.getInvitePartner(prtnrId, response => {
-      setLocalUser(response);
-      console.log('==getPartnersData222==', response);
-    }); */
   }, []);
+
+  useEffect(() => {
+    if (!invited && selectedContact) {
+      setBtnTxt('Send invite and add prtnr');
+    } else setBtnTxt('Go Solo for Now');
+  }, [invited, selectedContact]);
 
   const contactListClose = () => {
     setIsContactList(!isContact);
@@ -90,9 +92,10 @@ const SplashScreen = ({navigation, item, route}) => {
   };
 
   const openContact = contact => {
-    const givenName = contact.givenName
-      ? contact.givenName
+    const givenName = contact.displayName
+      ? contact.displayName
       : contact.familyName;
+
     if (givenName != '') {
       setIsSelectedContact(givenName);
       console.log('===Contact===', contact);
@@ -158,281 +161,175 @@ const SplashScreen = ({navigation, item, route}) => {
     );
   };
 
-  const createDynamicLink = async invitationCode => {
-    const link = await dynamicLinks().buildLink({
-      link: `https://prtnr.page.link/${localUser.userRefId}`,
-      domainUriPrefix: 'https://prtnr.page.link',
-      android: {
-        packageName: 'com.prtnr.app',
-      },
-      ios: {
-        bundleId: 'com.prtnr.bundle',
-      },
-      social: {
-        title: 'Join My App!',
-        descriptionText: 'Use this link to join my app.',
-      },
-      navigation: {
-        forcedRedirectEnabled: true,
-      },
-      parameters: {
-        // Add custom parameters here
-        invitationCode: invitationCode,
-      },
+  const showToastMsg = (msg = 'Something went wrong...') => {
+    Toast.hideAll();
+    Toast.show(msg, {
+      type: 'normal',
+      placement: 'bottom',
+      duration: 2000,
+      offset: 30,
+      animationType: 'slide-in | zoom-in',
     });
-
-    console.log('Dynamic link created:', link);
-    return link;
   };
 
-  // const buildLink = async () => {
-  //   const data = JSON.stringify({
-  //     dynamicLinkInfo: {
-  //       domainUriPrefix: 'https://prtnr.page.link',
-  //       link: `https://prtnr.page.link/${localUser.userRefId}`,
-  //       androidInfo: {
-  //         androidPackageName: 'com.prtnr.app',
-  //       },
-  //     },
-  //   });
-  //   var config = {
-  //     method: 'post',
-  //     url: 'https://firebasedynamiclinks.googleapis.com/v1/shortLinks?key=AIzaSyAFJLSFjkMgLHjSiltBoBGuXG0Z8-dvuYI',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     data: data,
-  //   };
-  //   console.log('build link');
-  //   let link = await axios(config)
-  //     .then()
-  //     .catch(err => console.log(err));
-
-  //   console.log(link);
-  //   if (link.status === 200) {
-  //     return link.data.shortLink;
-  //   }
-  // };
-
-  const onConfirm = link => {
-    /* let data = new FormData();
-    data.append(
-      'Body',
-      `Hey! Your partner sends you an invitation link: ${link}`,
-    );
-    data.append('From', '+18334150810');
-    data.append('To', `+91${selectedContactNumber}`);
-    let config = {
-      method: 'post',
-      url: `https://api.twilio.com/2010-04-01/Accounts/AC98e75a5f4db5087b221b9e8d70168209/Messages.json`,
-      headers: {
-        Authorization:
-          'Basic QUM5OGU3NWE1ZjRkYjUwODdiMjIxYjllOGQ3MDE2ODIwOTozNDZhNjZiMGMyZjRjZDZjYWRkZGI3NmMxZDY1NjU2Ng==',
-        'Content-Type': 'multipart/form-data',
-      },
-      data: data,
-    };
-    axios(config)
-      .then(function (response) {
-        if (response.data.error_code === null) {
-          navigation.navigate('NewHomeScreen', {right: right});
-        }
-      })
-      .catch(function (error) {
-        console.log(error);
-      }); */
-    /* twilioClient.messages
-      .create({
-        body: `Hey! Your partner sends you an invitation link: ${link}`,
-        from: process.env.TWILIO_PHONE_NUMBER,
+  const onConfirm = () => {
+    setIsLoader(true);
+    axios
+      .post(`${Backend_api_endpoint}/sendInvitation`, {
+        from: localUser.phone,
         to: selectedContactNumber,
       })
-      .then(message => console.log(`Message sent with ID: ${message.sid}`))
-      .catch(error =>
-        console.error(`Failed to send message: ${error.message}`),
-      ); */
-    console.log(selectedContactNumber);
-    SendSMS.send(
-      {
-        body: `Hey! Your partner sends you an invitation link:`,
-        recipients: [selectedContactNumber],
-        successTypes: ['sent', 'queued'],
-        allowAndroidSendWithoutReadPermission: true,
-      },
-      (completed, cancelled, error) => {
-        console.log(
-          'SMS Callback: completed: ' +
-            completed +
-            ' cancelled: ' +
-            cancelled +
-            'error: ' +
-            error,
-        );
-      },
-    );
+      .then(responseData => {
+        if (responseData.data.success) {
+          setInvited(true);
+          setIsLoader(false);
+          showToastMsg(`Sent invitation link to ${selectedContact}.`);
+        } else {
+          showToastMsg('Failed to send invitation.');
+        }
+        console.log(responseData.data);
+      })
+      .catch(error => {
+        console.log(error);
+        showToastMsg('Error:', error);
+        if (flag) setIsLoading(false);
+      });
   };
   return (
     <SafeAreaView style={{flex: 1}}>
-      <ImageBackground
-        imageStyle={{resizeMode: 'stretch'}}
-        // style={{flex: 1, height: '100%', width: '100%'}}
-        style={{flex: 1, height: windowHeight, width: windowWidth}}
-        source={require('../../assets/otherimage.png')}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <KeyboardAvoidingView>
-            <View
-              style={{
-                flexDirection: 'row',
-                marginTop: 10,
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}>
-              <TouchableOpacity
-                onPress={() => navigation.goBack('')}
-                style={{marginLeft: 15}}>
-                <Arrowwhite />
-              </TouchableOpacity>
-              <Text style={style.text1}>prtnr</Text>
-            </View>
-            <View style={{width: '100%', marginTop: windowHeight / 11}}>
-              <View style={{width: '80%', marginLeft: 31, marginTop: 20}}>
-                <Text style={style.text}>5.</Text>
-                <Text style={style.text}>Invite them</Text>
-                <Text style={style.text2}>What’s more fun than one…guess?</Text>
+      <ActivityIndicator visible={isLoader} />
 
-                <View style={{marginTop: 15}}>
-                  <Text style={style.text2}>
-                    Send your other an invite so they can connect and work on
-                    this relationship thing together.
-                  </Text>
-                  <Text style={[style.text2, {marginTop: 20}]}>
-                    Our app can be used solo so you can do better.. and you know
-                    you need to do better. It’s also pretty great work on this
-                    with your partner. It’s up to you.
-                  </Text>
-                </View>
-              </View>
-
-              <TouchableOpacity
-                onPress={() => {
-                  //setopen(true);
-                  opencontactForm();
-                }}
-                style={style.button}>
-                <Text style={style.textbutton}>Contact List</Text>
-              </TouchableOpacity>
-
-              {open ? (
-                <View style={{width: '80%', marginLeft: 31, marginTop: 16}}>
-                  <Text style={style.text2}>You selected: </Text>
-                  <Text style={[style.text2, {marginTop: 10}]}>
-                    {selectedContact}
-                  </Text>
-                </View>
-              ) : (
-                // <TouchableOpacity
-                //   style={{ marginLeft: 31, marginTop: 16 }}
-                //   onPress={() => {
-                //     navigation.navigate('Profile', { right: right });
-                //   }}>
-                //   <Text style={style.text2}>Skip for now</Text>
-                // </TouchableOpacity>
-                <View />
-              )}
-              {open ? (
-                <TouchableOpacity
-                  onPress={() => {
-                    // navigation.navigate('Comingtoapp', { contactName: selectedContact });
-                    Alert.alert(
-                      'prtnr',
-                      'Do you want to send invitation link to  ' +
-                        `${selectedContact}`,
-                      [
-                        {
-                          text: 'Cancel',
-                          onPress: () => console.log('Cancel Pressed'),
-                          style: 'cancel',
-                        },
-                        {
-                          text: 'Confirm',
-                          onPress: async () => {
-                            if (localUser) {
-                              try {
-                                const invitationCode = nanoid();
-                                const shareUrl = await createDynamicLink(
-                                  invitationCode,
-                                );
-                                onConfirm(shareUrl);
-                                console.log("shareUrl===>", shareUrl);
-                              } catch (error) {
-                                console.log(error);
-                              }
-                            }
-                            //navigation.navigate('NewHomeScreen', { right: right })
-                          },
-                        },
-                      ],
-                      {cancelable: false},
-                    );
-                  }}
-                  style={[style.button, {marginBottom: 30}]}>
-                  <Text style={style.textbutton}>Confirm and Send Invite</Text>
-                </TouchableOpacity>
-              ) : null}
-              <ContactsList />
-            </View>
-          </KeyboardAvoidingView>
-
-          <View
-            style={{
-              height: '30%',
-              marginTop: open ? 60 : windowHeight / 5,
-              marginBottom: windowHeight / 20,
-            }}>
-            {/* <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}>
-              {open ? (
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate('Profile', { right: right });
-                  }}>
-                  <Text
-                    style={[
-                      style.textbutton,
-                      { marginLeft: 20, alignSelf: 'flex-end' },
-                    ]}>
-                    Skip for now
-                  </Text>
-                </TouchableOpacity>
-              ) : (
-                <View></View>
-              )}
-            </View> */}
+      <View
+        style={{
+          flexDirection: 'row',
+          marginTop: 10,
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack('')}
+          style={{marginLeft: 15, display: 'flex', flexDirection: 'row'}}>
+          <Backarrow />
+          <Text style={style.topTxt}>Addig a prtnr</Text>
+        </TouchableOpacity>
+        <Text style={style.topTxt}>3/3</Text>
+        <Text style={style.text1}>prtnr</Text>
+      </View>
+      <View style={{height: windowHeight - 130}}>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{flexGrow: 1, paddingBottom: 50}}>
+          <View style={[style.topBody, {height: windowHeight * 0.4}]}>
+            {PartnerStorage.secondImageURL ? (
+              <Image
+                imageStyle={{resizeMode: 'stretch'}}
+                source={{uri: PartnerStorage.secondImageURL}}
+                style={{height: '100%', width: '100%'}}
+              />
+            ) : (
+              <Text>Second photo of partner</Text>
+            )}
           </View>
+          <View style={style.inviteBody}>
+            <View style={{width: '80%', marginLeft: 31, marginTop: 20}}>
+              <Text style={style.text}>Try it.. you might like it</Text>
+
+              <View>
+                <Text style={style.text2}>
+                  Our app can be used solo so you can do better.. and you know
+                  need to do better. So start out by yourself for now and try
+                  some new things. You can always add them later.
+                </Text>
+              </View>
+              <Text style={[style.text, {marginTop: 20}]}>
+                Invite them to the party?
+              </Text>
+
+              <View>
+                <Text style={style.text2}>
+                  Send your other an invite so they can connect
+                </Text>
+              </View>
+            </View>
+
+            <TouchableOpacity
+              onPress={() => {
+                opencontactForm();
+              }}
+              style={style.button}>
+              <Text style={style.textbutton}>Contact List</Text>
+            </TouchableOpacity>
+
+            <ContactsList />
+          </View>
+
+          {open ? (
+            <View style={{width: '80%', marginLeft: 31, marginTop: 16}}>
+              <Text style={style.text2}>Selected: </Text>
+              <View
+                style={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  marginTop: 10,
+                }}>
+                <Text style={style.contactName}>{selectedContact}</Text>
+                <Text style={style.contactNumber}>{selectedContactNumber}</Text>
+                <Text
+                  style={style.remove}
+                  onPress={() => {
+                    setopen(false);
+                    setIsSelectedContact('');
+                    setIsSelectedContactNumber('');
+                    setInvited(false);
+                  }}>
+                  remove
+                </Text>
+              </View>
+            </View>
+          ) : (
+            <View />
+          )}
         </ScrollView>
-      </ImageBackground>
-      <TouchableOpacity
-        onPress={() => {
-          //navigation.push('NewHomeScreen', { right: right });
-          navigation.navigate('NewHomeScreen', {right: right});
-          // navigation.navigate('Profile', {right: right});
-        }}
-        style={[style.next]}>
-        <Text
-          style={[
-            style.text,
-            {textAlign: 'center', fontSize: 22, color: '#707070'},
-          ]}>
-          Finish adding prtnr
-        </Text>
-      </TouchableOpacity>
+      </View>
+      <View style={style.bottomBody}>
+        <TouchableOpacity
+          onPress={() => {
+            {
+              selectedContact && !invited
+                ? Alert.alert(
+                    'prtnr',
+                    'Do you want to send invitation link to  ' +
+                      `${selectedContact}`,
+                    [
+                      {
+                        text: 'Cancel',
+                        onPress: () => console.log('Cancel Pressed'),
+                        style: 'cancel',
+                      },
+                      {
+                        text: 'Confirm',
+                        onPress: async () => {
+                          if (localUser) {
+                            try {
+                              onConfirm();
+                            } catch (error) {
+                              console.log(error);
+                            }
+                          }
+                        },
+                      },
+                    ],
+                    {cancelable: false},
+                  )
+                : navigation.navigate('NewHomeScreen', {right: right});
+            }
+          }}
+          style={style.next}>
+          <Text style={style.bottomTxt}>{btnTxt}</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
 export default SplashScreen;
-
-//const givenName = `${contact.givenName} ${contact.familyName}`

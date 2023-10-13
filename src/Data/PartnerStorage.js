@@ -1,12 +1,13 @@
-import React from "react";
+import React from 'react';
 
 export default {
-    userRefId: "",
-    firstName: "",
-    imageUrl: "",
-    dateOfbirth: "",
-    age: 0,
-    gender: "",
-    relationType: "",
-    partnerRefId: ""
+  userRefId: '',
+  firstName: '',
+  imageUrl: '',
+  secondImageURL: '',
+  dateOfbirth: '',
+  age: 0,
+  gender: '',
+  relationType: '',
+  partnerRefId: '',
 };

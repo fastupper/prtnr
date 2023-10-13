@@ -11,6 +11,7 @@ import {
   runTransaction,
   writeBatch,
   getDoc,
+  deleteDoc,
 } from 'firebase/firestore';
 import {getDownloadURL, ref, uploadBytesResumable} from 'firebase/storage';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -210,28 +211,29 @@ const addPartner = async (prtnrData, callback) => {
     if (userRefId !== null) {
       try {
         const docRef = await addDoc(collection(db, 'Partners'), {
-          partnerGmail: prtnrData.gmail,
+          // partnerGmail: prtnrData.gmail,
           firstname: prtnrData.firstname,
-          age: prtnrData.age,
-          gender: prtnrData.gender,
+          // age: prtnrData.age,
+          // gender: prtnrData.gender,
           dateOfbirth: prtnrData.dateOfbirth,
-          relationType: prtnrData.relationType,
+          // relationType: prtnrData.relationType,
           imageUrl: prtnrData.imageUrl,
           userRefId: userRefId,
         });
         console.log('added');
 
-        PartnerStorage.gmail = prtnrData.gmail;
+        // PartnerStorage.gmail = prtnrData.gmail;
         PartnerStorage.partnerRefId = docRef.id;
         PartnerStorage.firstName = prtnrData.firstname;
-        PartnerStorage.age = prtnrData.age;
-        PartnerStorage.gender = prtnrData.gender;
+        // PartnerStorage.age = prtnrData.age;
+        // PartnerStorage.gender = prtnrData.gender;
         PartnerStorage.dateOfbirth = prtnrData.dateOfbirth;
-        PartnerStorage.relationType = prtnrData.relationType;
+        // PartnerStorage.relationType = prtnrData.relationType;
         PartnerStorage.imageUrl = prtnrData.imageUrl;
         PartnerStorage.userRefId = userRefId;
         callback('success');
       } catch (error) {
+        console.log(error);
         callback('error');
       }
     } else {
@@ -239,12 +241,25 @@ const addPartner = async (prtnrData, callback) => {
     }
   });
 };
-const addEventType = async (eventType, prntrRefId, callback) => {
+const addEventType = async (
+  impDates,
+  eventType,
+  imageURL,
+  prntrRefId,
+  callback,
+) => {
   try {
     const prtnrRef = doc(db, 'Partners', prntrRefId);
-    await setDoc(prtnrRef, {eventType: eventType}, {merge: true});
+    await setDoc(
+      prtnrRef,
+      {eventType: eventType, importantDates: impDates},
+      {merge: true},
+    );
+    await updateDoc(prtnrRef, {secondimageUrl: imageURL});
+    PartnerStorage.secondImageURL = imageURL;
     callback('success');
   } catch (error) {
+    console.log(error);
     callback('error');
   }
 };
@@ -422,6 +437,46 @@ const getPrtnrTasks = async callback => {
     callback('error');
   }
 };
+
+const enableBio = async userId => {
+  try {
+    const updateRef = doc(db, 'Registration', userId);
+    await updateDoc(updateRef, {
+      isBiometric: true,
+    });
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+const AddTaskPoints = async userInfo => {
+  try {
+    console.log(userInfo);
+    const updateRef = doc(db, 'Registration', userInfo.userId);
+    await updateDoc(updateRef, {
+      taskPoints: userInfo.tasks,
+    });
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
+
+const deleteAccount = async userId => {
+  try {
+    const updateRef = doc(db, 'Registration', userId);
+    await deleteDoc(updateRef, {
+      userRefId: userId,
+    });
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
 //local storage
 // const getUserdata = async (callback) => {
 //     try {
@@ -489,4 +544,7 @@ export default {
   userRedId,
   getUserId,
   updateUserInfo,
+  enableBio,
+  AddTaskPoints,
+  deleteAccount,
 };

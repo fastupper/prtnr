@@ -1,5 +1,7 @@
 import {StyleSheet} from 'react-native';
 import font from '../../utils/CustomFont';
+import {wp, hp} from '../../utils/size';
+
 const styles = StyleSheet.create({
   text: {
     fontFamily: font.AkrobatR,
@@ -10,9 +12,120 @@ const styles = StyleSheet.create({
     fontFamily: font.AkrobatB,
     fontSize: 22,
     color: 'black',
-    marginTop: 10,
     marginRight: 31,
     alignSelf: 'flex-end',
+  },
+  topTxt: {
+    fontFamily: font.AkrobatSB,
+    fontSize: 18,
+    color: 'black',
+    marginLeft: 10,
+  },
+  topBody: {
+    borderWidth: 1,
+    borderStyle: 'dashed',
+    borderColor: '#707070',
+    backgroundColor: '#ffffff',
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 10,
+    alignItems: 'center',
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  favorBody: {
+    borderWidth: 1,
+    borderRadius: 24,
+    borderColor: '#707070',
+    backgroundColor: '#ffffff',
+    marginLeft: 10,
+    marginRight: 10,
+    marginTop: 10,
+    alignItems: 'center',
+    display: 'flex',
+  },
+  ansInput: {
+    fontFamily: font.QuicksandM,
+    fontSize: 14,
+    color: '#0A284A',
+    borderBottomWidth: 1,
+    marginTop: 15,
+  },
+  addBtn: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    marginTop: 20,
+    borderRadius: 40,
+    backgroundColor: '#D0EAEF',
+    height: 40,
+    zIndex: 1,
+  },
+  dropdownContainer: {
+    padding: 0,
+  },
+  event: {
+    // borderColor: '#0A284A',
+  },
+  eventDropDown: {
+    borderColor: '#0A284A',
+    paddingTop: 0,
+    paddingBottom: 0,
+  },
+  eventTitle: {
+    marginTop: 10,
+    color: 'black',
+    fontSize: 20,
+    fontFamily: font.AkrobatR,
+  },
+  btnText: {
+    fontFamily: font.QuicksandM,
+    fontSize: 16,
+    color: 'black',
+  },
+  listText: {
+    fontFamily: font.QuicksandM,
+    fontSize: 12,
+    color: 'black',
+    padding: 0,
+  },
+  removeText: {
+    fontFamily: font.QuicksandR,
+    fontSize: 10,
+    color: 'black',
+    padding: 0,
+  },
+  listItem: {
+    borderColor: 'gray',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
+  },
+
+  datePicker: {
+    // borderBottomWidth: 1,
+    width: '30%',
+  },
+  datePickerBtn: {
+    position: 'absolute',
+    ...StyleSheet.absoluteFill,
+  },
+  buttontext: {
+    color: '#fff',
+    fontSize: 23,
+    fontFamily: font.AkrobatR,
+    paddingTop: 6,
+  },
+  button: {
+    width: '90%',
+    height: 43,
+    borderRadius: 40,
+    backgroundColor: '#000',
+    alignItems: 'center',
+    marginLeft: 10,
+    marginRight: 10,
+    marginBottom: 20,
   },
   line: {
     width: '100%',
@@ -39,7 +152,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
 
-  button: {
+  imgButton: {
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-evenly',
@@ -96,6 +209,11 @@ const styles = StyleSheet.create({
     borderColor: '#707070',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  tapImgTxt: {
+    fontFamily: font.QuicksandM,
+    fontSize: 14,
+    color: '#fff',
   },
 });
 export default styles;

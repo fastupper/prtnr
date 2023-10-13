@@ -8,44 +8,58 @@ import {
   TouchableOpacity,
   ScrollView,
   Modal,
-  ImageBackground,
-  KeyboardAvoidingView,
   useWindowDimensions,
   Platform,
 } from 'react-native';
+import DropDownPicker from 'react-native-dropdown-picker';
+
 import style from './Styles';
 import Textinput from '../../component/textinput';
-import {RadioButton} from 'react-native-paper';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import moment, {duration} from 'moment';
+import moment from 'moment';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import {PermissionsAndroid} from 'react-native';
-// import Arrowwhite from '../../assets/svg/arrowwhite';
 import Backarrow from '../../assets/svg/arrowback';
 //Girish Chauhan
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useToast} from 'react-native-toast-notifications';
 
 import ActivityIndicator from '../../components/ActivityIndicator';
 import firebase from '../../api/firebase';
-import ImageModel from '../ImageModel/ImageModel';
+import PartnerStorage from '../../Data/PartnerStorage';
 
-const SplashScreen = ({navigation, item}) => {
+const favorites = [
+  {label: 'Favorite Movie', value: 'movie', ans: '', index: 0},
+  {label: 'Food they can eat all the time', value: 'food', ans: '', index: 1},
+  {label: 'Favorite color', value: 'color', ans: '', index: 2},
+  {label: 'Favorite pastime', value: 'pass_time', ans: '', index: 3},
+  {label: 'Favorite tv show', value: 'tv_show', ans: '', index: 4},
+];
+
+const Detail = ({route, navigation, item}) => {
+  let fromHome = route.params && route.params.fromHome ? route.params.fromHome : false;
+  let partners = route.params && route.params.partners ? route.params.partners : [];
   const windowHeight = useWindowDimensions().height;
-  const windowWidth = useWindowDimensions().height;
-  const [checked, setChecked] = React.useState('first');
-  const [gmail, setGmail] = useState('');
   const [name, setname] = useState('');
-  const [Age, setAge] = useState('');
+  const [Age, setAge] = useState(0);
   const [Sex, setSex] = useState('');
   const [Fill, setfill] = useState('');
   const [isTO, setisTO] = useState(true);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [todate, settodate] = useState('Their Birthdate');
+  const [todate, settodate] = useState(null);
   const [img, setImg] = useState('');
-  const [open, setopen] = useState(false);
+  const [open, setopen] = useState();
+  const [openImg, setOpenImg] = useState(false);
   const [isLoader, setisLoader] = useState(false);
   const [partnerImg, setpartnerImg] = useState('');
+  const [value, setValue] = useState(null);
+  const [ans, setAns] = useState('');
+  const [eventName, setEventName] = useState('');
+  const [dates, setDates] = useState([]);
+  const [ageJoke, setAgeJoke] = useState('Young');
+
+  const [items, setItems] = useState(favorites);
+
+  const [selectedItems, setSelectedItems] = useState([]);
   const Toast = useToast();
   global.item = {Age: '', todate1: '', name: '', Sex: '', checked: ''};
   const handleConfirm = date => {
@@ -56,6 +70,7 @@ const SplashScreen = ({navigation, item}) => {
     //showToastMsg('A date has been picked:' + todate);
     hideDatePicker();
   };
+
   const showDatePicker = () => {
     setDatePickerVisibility(true);
   };
@@ -67,6 +82,24 @@ const SplashScreen = ({navigation, item}) => {
       skipBackup: true,
       path: 'images',
     },
+  };
+
+  const updateAnswer = () => {
+    console.log("value", value)
+    if (value != null) {
+      let temp = selectedItems;
+      let index = items.find(i => i.value == value);
+      const newItem = {
+        value: value,
+        ans: ans,
+        label: index.label,
+        index: index.index,
+      };
+      temp.push(newItem);
+      setSelectedItems(temp);
+      setAns('');
+      setValue(null);
+    }
   };
   const cameraLaunch = () => {
     launchCamera(options, res => {
@@ -182,12 +215,7 @@ const SplashScreen = ({navigation, item}) => {
       animationType: 'slide-in | zoom-in',
     });
   };
-  const clearPage = () => {
-    setname('');
-    setAge('');
-    setSex('');
-    setfill('');
-  };
+
   const uploadPartnerImage = async filename => {
     if (!filename) {
       return;
@@ -202,324 +230,393 @@ const SplashScreen = ({navigation, item}) => {
       setisLoader(false);
     });
   };
-  const addPartner = async prtnrData => {
-    setisLoader(true);
-    console.log('------------> add partner');
-    firebase.addPartner(prtnrData, result => {
-      if (result == 'success') {
-        setisLoader(false);
-        clearPage();
-        navigation.navigate('Otherfavorite');
-      } else {
-        setisLoader(false);
-        showToastMsg('Something went wrong...');
+
+  const updateDates = () => {
+    if (eventName == '') {
+      showToastMsg('Please Add Event Name.');
+    } else if (todate == null) {
+      showToastMsg('Please select a date');
+    } else {
+      let temp = dates;
+      temp.push({label: eventName, value: eventName, date: todate});
+      setDates(temp);
+      settodate(null);
+      setEventName('');
+    }
+  };
+  const saveEvent = () => {
+    updateDates();
+  };
+
+  const addEventType = () => {
+    try {
+      const prtnrId = partners[0].prtnrRefId;
+      //Favorite proccessing
+      const aryItmes = selectedItems.filter(i => i.ans !== '');
+      let events = [];
+      if (aryItmes.length > 0) {
+        aryItmes.map((item, index) => {
+          const event = {
+            eventName: item.label,
+            eventAns: item.ans,
+          };
+          events[index] = event;
+        });
       }
-    });
+      console.log("events", events)
+      // Dates processing
+      if (eventName != '' && todate != null) {
+        let temp = dates;
+        temp.push({label: eventName, value: eventName, date: todate});
+        setDates(temp);
+        settodate(null);
+        setEventName('');
+      }
+      if (dates.length > 0 && events.length > 0 && (partnerImg || img)) {
+        //setItems([]);
+        setisLoader(true);
+        console.log(dates)
+        firebase.addEventType(dates, items, partnerImg, prtnrId, result => {
+          if (result === 'success') {
+            if (fromHome) {
+              navigation.navigate('NewHomeScreen');
+              showToastMsg('Updated successfully.');
+            } else navigation.navigate('Invite', {prtnrId: prtnrId});
+          } else {
+            showToastMsg('Something went wrong');
+          }
+          setisLoader(false);
+        });
+      } else {
+        showToastMsg('Please fill all fields');
+      }
+    } catch (err) {
+      console.log(err);
+      showToastMsg('Something went wrong during proccessing data');
+    }
   };
-  const handleClose = () => {
-    ``;
-    console.log('handleClose');
-    //setopen(!open);
-  };
-  const handleModal = e => {
-    setopen(!open);
-  };
+
+  useEffect(() => {
+    if (fromHome) {
+      setImg(partners[0].imageUrl)
+      let temp = [];
+      partners[0].eventType && partners[0].eventType.map((item, index) => {
+        // let val = favorites.find(item => item.label == item.eventName)
+        const newItem = {
+          ans: item.eventAns,
+          label: item.eventName,
+          index: index,
+          // value: val.value
+        }
+        temp.push(newItem);
+      })
+      setSelectedItems(temp);
+      let tempp = [];
+      partners[0].importantDates.map((item, index) => {
+        tempp.push({label: item.label, value: value, date: item.date});
+      })
+      setDates(tempp);
+    }
+
+    const currentYear = new Date().getFullYear();
+    setAge(currentYear - parseInt(PartnerStorage.dateOfbirth.slice(-4)));
+    if (Age < 20) {
+      setAgeJoke('Young');
+    } else if (Age > 20 && Age < 50) {
+      setAgeJoke('Fantastic');
+    } else {
+      setAgeJoke('Old');
+    }
+  }, []);
   return (
     <>
       <ActivityIndicator visible={isLoader} />
-      <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
-        {/* <ImageBackground imageStyle={{ resizeMode: "stretch" }} style={{ flex: 1, height: windowHeight, width: "100%" }} source={require('../../assets/otherimage.png')}> */}
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View
-            style={{
-              flexDirection: 'row',
-              marginTop: 10,
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}>
-            <TouchableOpacity
-              onPress={() => navigation.goBack('')}
-              style={{marginLeft: 15}}>
-              <Backarrow />
-            </TouchableOpacity>
-            <Text style={style.text1}>prtnr</Text>
-          </View>
-          <KeyboardAvoidingView style={{marginLeft: 31}}>
-            <View
-              style={{
-                width: '70%',
-                backgroundColor: 'transparent',
-                marginTop: 10,
-              }}>
-              <Text style={style.text}>2.</Text>
-              <Text style={style.text}>Enter their details</Text>
-              <View style={[style.line]}>
-                <Textinput
-                  placeholder="Gmail"
-                  color="black"
-                  tstyle={style.textinput}
-                  onChangeText={text => setGmail(text)}
-                />
-              </View>
-              <View style={[style.line]}>
-                <Textinput
-                  placeholder="First Name"
-                  color="black"
-                  tstyle={style.textinput}
-                  onChangeText={text => setname(text)}
-                />
-              </View>
+      <View style={{flex: 1, maxHeight: windowHeight}}>
+        <SafeAreaView />
+        <View
+          style={{
+            flexDirection: 'row',
+            marginTop: 10,
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}>
+          <TouchableOpacity
+            onPress={() => navigation.goBack('')}
+            style={{marginLeft: 15, display: 'flex', flexDirection: 'row'}}>
+            <Backarrow />
+            {!fromHome ? 
+              <Text style={style.topTxt}>Adding a prtnr</Text> :
+              <Text style={style.topTxt}>Edit a prtnr</Text>
+            }
+          </TouchableOpacity>
+            {!fromHome &&
+              <Text style={style.topTxt}>2/3</Text>
+            }
+          <Text style={style.text1}>prtnr</Text>
+        </View>
+        <View style={{height: windowHeight - 120}}>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{flexGrow: 1, paddingBottom: 30}}>
+            {/* <ImageBackground imageStyle={{ resizeMode: "stretch" }} style={{ flex: 1, height: windowHeight, width: "100%" }} source={require('../../assets/otherimage.png')}> */}
 
-              <View style={[style.line]}>
-                <Textinput
-                  placeholder="Age (optional)"
-                  keyboardType="numeric"
-                  color="black"
-                  tstyle={style.textinput}
-                  onChangeText={text => setAge(text)}
-                />
-              </View>
-
-              <View style={[style.line]}>
-                <Textinput
-                  placeholder="Sex (optional)"
-                  color="black"
-                  tstyle={style.textinput}
-                  onChangeText={text => setSex(text)}
-                />
-              </View>
-              <DateTimePickerModal
-                isVisible={isDatePickerVisible}
-                mode="date"
-                onConfirm={handleConfirm}
-                onCancel={hideDatePicker}
-              />
-              <TouchableOpacity
-                onPress={() => {
-                  showDatePicker(), setisTO(true);
-                }}
-                style={[
-                  style.line,
-                  {
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                  },
-                ]}>
-                <Text style={style.textinput}>{todate}</Text>
-                {/* <TouchableOpacity
-                                    onPress={() => { showDatePicker(), setisTO(true) }}
-                                    style={style.date}>
-                                    <Image imageStyle={{ resizeMode: "stretch" }} style={{ height: 25, width: 25, marginRight: 5 }} source={require('../../assets/calendar.png')} ></Image>
-                                </TouchableOpacity> */}
-                {/* <Textinput placeholder="Their Birthdate" color="black" tstyle={style.textinput} onChangeText={(text) => (text)} /> */}
-              </TouchableOpacity>
-
-              <View style={{marginTop: 22}}>
-                <Text style={style.text}>Relationship Type</Text>
-
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      marginLeft: 1,
-                    }}>
-                    <TouchableOpacity
-                      style={{marginHorizontal: 5}}
-                      onPress={() => setChecked('first')}>
-                      <Icon
-                        name={
-                          checked === 'first'
-                            ? 'radiobox-marked'
-                            : 'radiobox-blank'
-                        }
-                        size={26}
-                        color="#000000"
-                      />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => setChecked('first')}>
-                      <Text style={style.rediotext}>Plutonic</Text>
-                    </TouchableOpacity>
-                  </View>
-                  <View
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      marginLeft: 16,
-                    }}>
-                    <TouchableOpacity
-                      style={{marginHorizontal: 5}}
-                      onPress={() => setChecked('second')}>
-                      <Icon
-                        name={
-                          checked === 'second'
-                            ? 'radiobox-marked'
-                            : 'radiobox-blank'
-                        }
-                        size={26}
-                        color="#000000"
-                      />
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => setChecked('second')}>
-                      <Text style={style.rediotext}>Intimate</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </View>
-            </View>
-            <View style={{marginTop: 26, width: '85%'}}>
-              <Text style={style.text}>Add Photo</Text>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'flex-start',
-                  marginTop: 10,
-                }}>
-                <TouchableOpacity
-                  onPress={() => {
-                    setopen(true);
-                  }}
-                  style={[style.Add, {backgroundColor: 'white'}]}>
-                  {img == '' ? (
-                    <Image
-                      imageStyle={{resizeMode: 'stretch'}}
-                      style={[style.Icon, {height: 25, width: 25}]}
-                      source={require('../../assets/camera.png')}
-                    />
-                  ) : (
-                    <Image
-                      imageStyle={{resizeMode: 'stretch'}}
-                      source={{uri: img}}
-                      style={{height: '100%', width: '100%'}}
-                    />
-                  )}
-                </TouchableOpacity>
-                <Text
-                  style={[
-                    style.text,
-                    {
-                      width: '60%',
-                      marginLeft: 20,
-                      alignSelf: 'center',
-                      marginTop: -5,
-                    },
-                  ]}>
-                  Add your favorite SFW photo of them.
-                </Text>
-              </View>
-              {img != '' && (
-                <Text style={[style.text, {fontSize: 18, paddingTop: 5}]}>
-                  {''}
-                </Text>
-              )}
-            </View>
-
-            <Modal
-              animationType="none"
-              transparent={true}
-              visible={open}
-              onRequestClose={() => {
-                setopen(!open);
-              }}>
-              <View style={style.Modalview}>
-                <View style={style.ModalItem}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      setopen(!open);
-                    }}
-                    style={style.close}>
-                    <Image
-                      imageStyle={{resizeMode: 'stretch'}}
-                      style={{height: 10, width: 10}}
-                      source={require('../../assets/close3.png')}
-                    />
-                  </TouchableOpacity>
-
-                  <View style={style.button}>
-                    <TouchableOpacity
-                      onPress={() => {
-                        checkReadContactsPermission(), setopen(!open);
-                      }}>
-                      <Image
-                        imageStyle={{resizeMode: 'stretch'}}
-                        style={style.Icon}
-                        source={require('../../assets/camera.png')}
-                      />
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                      onPress={() => {
-                        checkSTORAGE(), setopen(!open);
-                      }}>
-                      <Image
-                        imageStyle={{resizeMode: 'stretch'}}
-                        style={style.Icon}
-                        source={require('../../assets/gallery.png')}
-                      />
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </View>
-            </Modal>
-            {/* <ImageModel open={open} onPress={handleClose} onCloseModal={e => handleModal(e)} /> */}
-          </KeyboardAvoidingView>
-          <View
-            style={{
-              width: '100%',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              marginBottom: 20,
-              marginTop: 78,
-              flexDirection: 'row',
-            }}>
-            <Text
-              style={[
-                style.rediotext,
-                {marginLeft: 20, color: 'red', width: '30%'},
-              ]}>
-              {Fill}
-            </Text>
             <TouchableOpacity
               onPress={() => {
-                if (!gmail || !name || todate == 'Their Birthdate') {
-                  setfill('fill all the details');
-                  showToastMsg('fill all the details');
-                } else if (img == '') {
-                  showToastMsg('Add your favorite SFW Photo.');
-                } else {
-                  global.item = {
-                    gmail: gmail,
-                    Age: Age,
-                    todate1: todate,
-                    name: name,
-                    Sex: Sex,
-                    checked: checked,
-                  };
-                  const relationType =
-                    checked === 'first' ? 'Plutonic' : 'Intimate';
-                  const prtnrData = {
-                    gmail: gmail,
-                    firstname: name,
-                    age: Age,
-                    dateOfbirth: todate,
-                    gender: Sex,
-                    relationType: relationType,
-                    imageUrl: partnerImg,
-                  };
-                  addPartner(prtnrData);
-                }
+                setOpenImg(true);
               }}
-              style={[style.next, {marginRight: 24}]}>
-              <Text style={[style.text, {fontSize: 23, color: 'black'}]}>
-                Next
-              </Text>
+              style={[style.topBody, {height: windowHeight * 0.3}]}>
+              {img ? (
+                <Image
+                  imageStyle={{resizeMode: 'stretch'}}
+                  source={{uri: img}}
+                  style={{height: '100%', width: '100%'}}
+                />
+              ) : (
+                <Text style={{color: '#000', opacity: 0.5}}>
+                  Add a second photo for {Age} years old({ageJoke}),{' '}
+                  {PartnerStorage.firstName}
+                </Text>
+              )}
             </TouchableOpacity>
+            {img && (
+              <View
+                style={{
+                  marginTop: -40,
+                  marginBottom: 25,
+                  marginLeft: 'auto',
+                  marginRight: 'auto',
+                }}>
+                <Text style={style.tapImgTxt}>Tap on photo to change</Text>
+              </View>
+            )}
+            <View style={style.favorBody}>
+              <View
+                style={{
+                  borderWidth: 0,
+                  // marginTop: 50,
+                  // zIndex: 10,
+                  // minHeight: hp(50),
+                }}>
+                <View style={{width: '95%'}}>
+                  <Text style={style.eventTitle}>
+                    Enter their favorite things that you know of {`\n`}(or kinda
+                    remember)
+                  </Text>
+                  <View style={{marginTop: 10}}>
+                    <DropDownPicker
+                      zIndex={2}
+                      open={open}
+                      value={value}
+                      items={items.filter(i => i.ans == '')}
+                      placeholder="What's their favorite color?"
+                      textStyle={{
+                        fontSize: 14,
+                        padding: 0,
+                      }}
+                      style={{minHeight: 29}}
+                      setOpen={setopen}
+                      setValue={setValue}
+                      setItems={setItems}
+                      listMode="SCROLLVIEW"
+                      dropDownDirection="TOP"
+                      showArrowIcon={false}
+                    />
+                  </View>
+                  <Textinput
+                    placeholder="Type Answer"
+                    color="black"
+                    tstyle={style.ansInput}
+                    onChangeText={setAns}
+                    value={ans}
+                  />
+                </View>
+
+                <View>
+                  {!open && (
+                    <TouchableOpacity
+                      style={[style.addBtn, {width: '80%'}]}
+                      onPress={updateAnswer}>
+                      <Text style={style.btnText}>Add Favorite</Text>
+                    </TouchableOpacity>
+                  )}
+                </View>
+                <View style={{marginTop: 20}}>
+                  {selectedItems.length > 0 &&
+                    selectedItems.map((i, index) => {
+                      return (
+                        <View key={index} style={style.listItem}>
+                          <Text
+                            style={[
+                              style.listText,
+                              {width: '30%'},
+                            ]}>{`${i.label}`}</Text>
+                          <Text
+                            style={[
+                              style.listText,
+                              {width: '30%'},
+                            ]}>{`${i.ans}`}</Text>
+                          <Text
+                            style={style.removeText}
+                            onPress={() => {
+                              setSelectedItems([
+                                ...selectedItems.slice(0, index),
+                                ...selectedItems.slice(index + 1),
+                              ]);
+                              setItems(favorites);
+                            }}>
+                            remove
+                          </Text>
+                        </View>
+                      );
+                    })}
+                </View>
+              </View>
+            </View>
+            <View style={style.favorBody}>
+              <View style={{width: '95%'}}>
+                <Text style={style.eventTitle}>Important Dates</Text>
+              </View>
+              <View
+                style={{
+                  marginTop: 10,
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  display: 'flex',
+                  flexDirection: 'row',
+                  gap: 20,
+                  //   borderWidth: 1,
+                }}>
+                <View style={{width: '60%'}}>
+                  <Textinput
+                    color={'rgba(0,0,0,0.2)'}
+                    placeholder="Our First Kiss"
+                    tstyle={style.ansInput}
+                    value={eventName}
+                    onChangeText={text => setEventName(text)}
+                  />
+                </View>
+                <View onPress={showDatePicker} style={style.datePicker}>
+                  <Textinput
+                    onPress={() => {
+                      showDatePicker(), setisTO(true);
+                    }}
+                    editable={false}
+                    value={todate}
+                    color={'#000'}
+                    placeholder="When was it?"
+                    tstyle={style.ansInput}
+                    // onChangeText={text => setMarriage(text)}
+                  />
+                  <TouchableOpacity
+                    onPress={() => {
+                      showDatePicker(), setisTO(true);
+                    }}
+                    style={style.datePickerBtn}
+                  />
+                </View>
+
+                <DateTimePickerModal
+                  isVisible={isDatePickerVisible}
+                  mode="date"
+                  onConfirm={handleConfirm}
+                  onCancel={hideDatePicker}
+                />
+              </View>
+              <TouchableOpacity
+                style={[style.addBtn, {width: '40%', marginBottom: 10}]}
+                onPress={saveEvent}>
+                <Text style={style.btnText}>Add Date</Text>
+              </TouchableOpacity>
+              <View style={{width: '95%'}}>
+                {dates
+                  .filter(i => i.ans !== '')
+                  .map((i, index) => {
+                    return (
+                      <View key={index} style={style.listItem}>
+                        <Text
+                          style={[
+                            style.listText,
+                            {width: '30%'},
+                          ]}>{`${i.label}`}</Text>
+                        <Text
+                          style={[style.listText, {width: '30%'}]}>{`${moment(
+                          i.date,
+                        ).format('MMM DD, YYYY')}`}</Text>
+                        <Text
+                          style={style.removeText}
+                          onPress={() => {
+                            setDates([
+                              ...dates.slice(0, index),
+                              ...dates.slice(index + 1),
+                            ]);
+                          }}>
+                          remove
+                        </Text>
+                      </View>
+                    );
+                  })}
+              </View>
+            </View>
+          </ScrollView>
+        </View>
+      </View>
+      <SafeAreaView />
+
+      <View style={{backgroundColor: '#fff', alignItems: 'center'}}>
+        <TouchableOpacity
+          onPress={() => addEventType()}
+          style={[style.button, {marginTop: 20}]}>
+          <Text style={style.buttontext}>{fromHome ? 'Save and Close' : 'Next'}</Text>
+        </TouchableOpacity>
+      </View>
+      <Modal
+        animationType="none"
+        transparent={true}
+        visible={openImg}
+        onRequestClose={() => {
+          setOpenImg(!openImg);
+        }}>
+        <View style={style.Modalview}>
+          <View style={style.ModalItem}>
+            <TouchableOpacity
+              onPress={() => {
+                setOpenImg(!openImg);
+              }}
+              style={style.close}>
+              <Image
+                imageStyle={{resizeMode: 'stretch'}}
+                style={{height: 10, width: 10}}
+                source={require('../../assets/close3.png')}
+              />
+            </TouchableOpacity>
+
+            <View style={style.imgButton}>
+              <TouchableOpacity
+                onPress={() => {
+                  checkReadContactsPermission(), setOpenImg(!openImg);
+                }}>
+                <Image
+                  imageStyle={{resizeMode: 'stretch'}}
+                  style={style.Icon}
+                  source={require('../../assets/camera.png')}
+                />
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                onPress={() => {
+                  checkSTORAGE(), setOpenImg(!openImg);
+                }}>
+                <Image
+                  imageStyle={{resizeMode: 'stretch'}}
+                  style={style.Icon}
+                  source={require('../../assets/gallery.png')}
+                />
+              </TouchableOpacity>
+            </View>
           </View>
-        </ScrollView>
-        {/* </ImageBackground> */}
-      </SafeAreaView>
+        </View>
+      </Modal>
     </>
   );
 };
-export default SplashScreen;
+export default Detail;

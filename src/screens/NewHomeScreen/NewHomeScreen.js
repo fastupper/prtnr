@@ -309,6 +309,7 @@ const NewHomeScreen = ({route, navigation}) => {
       firebase.getPartnersData(UserStorage.userRefId, async response => {
         if (response != null && response.length > 0) {
           setIsPartners(true);
+          setPartners(response);
           const ptrnrname = response[0].firstname;
           const prtnimg = response[0].imageUrl;
           const prRefId = response[0].prtnrRefId;
@@ -1246,12 +1247,16 @@ const NewHomeScreen = ({route, navigation}) => {
               </>
             )} */}
             <View style={[styles.profileNameCon]}>
-              <View style={{flex: 1}}>
-                <Text style={[styles.profileNameText]}>
-                  {isPartner ? prtnrName : strings.profileName}
-                </Text>
+              <View  style={{flex: 1,
+                justifyContent: 'center',
+                alignItems: 'flex-start',}}>
+                <TouchableOpacity onPress={() => {navigation.navigate('Otherdetails', {fromHome: true, partners: partners});}}>
+                  <Text style={[styles.profileNameText, {borderWidth: 1, borderColor: "#E4E4E4", flexWrap: 'nowrap', }]} numberOfLines={1} ellipsizeMode='tail'>
+                    {isPartner ? prtnrName : strings.profileName}
+                  </Text>
+                </TouchableOpacity>
               </View>
-              <View style={{flexDirection: 'row'}}>
+              <View style={{flexDirection: 'row', flex: 1}}>
                 {/*Connect Icon */}
                 {/* {isPartner ? (
                   <TouchableOpacity style={styles.connectIcCon}>

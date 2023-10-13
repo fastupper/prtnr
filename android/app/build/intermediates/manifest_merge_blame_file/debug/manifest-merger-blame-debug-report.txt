@@ -9,236 +9,236 @@
 9        android:targetSdkVersion="33" />
 10
 11    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-11-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/debug/AndroidManifest.xml:5:5-77
-11-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/debug/AndroidManifest.xml:5:22-75
+11-->E:\offers\UnitedNFC\prtnr\android\app\src\debug\AndroidManifest.xml:5:5-77
+11-->E:\offers\UnitedNFC\prtnr\android\app\src\debug\AndroidManifest.xml:5:22-75
 12    <uses-permission android:name="android.permission.CAMERA" />
-12-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/main/AndroidManifest.xml:2:5-64
-12-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/main/AndroidManifest.xml:2:22-62
+12-->E:\offers\UnitedNFC\prtnr\android\app\src\main\AndroidManifest.xml:2:5-64
+12-->E:\offers\UnitedNFC\prtnr\android\app\src\main\AndroidManifest.xml:2:22-62
 13    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-13-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/main/AndroidManifest.xml:3:5-80
-13-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/main/AndroidManifest.xml:3:22-78
+13-->E:\offers\UnitedNFC\prtnr\android\app\src\main\AndroidManifest.xml:3:5-80
+13-->E:\offers\UnitedNFC\prtnr\android\app\src\main\AndroidManifest.xml:3:22-78
 14    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-14-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/main/AndroidManifest.xml:6:6-80
-14-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/main/AndroidManifest.xml:6:23-78
+14-->E:\offers\UnitedNFC\prtnr\android\app\src\main\AndroidManifest.xml:6:6-80
+14-->E:\offers\UnitedNFC\prtnr\android\app\src\main\AndroidManifest.xml:6:23-78
 15    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-15-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/main/AndroidManifest.xml:7:7-77
-15-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/main/AndroidManifest.xml:7:24-75
+15-->E:\offers\UnitedNFC\prtnr\android\app\src\main\AndroidManifest.xml:7:7-77
+15-->E:\offers\UnitedNFC\prtnr\android\app\src\main\AndroidManifest.xml:7:24-75
 16    <uses-permission android:name="android.permission.INTERNET" />
-16-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/main/AndroidManifest.xml:4:5-67
-16-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/main/AndroidManifest.xml:4:22-64
+16-->E:\offers\UnitedNFC\prtnr\android\app\src\main\AndroidManifest.xml:4:5-67
+16-->E:\offers\UnitedNFC\prtnr\android\app\src\main\AndroidManifest.xml:4:22-64
 17    <uses-permission android:name="android.permission.READ_CONTACTS" />
-17-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/main/AndroidManifest.xml:5:5-71
-17-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/main/AndroidManifest.xml:5:22-69
+17-->E:\offers\UnitedNFC\prtnr\android\app\src\main\AndroidManifest.xml:5:5-71
+17-->E:\offers\UnitedNFC\prtnr\android\app\src\main\AndroidManifest.xml:5:22-69
 18    <uses-permission android:name="android.permission.READ_SMS" />
-18-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/main/AndroidManifest.xml:8:5-67
-18-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/main/AndroidManifest.xml:8:22-64
+18-->E:\offers\UnitedNFC\prtnr\android\app\src\main\AndroidManifest.xml:8:5-67
+18-->E:\offers\UnitedNFC\prtnr\android\app\src\main\AndroidManifest.xml:8:22-64
 19    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-19-->[com.facebook.flipper:flipper:0.125.0] /Users/saurabhbhati/.gradle/caches/transforms-3/fcb316af33916b9fe22dbdca35c217e1/transformed/jetified-flipper-0.125.0/AndroidManifest.xml:16:5-76
-19-->[com.facebook.flipper:flipper:0.125.0] /Users/saurabhbhati/.gradle/caches/transforms-3/fcb316af33916b9fe22dbdca35c217e1/transformed/jetified-flipper-0.125.0/AndroidManifest.xml:16:22-73
+19-->[com.facebook.flipper:flipper:0.125.0] C:\Users\Admin\.gradle\caches\transforms-3\6ab86f522251f981cd9b213c1d0d505d\transformed\jetified-flipper-0.125.0\AndroidManifest.xml:16:5-76
+19-->[com.facebook.flipper:flipper:0.125.0] C:\Users\Admin\.gradle\caches\transforms-3\6ab86f522251f981cd9b213c1d0d505d\transformed\jetified-flipper-0.125.0\AndroidManifest.xml:16:22-73
 20    <uses-permission android:name="android.permission.WAKE_LOCK" />
-20-->[:react-native-firebase_dynamic-links] /Volumes/codevault/sdev/newfreelance/prtnr/node_modules/@react-native-firebase/dynamic-links/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:10:5-68
-20-->[:react-native-firebase_dynamic-links] /Volumes/codevault/sdev/newfreelance/prtnr/node_modules/@react-native-firebase/dynamic-links/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:10:22-65
+20-->[:react-native-firebase_dynamic-links] E:\offers\UnitedNFC\prtnr\node_modules\@react-native-firebase\dynamic-links\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:5-68
+20-->[:react-native-firebase_dynamic-links] E:\offers\UnitedNFC\prtnr\node_modules\@react-native-firebase\dynamic-links\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:22-65
 21    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-21-->[:react-native-firebase_dynamic-links] /Volumes/codevault/sdev/newfreelance/prtnr/node_modules/@react-native-firebase/dynamic-links/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:11:5-79
-21-->[:react-native-firebase_dynamic-links] /Volumes/codevault/sdev/newfreelance/prtnr/node_modules/@react-native-firebase/dynamic-links/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:11:22-76
+21-->[:react-native-firebase_dynamic-links] E:\offers\UnitedNFC\prtnr\node_modules\@react-native-firebase\dynamic-links\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:11:5-79
+21-->[:react-native-firebase_dynamic-links] E:\offers\UnitedNFC\prtnr\node_modules\@react-native-firebase\dynamic-links\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:11:22-76
 22    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
-22-->[:react-native-biometrics] /Volumes/codevault/sdev/newfreelance/prtnr/node_modules/react-native-biometrics/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:9:5-72
-22-->[:react-native-biometrics] /Volumes/codevault/sdev/newfreelance/prtnr/node_modules/react-native-biometrics/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:9:22-69
+22-->[:react-native-biometrics] E:\offers\UnitedNFC\prtnr\node_modules\react-native-biometrics\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:5-72
+22-->[:react-native-biometrics] E:\offers\UnitedNFC\prtnr\node_modules\react-native-biometrics\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:9:22-69
 23    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
-23-->[:react-native-biometrics] /Volumes/codevault/sdev/newfreelance/prtnr/node_modules/react-native-biometrics/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:10:5-74
-23-->[:react-native-biometrics] /Volumes/codevault/sdev/newfreelance/prtnr/node_modules/react-native-biometrics/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:10:22-71
+23-->[:react-native-biometrics] E:\offers\UnitedNFC\prtnr\node_modules\react-native-biometrics\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:5-74
+23-->[:react-native-biometrics] E:\offers\UnitedNFC\prtnr\node_modules\react-native-biometrics\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:22-71
 24
 25    <application
-25-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/main/AndroidManifest.xml:11:5-31:19
+25-->E:\offers\UnitedNFC\prtnr\android\app\src\main\AndroidManifest.xml:11:5-31:19
 26        android:name="com.prtnr.app.MainApplication"
-26-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/main/AndroidManifest.xml:12:7-38
+26-->E:\offers\UnitedNFC\prtnr\android\app\src\main\AndroidManifest.xml:12:7-38
 27        android:allowBackup="false"
-27-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/main/AndroidManifest.xml:16:7-34
+27-->E:\offers\UnitedNFC\prtnr\android\app\src\main\AndroidManifest.xml:16:7-34
 28        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-28-->[androidx.core:core:1.7.0] /Users/saurabhbhati/.gradle/caches/transforms-3/86e2375dd586ad291f8af3be3af3c84b/transformed/core-1.7.0/AndroidManifest.xml:24:18-86
+28-->[androidx.core:core:1.7.0] C:\Users\Admin\.gradle\caches\transforms-3\5723e2d830da67719db8312efd8e701c\transformed\core-1.7.0\AndroidManifest.xml:24:18-86
 29        android:debuggable="true"
 30        android:icon="@mipmap/ic_launcher"
-30-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/main/AndroidManifest.xml:14:7-41
+30-->E:\offers\UnitedNFC\prtnr\android\app\src\main\AndroidManifest.xml:14:7-41
 31        android:label="@string/app_name"
-31-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/main/AndroidManifest.xml:13:7-39
+31-->E:\offers\UnitedNFC\prtnr\android\app\src\main\AndroidManifest.xml:13:7-39
 32        android:roundIcon="@mipmap/ic_launcher_round"
-32-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/main/AndroidManifest.xml:15:7-52
+32-->E:\offers\UnitedNFC\prtnr\android\app\src\main\AndroidManifest.xml:15:7-52
 33        android:theme="@style/AppTheme"
-33-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/main/AndroidManifest.xml:17:7-38
+33-->E:\offers\UnitedNFC\prtnr\android\app\src\main\AndroidManifest.xml:17:7-38
 34        android:usesCleartextTraffic="true" >
-34-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/debug/AndroidManifest.xml:12:9-44
+34-->E:\offers\UnitedNFC\prtnr\android\app\src\debug\AndroidManifest.xml:12:9-44
 35        <activity
-35-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/debug/AndroidManifest.xml:15:9-111
+35-->E:\offers\UnitedNFC\prtnr\android\app\src\debug\AndroidManifest.xml:15:9-111
 36            android:name="com.facebook.react.devsupport.DevSettingsActivity"
-36-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/debug/AndroidManifest.xml:15:19-83
+36-->E:\offers\UnitedNFC\prtnr\android\app\src\debug\AndroidManifest.xml:15:19-83
 37            android:exported="false" />
-37-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/debug/AndroidManifest.xml:15:84-108
+37-->E:\offers\UnitedNFC\prtnr\android\app\src\debug\AndroidManifest.xml:15:84-108
 38        <activity
-38-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/main/AndroidManifest.xml:18:7-30:18
+38-->E:\offers\UnitedNFC\prtnr\android\app\src\main\AndroidManifest.xml:18:7-30:18
 39            android:name="com.prtnr.app.MainActivity"
-39-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/main/AndroidManifest.xml:19:9-37
+39-->E:\offers\UnitedNFC\prtnr\android\app\src\main\AndroidManifest.xml:19:9-37
 40            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
-40-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/main/AndroidManifest.xml:21:9-118
+40-->E:\offers\UnitedNFC\prtnr\android\app\src\main\AndroidManifest.xml:21:9-118
 41            android:exported="true"
-41-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/main/AndroidManifest.xml:24:9-32
+41-->E:\offers\UnitedNFC\prtnr\android\app\src\main\AndroidManifest.xml:24:9-32
 42            android:label="@string/app_name"
-42-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/main/AndroidManifest.xml:20:9-41
+42-->E:\offers\UnitedNFC\prtnr\android\app\src\main\AndroidManifest.xml:20:9-41
 43            android:launchMode="singleTask"
-43-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/main/AndroidManifest.xml:22:9-40
+43-->E:\offers\UnitedNFC\prtnr\android\app\src\main\AndroidManifest.xml:22:9-40
 44            android:screenOrientation="portrait"
-44-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/main/AndroidManifest.xml:25:9-45
+44-->E:\offers\UnitedNFC\prtnr\android\app\src\main\AndroidManifest.xml:25:9-45
 45            android:windowSoftInputMode="adjustPan" >
-45-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/main/AndroidManifest.xml:23:9-48
+45-->E:\offers\UnitedNFC\prtnr\android\app\src\main\AndroidManifest.xml:23:9-48
 46            <intent-filter>
-46-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/main/AndroidManifest.xml:26:9-29:25
+46-->E:\offers\UnitedNFC\prtnr\android\app\src\main\AndroidManifest.xml:26:9-29:25
 47                <action android:name="android.intent.action.MAIN" />
-47-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/main/AndroidManifest.xml:27:13-65
-47-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/main/AndroidManifest.xml:27:21-62
+47-->E:\offers\UnitedNFC\prtnr\android\app\src\main\AndroidManifest.xml:27:13-65
+47-->E:\offers\UnitedNFC\prtnr\android\app\src\main\AndroidManifest.xml:27:21-62
 48
 49                <category android:name="android.intent.category.LAUNCHER" />
-49-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/main/AndroidManifest.xml:28:13-73
-49-->/Volumes/codevault/sdev/newfreelance/prtnr/android/app/src/main/AndroidManifest.xml:28:23-70
+49-->E:\offers\UnitedNFC\prtnr\android\app\src\main\AndroidManifest.xml:28:13-73
+49-->E:\offers\UnitedNFC\prtnr\android\app\src\main\AndroidManifest.xml:28:23-70
 50            </intent-filter>
 51        </activity>
 52
 53        <meta-data
-53-->[:react-native-firebase_app] /Volumes/codevault/sdev/newfreelance/prtnr/node_modules/@react-native-firebase/app/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:11:9-13:36
+53-->[:react-native-firebase_app] E:\offers\UnitedNFC\prtnr\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:11:9-13:36
 54            android:name="app_data_collection_default_enabled"
-54-->[:react-native-firebase_app] /Volumes/codevault/sdev/newfreelance/prtnr/node_modules/@react-native-firebase/app/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:12:13-63
+54-->[:react-native-firebase_app] E:\offers\UnitedNFC\prtnr\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-63
 55            android:value="true" />
-55-->[:react-native-firebase_app] /Volumes/codevault/sdev/newfreelance/prtnr/node_modules/@react-native-firebase/app/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:13:13-33
+55-->[:react-native-firebase_app] E:\offers\UnitedNFC\prtnr\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-33
 56
 57        <service
-57-->[:react-native-firebase_app] /Volumes/codevault/sdev/newfreelance/prtnr/node_modules/@react-native-firebase/app/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:15:9-23:19
+57-->[:react-native-firebase_app] E:\offers\UnitedNFC\prtnr\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:15:9-23:19
 58            android:name="com.google.firebase.components.ComponentDiscoveryService"
-58-->[:react-native-firebase_app] /Volumes/codevault/sdev/newfreelance/prtnr/node_modules/@react-native-firebase/app/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:16:13-84
+58-->[:react-native-firebase_app] E:\offers\UnitedNFC\prtnr\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:16:13-84
 59            android:directBootAware="true"
-59-->[:react-native-firebase_app] /Volumes/codevault/sdev/newfreelance/prtnr/node_modules/@react-native-firebase/app/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:17:13-43
+59-->[:react-native-firebase_app] E:\offers\UnitedNFC\prtnr\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:17:13-43
 60            android:exported="false" >
-60-->[:react-native-firebase_app] /Volumes/codevault/sdev/newfreelance/prtnr/node_modules/@react-native-firebase/app/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:18:13-37
+60-->[:react-native-firebase_app] E:\offers\UnitedNFC\prtnr\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:18:13-37
 61            <meta-data
-61-->[:react-native-firebase_app] /Volumes/codevault/sdev/newfreelance/prtnr/node_modules/@react-native-firebase/app/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:20:13-22:85
+61-->[:react-native-firebase_app] E:\offers\UnitedNFC\prtnr\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:20:13-22:85
 62                android:name="com.google.firebase.components:io.invertase.firebase.app.ReactNativeFirebaseAppRegistrar"
-62-->[:react-native-firebase_app] /Volumes/codevault/sdev/newfreelance/prtnr/node_modules/@react-native-firebase/app/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:21:17-120
+62-->[:react-native-firebase_app] E:\offers\UnitedNFC\prtnr\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:21:17-120
 63                android:value="com.google.firebase.components.ComponentRegistrar" />
-63-->[:react-native-firebase_app] /Volumes/codevault/sdev/newfreelance/prtnr/node_modules/@react-native-firebase/app/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:22:17-82
+63-->[:react-native-firebase_app] E:\offers\UnitedNFC\prtnr\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:22:17-82
 64            <meta-data
-64-->[com.google.firebase:firebase-dynamic-links:21.1.0] /Users/saurabhbhati/.gradle/caches/transforms-3/7b2feb8b7661385887e23f839d584d38/transformed/jetified-firebase-dynamic-links-21.1.0/AndroidManifest.xml:26:13-28:85
+64-->[com.google.firebase:firebase-dynamic-links:21.1.0] C:\Users\Admin\.gradle\caches\transforms-3\27614f037350561454e976578833fe5a\transformed\jetified-firebase-dynamic-links-21.1.0\AndroidManifest.xml:26:13-28:85
 65                android:name="com.google.firebase.components:com.google.firebase.dynamiclinks.internal.FirebaseDynamicLinkRegistrar"
-65-->[com.google.firebase:firebase-dynamic-links:21.1.0] /Users/saurabhbhati/.gradle/caches/transforms-3/7b2feb8b7661385887e23f839d584d38/transformed/jetified-firebase-dynamic-links-21.1.0/AndroidManifest.xml:27:17-133
+65-->[com.google.firebase:firebase-dynamic-links:21.1.0] C:\Users\Admin\.gradle\caches\transforms-3\27614f037350561454e976578833fe5a\transformed\jetified-firebase-dynamic-links-21.1.0\AndroidManifest.xml:27:17-133
 66                android:value="com.google.firebase.components.ComponentRegistrar" />
-66-->[com.google.firebase:firebase-dynamic-links:21.1.0] /Users/saurabhbhati/.gradle/caches/transforms-3/7b2feb8b7661385887e23f839d584d38/transformed/jetified-firebase-dynamic-links-21.1.0/AndroidManifest.xml:28:17-82
+66-->[com.google.firebase:firebase-dynamic-links:21.1.0] C:\Users\Admin\.gradle\caches\transforms-3\27614f037350561454e976578833fe5a\transformed\jetified-firebase-dynamic-links-21.1.0\AndroidManifest.xml:28:17-82
 67        </service>
 68
 69        <provider
-69-->[:react-native-firebase_app] /Volumes/codevault/sdev/newfreelance/prtnr/node_modules/@react-native-firebase/app/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:25:9-29:38
+69-->[:react-native-firebase_app] E:\offers\UnitedNFC\prtnr\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:25:9-29:38
 70            android:name="io.invertase.firebase.app.ReactNativeFirebaseAppInitProvider"
-70-->[:react-native-firebase_app] /Volumes/codevault/sdev/newfreelance/prtnr/node_modules/@react-native-firebase/app/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:26:13-88
+70-->[:react-native-firebase_app] E:\offers\UnitedNFC\prtnr\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:26:13-88
 71            android:authorities="com.prtnr.app.reactnativefirebaseappinitprovider"
-71-->[:react-native-firebase_app] /Volumes/codevault/sdev/newfreelance/prtnr/node_modules/@react-native-firebase/app/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:27:13-86
+71-->[:react-native-firebase_app] E:\offers\UnitedNFC\prtnr\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:27:13-86
 72            android:exported="false"
-72-->[:react-native-firebase_app] /Volumes/codevault/sdev/newfreelance/prtnr/node_modules/@react-native-firebase/app/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:28:13-37
+72-->[:react-native-firebase_app] E:\offers\UnitedNFC\prtnr\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:28:13-37
 73            android:initOrder="99" />
-73-->[:react-native-firebase_app] /Volumes/codevault/sdev/newfreelance/prtnr/node_modules/@react-native-firebase/app/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:29:13-35
+73-->[:react-native-firebase_app] E:\offers\UnitedNFC\prtnr\node_modules\@react-native-firebase\app\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:29:13-35
 74        <provider
-74-->[:react-native-image-picker] /Volumes/codevault/sdev/newfreelance/prtnr/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:10:9-18:20
+74-->[:react-native-image-picker] E:\offers\UnitedNFC\prtnr\node_modules\react-native-image-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:10:9-18:20
 75            android:name="com.imagepicker.ImagePickerProvider"
-75-->[:react-native-image-picker] /Volumes/codevault/sdev/newfreelance/prtnr/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-63
+75-->[:react-native-image-picker] E:\offers\UnitedNFC\prtnr\node_modules\react-native-image-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:11:13-63
 76            android:authorities="com.prtnr.app.imagepickerprovider"
-76-->[:react-native-image-picker] /Volumes/codevault/sdev/newfreelance/prtnr/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:12:13-71
+76-->[:react-native-image-picker] E:\offers\UnitedNFC\prtnr\node_modules\react-native-image-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:12:13-71
 77            android:exported="false"
-77-->[:react-native-image-picker] /Volumes/codevault/sdev/newfreelance/prtnr/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:13:13-37
+77-->[:react-native-image-picker] E:\offers\UnitedNFC\prtnr\node_modules\react-native-image-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:13:13-37
 78            android:grantUriPermissions="true" >
-78-->[:react-native-image-picker] /Volumes/codevault/sdev/newfreelance/prtnr/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:14:13-47
+78-->[:react-native-image-picker] E:\offers\UnitedNFC\prtnr\node_modules\react-native-image-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:14:13-47
 79            <meta-data
-79-->[:react-native-image-picker] /Volumes/codevault/sdev/newfreelance/prtnr/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:15:13-17:70
+79-->[:react-native-image-picker] E:\offers\UnitedNFC\prtnr\node_modules\react-native-image-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:15:13-17:70
 80                android:name="android.support.FILE_PROVIDER_PATHS"
-80-->[:react-native-image-picker] /Volumes/codevault/sdev/newfreelance/prtnr/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:16:17-67
+80-->[:react-native-image-picker] E:\offers\UnitedNFC\prtnr\node_modules\react-native-image-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:16:17-67
 81                android:resource="@xml/imagepicker_provider_paths" />
-81-->[:react-native-image-picker] /Volumes/codevault/sdev/newfreelance/prtnr/node_modules/react-native-image-picker/android/build/intermediates/merged_manifest/debug/AndroidManifest.xml:17:17-67
+81-->[:react-native-image-picker] E:\offers\UnitedNFC\prtnr\node_modules\react-native-image-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:17:17-67
 82        </provider>
 83
 84        <activity
-84-->[com.google.android.gms:play-services-auth:20.5.0] /Users/saurabhbhati/.gradle/caches/transforms-3/f3ad8db71d12eb5d0845dd249b4c3671/transformed/jetified-play-services-auth-20.5.0/AndroidManifest.xml:23:9-27:75
+84-->[com.google.android.gms:play-services-auth:20.5.0] C:\Users\Admin\.gradle\caches\transforms-3\effd4b6bfa432304b8f8aa3dc678a9b7\transformed\jetified-play-services-auth-20.5.0\AndroidManifest.xml:23:9-27:75
 85            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
-85-->[com.google.android.gms:play-services-auth:20.5.0] /Users/saurabhbhati/.gradle/caches/transforms-3/f3ad8db71d12eb5d0845dd249b4c3671/transformed/jetified-play-services-auth-20.5.0/AndroidManifest.xml:24:13-93
+85-->[com.google.android.gms:play-services-auth:20.5.0] C:\Users\Admin\.gradle\caches\transforms-3\effd4b6bfa432304b8f8aa3dc678a9b7\transformed\jetified-play-services-auth-20.5.0\AndroidManifest.xml:24:13-93
 86            android:excludeFromRecents="true"
-86-->[com.google.android.gms:play-services-auth:20.5.0] /Users/saurabhbhati/.gradle/caches/transforms-3/f3ad8db71d12eb5d0845dd249b4c3671/transformed/jetified-play-services-auth-20.5.0/AndroidManifest.xml:25:13-46
+86-->[com.google.android.gms:play-services-auth:20.5.0] C:\Users\Admin\.gradle\caches\transforms-3\effd4b6bfa432304b8f8aa3dc678a9b7\transformed\jetified-play-services-auth-20.5.0\AndroidManifest.xml:25:13-46
 87            android:exported="false"
-87-->[com.google.android.gms:play-services-auth:20.5.0] /Users/saurabhbhati/.gradle/caches/transforms-3/f3ad8db71d12eb5d0845dd249b4c3671/transformed/jetified-play-services-auth-20.5.0/AndroidManifest.xml:26:13-37
+87-->[com.google.android.gms:play-services-auth:20.5.0] C:\Users\Admin\.gradle\caches\transforms-3\effd4b6bfa432304b8f8aa3dc678a9b7\transformed\jetified-play-services-auth-20.5.0\AndroidManifest.xml:26:13-37
 88            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-88-->[com.google.android.gms:play-services-auth:20.5.0] /Users/saurabhbhati/.gradle/caches/transforms-3/f3ad8db71d12eb5d0845dd249b4c3671/transformed/jetified-play-services-auth-20.5.0/AndroidManifest.xml:27:13-72
+88-->[com.google.android.gms:play-services-auth:20.5.0] C:\Users\Admin\.gradle\caches\transforms-3\effd4b6bfa432304b8f8aa3dc678a9b7\transformed\jetified-play-services-auth-20.5.0\AndroidManifest.xml:27:13-72
 89        <!--
 90            Service handling Google Sign-In user revocation. For apps that do not integrate with
 91            Google Sign-In, this service will never be started.
 92        -->
 93        <service
-93-->[com.google.android.gms:play-services-auth:20.5.0] /Users/saurabhbhati/.gradle/caches/transforms-3/f3ad8db71d12eb5d0845dd249b4c3671/transformed/jetified-play-services-auth-20.5.0/AndroidManifest.xml:33:9-37:51
+93-->[com.google.android.gms:play-services-auth:20.5.0] C:\Users\Admin\.gradle\caches\transforms-3\effd4b6bfa432304b8f8aa3dc678a9b7\transformed\jetified-play-services-auth-20.5.0\AndroidManifest.xml:33:9-37:51
 94            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
-94-->[com.google.android.gms:play-services-auth:20.5.0] /Users/saurabhbhati/.gradle/caches/transforms-3/f3ad8db71d12eb5d0845dd249b4c3671/transformed/jetified-play-services-auth-20.5.0/AndroidManifest.xml:34:13-89
+94-->[com.google.android.gms:play-services-auth:20.5.0] C:\Users\Admin\.gradle\caches\transforms-3\effd4b6bfa432304b8f8aa3dc678a9b7\transformed\jetified-play-services-auth-20.5.0\AndroidManifest.xml:34:13-89
 95            android:exported="true"
-95-->[com.google.android.gms:play-services-auth:20.5.0] /Users/saurabhbhati/.gradle/caches/transforms-3/f3ad8db71d12eb5d0845dd249b4c3671/transformed/jetified-play-services-auth-20.5.0/AndroidManifest.xml:35:13-36
+95-->[com.google.android.gms:play-services-auth:20.5.0] C:\Users\Admin\.gradle\caches\transforms-3\effd4b6bfa432304b8f8aa3dc678a9b7\transformed\jetified-play-services-auth-20.5.0\AndroidManifest.xml:35:13-36
 96            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION"
-96-->[com.google.android.gms:play-services-auth:20.5.0] /Users/saurabhbhati/.gradle/caches/transforms-3/f3ad8db71d12eb5d0845dd249b4c3671/transformed/jetified-play-services-auth-20.5.0/AndroidManifest.xml:36:13-107
+96-->[com.google.android.gms:play-services-auth:20.5.0] C:\Users\Admin\.gradle\caches\transforms-3\effd4b6bfa432304b8f8aa3dc678a9b7\transformed\jetified-play-services-auth-20.5.0\AndroidManifest.xml:36:13-107
 97            android:visibleToInstantApps="true" />
-97-->[com.google.android.gms:play-services-auth:20.5.0] /Users/saurabhbhati/.gradle/caches/transforms-3/f3ad8db71d12eb5d0845dd249b4c3671/transformed/jetified-play-services-auth-20.5.0/AndroidManifest.xml:37:13-48
+97-->[com.google.android.gms:play-services-auth:20.5.0] C:\Users\Admin\.gradle\caches\transforms-3\effd4b6bfa432304b8f8aa3dc678a9b7\transformed\jetified-play-services-auth-20.5.0\AndroidManifest.xml:37:13-48
 98
 99        <meta-data
-99-->[com.github.bumptech.glide:okhttp3-integration:4.12.0] /Users/saurabhbhati/.gradle/caches/transforms-3/ab2a53710ca309e781fa2378a664a339/transformed/jetified-okhttp3-integration-4.12.0/AndroidManifest.xml:11:9-13:43
+99-->[com.github.bumptech.glide:okhttp3-integration:4.12.0] C:\Users\Admin\.gradle\caches\transforms-3\13cac3963041f7dba3ec5e18fb382f5b\transformed\jetified-okhttp3-integration-4.12.0\AndroidManifest.xml:11:9-13:43
 100            android:name="com.bumptech.glide.integration.okhttp3.OkHttpGlideModule"
-100-->[com.github.bumptech.glide:okhttp3-integration:4.12.0] /Users/saurabhbhati/.gradle/caches/transforms-3/ab2a53710ca309e781fa2378a664a339/transformed/jetified-okhttp3-integration-4.12.0/AndroidManifest.xml:12:13-84
+100-->[com.github.bumptech.glide:okhttp3-integration:4.12.0] C:\Users\Admin\.gradle\caches\transforms-3\13cac3963041f7dba3ec5e18fb382f5b\transformed\jetified-okhttp3-integration-4.12.0\AndroidManifest.xml:12:13-84
 101            android:value="GlideModule" />
-101-->[com.github.bumptech.glide:okhttp3-integration:4.12.0] /Users/saurabhbhati/.gradle/caches/transforms-3/ab2a53710ca309e781fa2378a664a339/transformed/jetified-okhttp3-integration-4.12.0/AndroidManifest.xml:13:13-40
+101-->[com.github.bumptech.glide:okhttp3-integration:4.12.0] C:\Users\Admin\.gradle\caches\transforms-3\13cac3963041f7dba3ec5e18fb382f5b\transformed\jetified-okhttp3-integration-4.12.0\AndroidManifest.xml:13:13-40
 102
 103        <activity
-103-->[com.google.android.gms:play-services-base:18.0.1] /Users/saurabhbhati/.gradle/caches/transforms-3/aa9ab88417ae1a3fa651de3b86b74039/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:20:9-22:45
+103-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\Admin\.gradle\caches\transforms-3\fbca82fcbeac1ca90fe3bb53466b2e1a\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:20:9-22:45
 104            android:name="com.google.android.gms.common.api.GoogleApiActivity"
-104-->[com.google.android.gms:play-services-base:18.0.1] /Users/saurabhbhati/.gradle/caches/transforms-3/aa9ab88417ae1a3fa651de3b86b74039/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:20:19-85
+104-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\Admin\.gradle\caches\transforms-3\fbca82fcbeac1ca90fe3bb53466b2e1a\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:20:19-85
 105            android:exported="false"
-105-->[com.google.android.gms:play-services-base:18.0.1] /Users/saurabhbhati/.gradle/caches/transforms-3/aa9ab88417ae1a3fa651de3b86b74039/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:22:19-43
+105-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\Admin\.gradle\caches\transforms-3\fbca82fcbeac1ca90fe3bb53466b2e1a\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:22:19-43
 106            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-106-->[com.google.android.gms:play-services-base:18.0.1] /Users/saurabhbhati/.gradle/caches/transforms-3/aa9ab88417ae1a3fa651de3b86b74039/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:21:19-78
+106-->[com.google.android.gms:play-services-base:18.0.1] C:\Users\Admin\.gradle\caches\transforms-3\fbca82fcbeac1ca90fe3bb53466b2e1a\transformed\jetified-play-services-base-18.0.1\AndroidManifest.xml:21:19-78
 107
 108        <provider
-108-->[com.google.firebase:firebase-common:20.3.2] /Users/saurabhbhati/.gradle/caches/transforms-3/0e35b817dc0344854e0415e8d690a2f1/transformed/jetified-firebase-common-20.3.2/AndroidManifest.xml:25:9-30:39
+108-->[com.google.firebase:firebase-common:20.3.2] C:\Users\Admin\.gradle\caches\transforms-3\779ab3949180777e6004ccca50ba3725\transformed\jetified-firebase-common-20.3.2\AndroidManifest.xml:25:9-30:39
 109            android:name="com.google.firebase.provider.FirebaseInitProvider"
-109-->[com.google.firebase:firebase-common:20.3.2] /Users/saurabhbhati/.gradle/caches/transforms-3/0e35b817dc0344854e0415e8d690a2f1/transformed/jetified-firebase-common-20.3.2/AndroidManifest.xml:26:13-77
+109-->[com.google.firebase:firebase-common:20.3.2] C:\Users\Admin\.gradle\caches\transforms-3\779ab3949180777e6004ccca50ba3725\transformed\jetified-firebase-common-20.3.2\AndroidManifest.xml:26:13-77
 110            android:authorities="com.prtnr.app.firebaseinitprovider"
-110-->[com.google.firebase:firebase-common:20.3.2] /Users/saurabhbhati/.gradle/caches/transforms-3/0e35b817dc0344854e0415e8d690a2f1/transformed/jetified-firebase-common-20.3.2/AndroidManifest.xml:27:13-72
+110-->[com.google.firebase:firebase-common:20.3.2] C:\Users\Admin\.gradle\caches\transforms-3\779ab3949180777e6004ccca50ba3725\transformed\jetified-firebase-common-20.3.2\AndroidManifest.xml:27:13-72
 111            android:directBootAware="true"
-111-->[com.google.firebase:firebase-common:20.3.2] /Users/saurabhbhati/.gradle/caches/transforms-3/0e35b817dc0344854e0415e8d690a2f1/transformed/jetified-firebase-common-20.3.2/AndroidManifest.xml:28:13-43
+111-->[com.google.firebase:firebase-common:20.3.2] C:\Users\Admin\.gradle\caches\transforms-3\779ab3949180777e6004ccca50ba3725\transformed\jetified-firebase-common-20.3.2\AndroidManifest.xml:28:13-43
 112            android:exported="false"
-112-->[com.google.firebase:firebase-common:20.3.2] /Users/saurabhbhati/.gradle/caches/transforms-3/0e35b817dc0344854e0415e8d690a2f1/transformed/jetified-firebase-common-20.3.2/AndroidManifest.xml:29:13-37
+112-->[com.google.firebase:firebase-common:20.3.2] C:\Users\Admin\.gradle\caches\transforms-3\779ab3949180777e6004ccca50ba3725\transformed\jetified-firebase-common-20.3.2\AndroidManifest.xml:29:13-37
 113            android:initOrder="100" />
-113-->[com.google.firebase:firebase-common:20.3.2] /Users/saurabhbhati/.gradle/caches/transforms-3/0e35b817dc0344854e0415e8d690a2f1/transformed/jetified-firebase-common-20.3.2/AndroidManifest.xml:30:13-36
+113-->[com.google.firebase:firebase-common:20.3.2] C:\Users\Admin\.gradle\caches\transforms-3\779ab3949180777e6004ccca50ba3725\transformed\jetified-firebase-common-20.3.2\AndroidManifest.xml:30:13-36
 114
 115        <meta-data
-115-->[com.google.android.gms:play-services-basement:18.2.0] /Users/saurabhbhati/.gradle/caches/transforms-3/ced71e11c1b1fec55f0265154b15a710/transformed/jetified-play-services-basement-18.2.0/AndroidManifest.xml:21:9-23:69
+115-->[com.google.android.gms:play-services-basement:18.2.0] C:\Users\Admin\.gradle\caches\transforms-3\ab54b150735509447df04405a46f720c\transformed\jetified-play-services-basement-18.2.0\AndroidManifest.xml:21:9-23:69
 116            android:name="com.google.android.gms.version"
-116-->[com.google.android.gms:play-services-basement:18.2.0] /Users/saurabhbhati/.gradle/caches/transforms-3/ced71e11c1b1fec55f0265154b15a710/transformed/jetified-play-services-basement-18.2.0/AndroidManifest.xml:22:13-58
+116-->[com.google.android.gms:play-services-basement:18.2.0] C:\Users\Admin\.gradle\caches\transforms-3\ab54b150735509447df04405a46f720c\transformed\jetified-play-services-basement-18.2.0\AndroidManifest.xml:22:13-58
 117            android:value="@integer/google_play_services_version" />
-117-->[com.google.android.gms:play-services-basement:18.2.0] /Users/saurabhbhati/.gradle/caches/transforms-3/ced71e11c1b1fec55f0265154b15a710/transformed/jetified-play-services-basement-18.2.0/AndroidManifest.xml:23:13-66
+117-->[com.google.android.gms:play-services-basement:18.2.0] C:\Users\Admin\.gradle\caches\transforms-3\ab54b150735509447df04405a46f720c\transformed\jetified-play-services-basement-18.2.0\AndroidManifest.xml:23:13-66
 118
 119        <provider
-119-->[androidx.emoji2:emoji2:1.0.0] /Users/saurabhbhati/.gradle/caches/transforms-3/e392e6996d3b1dda5af4d0b82461e345/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:26:9-34:20
+119-->[androidx.emoji2:emoji2:1.0.0] C:\Users\Admin\.gradle\caches\transforms-3\18261de34af546923fffe0d45d0f8af2\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:26:9-34:20
 120            android:name="androidx.startup.InitializationProvider"
-120-->[androidx.emoji2:emoji2:1.0.0] /Users/saurabhbhati/.gradle/caches/transforms-3/e392e6996d3b1dda5af4d0b82461e345/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:27:13-67
+120-->[androidx.emoji2:emoji2:1.0.0] C:\Users\Admin\.gradle\caches\transforms-3\18261de34af546923fffe0d45d0f8af2\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:27:13-67
 121            android:authorities="com.prtnr.app.androidx-startup"
-121-->[androidx.emoji2:emoji2:1.0.0] /Users/saurabhbhati/.gradle/caches/transforms-3/e392e6996d3b1dda5af4d0b82461e345/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:28:13-68
+121-->[androidx.emoji2:emoji2:1.0.0] C:\Users\Admin\.gradle\caches\transforms-3\18261de34af546923fffe0d45d0f8af2\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:28:13-68
 122            android:exported="false" >
-122-->[androidx.emoji2:emoji2:1.0.0] /Users/saurabhbhati/.gradle/caches/transforms-3/e392e6996d3b1dda5af4d0b82461e345/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:29:13-37
+122-->[androidx.emoji2:emoji2:1.0.0] C:\Users\Admin\.gradle\caches\transforms-3\18261de34af546923fffe0d45d0f8af2\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:29:13-37
 123            <meta-data
-123-->[androidx.emoji2:emoji2:1.0.0] /Users/saurabhbhati/.gradle/caches/transforms-3/e392e6996d3b1dda5af4d0b82461e345/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:31:13-33:52
+123-->[androidx.emoji2:emoji2:1.0.0] C:\Users\Admin\.gradle\caches\transforms-3\18261de34af546923fffe0d45d0f8af2\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:31:13-33:52
 124                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-124-->[androidx.emoji2:emoji2:1.0.0] /Users/saurabhbhati/.gradle/caches/transforms-3/e392e6996d3b1dda5af4d0b82461e345/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:32:17-75
+124-->[androidx.emoji2:emoji2:1.0.0] C:\Users\Admin\.gradle\caches\transforms-3\18261de34af546923fffe0d45d0f8af2\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:32:17-75
 125                android:value="androidx.startup" />
-125-->[androidx.emoji2:emoji2:1.0.0] /Users/saurabhbhati/.gradle/caches/transforms-3/e392e6996d3b1dda5af4d0b82461e345/transformed/jetified-emoji2-1.0.0/AndroidManifest.xml:33:17-49
+125-->[androidx.emoji2:emoji2:1.0.0] C:\Users\Admin\.gradle\caches\transforms-3\18261de34af546923fffe0d45d0f8af2\transformed\jetified-emoji2-1.0.0\AndroidManifest.xml:33:17-49
 126            <meta-data
-126-->[androidx.lifecycle:lifecycle-process:2.4.0] /Users/saurabhbhati/.gradle/caches/transforms-3/d69d2318d1ee3ade2088160f2fae0933/transformed/jetified-lifecycle-process-2.4.0/AndroidManifest.xml:31:13-33:52
+126-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\Admin\.gradle\caches\transforms-3\de2c13a0cc5761a191f538f45f52b991\transformed\jetified-lifecycle-process-2.4.0\AndroidManifest.xml:31:13-33:52
 127                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-127-->[androidx.lifecycle:lifecycle-process:2.4.0] /Users/saurabhbhati/.gradle/caches/transforms-3/d69d2318d1ee3ade2088160f2fae0933/transformed/jetified-lifecycle-process-2.4.0/AndroidManifest.xml:32:17-78
+127-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\Admin\.gradle\caches\transforms-3\de2c13a0cc5761a191f538f45f52b991\transformed\jetified-lifecycle-process-2.4.0\AndroidManifest.xml:32:17-78
 128                android:value="androidx.startup" />
-128-->[androidx.lifecycle:lifecycle-process:2.4.0] /Users/saurabhbhati/.gradle/caches/transforms-3/d69d2318d1ee3ade2088160f2fae0933/transformed/jetified-lifecycle-process-2.4.0/AndroidManifest.xml:33:17-49
+128-->[androidx.lifecycle:lifecycle-process:2.4.0] C:\Users\Admin\.gradle\caches\transforms-3\de2c13a0cc5761a191f538f45f52b991\transformed\jetified-lifecycle-process-2.4.0\AndroidManifest.xml:33:17-49
 129        </provider>
 130    </application>
 131

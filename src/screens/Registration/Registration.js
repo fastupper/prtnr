@@ -30,7 +30,9 @@ import Lefthandsvg from '../../assets/svg/lefthand.svg';
 import Righthandsvg from '../../assets/svg/righthand.svg';
 import Backarrow from '../../assets/svg/arrowback';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+// import PhoneInput from 'react-native-phone-input';
 import {PermissionsAndroid} from 'react-native';
+import ModalPickerImage from '../../components/modalPickerImage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Button, Card} from 'react-native-elements';
 // import Icon from 'react-native-vector-icons/FontAwesome';
@@ -52,6 +54,7 @@ import SelectDropdown from 'react-native-select-dropdown';
 import LinearGradient from 'react-native-linear-gradient';
 import {Backend_api_endpoint} from '../../utils/config';
 import axios from 'axios';
+import PhoneInput from 'react-native-phone-number-input';
 
 const FirstRoute = () => <View style={{flex: 1, backgroundColor: '#ff4081'}} />;
 
@@ -103,36 +106,21 @@ const MyComponent = ({navigation, route}) => {
   const [isBiometric, setIsBiometric] = useState(false);
   const [verifyCodeError, setVerifyCodeError] = useState('');
   const [isViewedTerm, setIsViewedTerm] = useState(false);
-  // const layout = useWindowDimensions();
 
-  // const [tabIndex, setTabIndex] = React.useState(0);
-  // const [tabRoutes] = React.useState([
-  //   { key: 'first', title: 'First' },
-  //   { key: 'second', title: 'Second' },
-  // ]);
-
-  // Step Form Buttons
   const [sliderValue, setSliderValue] = useState(0);
   const [stepIndex, setStepIndex] = useState(0);
   const [verifyCode, setVerifyCode] = useState('');
   const [handed, setHanded] = useState('Right');
   const [langType, setLangType] = useState('Sugar');
   const [clear, setClear] = useState(false);
-
-  // const stepButton1 = () => <TouchableOpacity
-  //   style={styles.stepBtn}
-  //   onPress={this.onPress}
-  // >
-  //   <Text> INFO </Text>
-  // </TouchableOpacity>
-  // const stepButton2 = () => <Button title="VERIFY" type="clear" />
-  // const stepButton3 = () => <Button title="SETTINGS" type="clear" />
-  // const stepButton4 = () => <Button title="START" type="clear" />
-  // const stepButtons = [{ element: stepButton1 }, { element: stepButton2 }, { element: stepButton3 }, { element: stepButton4 }]
-
-  const handleStepIndex = selectedIndex => {
-    setStepIndex(selectedIndex);
-  };
+  const [pickerData, setPickerData] = useState(null);
+  const [value, setValue] = useState('');
+  const [countryCode, setCountryCode] = useState('');
+  const [formattedValue, setFormattedValue] = useState('');
+  const [valid, setValid] = useState(false);
+  const [disabled, setDisabled] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
+  const phoneInput = useRef(PhoneInput);
 
   const getGoogleSignIn = () => {
     if (isGoogle) {
@@ -311,7 +299,7 @@ const MyComponent = ({navigation, route}) => {
       firstName: name,
       lastName: lastname,
       email,
-      phone,
+      formattedValue,
       birthday,
       langType,
       handed,
@@ -350,7 +338,7 @@ const MyComponent = ({navigation, route}) => {
     if (flag) setIsLoading(true);
     axios
       .post(`${Backend_api_endpoint}/send-mail`, {
-        to: phone,
+        to: formattedValue,
       })
       // .then(response => response.json())
       .then(responseData => {
@@ -376,7 +364,7 @@ const MyComponent = ({navigation, route}) => {
     setIsLoading(true);
     axios
       .post(`${Backend_api_endpoint}/confirm-verification`, {
-        phone: phone,
+        phone: formattedValue,
         verifCode: code,
       })
       // .then(response => response.json())
@@ -407,7 +395,7 @@ const MyComponent = ({navigation, route}) => {
           lastname == null ||
           email == null ||
           birthday == 'Birth Date' ||
-          phone == null
+          formattedValue == null
         ) {
           showToastMsg('Please, fill all inputs.');
           // settext('Please, fill all inputs.');
@@ -418,7 +406,7 @@ const MyComponent = ({navigation, route}) => {
           showToastMsg('Please enter valid email address');
           return;
         }
-        if (phone === '') {
+        if (formattedValue === '') {
           showToastMsg('Please enter valid phone number');
           return;
         }
@@ -816,25 +804,48 @@ const MyComponent = ({navigation, route}) => {
                         styles.line,
                         {
                           flexDirection: 'row',
-                          // alignItems: 'center',
                           justifyContent: 'flex-start',
                         },
                       ]}>
-                      <Text style={{color : 'black', fontFamily : font.QuicksandR}}>{birthday}</Text>
+                      <Text
+                        style={{color: 'black', fontFamily: font.QuicksandR}}>
+                        {birthday}
+                      </Text>
                       {/* <TouchableOpacity
                         onPress={() => { showDatePicker(), setisTO(true) }}
                         style={styles.date}>
                         <Image imageStyle={{ resizeMode: "stretch" }} style={{ height: 25, width: 25, marginRight: 5 }} source={require('../../assets/calendar.png')} ></Image>
                     </TouchableOpacity>*/}
                     </TouchableOpacity>
-                    <View style={[styles.line, {marginBottom: 20}]}>
-                      <Textinput
-                        name="phone"
-                        placeholder="Phone number"
-                        keyboardType="phone-pad"
-                        color="black"
-                        tstyle={{width: '90%'}}
-                        onChangeText={text => setphone(text)}
+                    <View>
+                      <PhoneInput
+                        ref={phoneInput}
+                        defaultValue={formattedValue}
+                        defaultCode="US"
+                        layout="first"
+                        onChangeText={text => {
+                          setFormattedValue(text);
+                        }}
+                        onChangeFormattedText={text => {
+                          setFormattedValue(text);
+                          setCountryCode(
+                            phoneInput.current?.getCountryCode() || '',
+                          );
+                        }}
+                        countryPickerProps={{withAlphaFilter: true}}
+                        disabled={disabled}
+                        withDarkTheme
+                        withShadow
+                        autoFocus
+                        containerStyle={{
+                          width: '100%',
+                          height: 50,
+                          marginTop: 15,
+                          borderBottomWidth: 1,
+                          shadowColor: 'transparent',
+                        }}
+                        textInputStyle={{padding: 0}}
+                        countryPickerButtonStyle={{width: '25%'}}
                       />
                     </View>
                     {/* <ErrorMessage error={errors.phone} visible={touched.phone} /> */}

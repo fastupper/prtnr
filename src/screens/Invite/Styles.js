@@ -1,12 +1,12 @@
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 import font from '../../utils/CustomFont';
-import { wp, hp } from '../../utils/size';
 
 const styles = StyleSheet.create({
   text: {
-    fontFamily: font.AkrobatR,
-    fontSize: 30,
+    fontFamily: font.AkrobatSB,
+    fontSize: 20,
     color: 'black',
+    marginBottom: 10,
   },
   text1: {
     fontFamily: font.AkrobatB,
@@ -20,11 +20,26 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: 'black',
   },
-
+  contactName: {
+    fontFamily: font.QuicksandM,
+    fontSize: 12,
+    color: 'black',
+  },
+  contactNumber: {
+    fontFamily: font.QuicksandR,
+    fontSize: 12,
+    color: 'black',
+  },
+  remove: {
+    fontFamily: font.QuicksandR,
+    fontSize: 10,
+    color: 'black',
+  },
   button: {
     width: '90%',
     alignSelf: 'center',
     marginTop: 20,
+    marginBottom: 10,
     height: 58,
     alignItems: 'center',
     justifyContent: 'center',
@@ -37,32 +52,57 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 20,
   },
+  bottomTxt: {
+    fontFamily: font.AkrobatR,
+    color: 'white',
+    fontSize: 23,
+  },
+  topTxt: {
+    fontFamily: font.AkrobatSB,
+    fontSize: 18,
+    color: 'black',
+    marginLeft: 10,
+  },
+  topBody: {
+    borderWidth: 1,
+    borderColor: '#707070',
+    backgroundColor: '#ffffff',
+    marginTop: 10,
+    alignItems: 'center',
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  inviteBody: {
+    width: '95%',
+    marginTop: -40,
+    borderWidth: 3,
+    borderColor: '#707070',
+    borderRadius: 24,
+    backgroundColor: '#fff',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  bottomBody: {
+    borderTopWidth: 1,
+    borderTopColor: '#5D6468',
+    backgroundColor: '#fff',
+    height: 96,
+    justifyContent: 'center',
+    display: 'flex',
+  },
 
-  // next: {
-  //     width: "33%",
-  //     height: 91,
-  //     backgroundColor: "white",
-  //     borderRadius: 10,
-  //     borderColor: "#707070",
-  //     borderWidth: 1,
-  //     alignItems: "center",
-  //     justifyContent: "center",
-  //     alignSelf: "flex-end",
-  //     marginRight: 20,
-  // },
   next: {
-    //position: 'absolute',
-    right: wp(5),
-    bottom: hp(5),
-    width: wp(50),
-    height: hp(5),
-    backgroundColor: 'white',
+    backgroundColor: 'black',
     borderRadius: 30,
     borderColor: '#707070',
     borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    alignSelf: 'flex-end',
+    height: 43,
+    width: '90%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    // alignSelf: 'flex-end',
   },
   close: {
     alignSelf: 'flex-end',

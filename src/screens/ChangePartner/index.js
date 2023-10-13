@@ -179,7 +179,7 @@ const ChangePartner = ({navigation}) => {
             )}
             {(cIndex == 0 || cIndex == partners.length - 1) && (
               <TouchableOpacity
-                onPress={() => navigation.navigate('Otherdetails')}
+                onPress={() => navigation.navigate('Otherprofile1')}
                 //style={styles.plusBtn}
                 style={
                   !isPartner

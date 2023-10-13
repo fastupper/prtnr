@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import {StyleSheet} from 'react-native';
 import font from '../../utils/CustomFont';
 const styles = StyleSheet.create({
   welcome: {
@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
     width: '100%',
     marginTop: 25,
     borderBottomWidth: 1,
+    color: '#000',
   },
 
   date: {
@@ -117,7 +118,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#E8E8E8',
     overflow: 'hidden',
     marginRight: 24,
-    backgroundColor: '#DDEEF8'
+    backgroundColor: '#DDEEF8',
   },
   Icon: {
     height: 50,
@@ -180,7 +181,7 @@ const styles = StyleSheet.create({
   stepBtn: {
     color: '#252323',
     fontSize: 19,
-    fontFamily: font.OpenSansB
+    fontFamily: font.OpenSansB,
   },
 
   stepBtnDisable: {
@@ -192,20 +193,20 @@ const styles = StyleSheet.create({
     borderWidth: 0.5,
     margin: 25,
     elevation: 5,
-    shadowColor: "#000000",
+    shadowColor: '#000000',
     shadowOpacity: 0.8,
     shadowRadius: 2,
     shadowOffset: {
       height: 1,
-      width: 1
-    }
+      width: 1,
+    },
   },
 
   underlineStyleHighLighted: {
     width: 51,
     height: 72,
     borderWidth: 3,
-    borderColor: "#000000",
+    borderColor: '#000000',
     color: '#000000',
     fontSize: 27,
     // borderRadius: 10,
@@ -215,12 +216,12 @@ const styles = StyleSheet.create({
     width: 51,
     height: 72,
     borderWidth: 2,
-    borderColor: "#000000",
+    borderColor: '#000000',
     color: '#000000',
     fontSize: 27,
     // borderRadius: 10,
   },
-  
+
   dropdown1BtnStyle: {
     flex: 1,
     height: 28,
@@ -242,16 +243,29 @@ const styles = StyleSheet.create({
     height: 258,
     zIndex: -1,
     position: 'absolute',
-    bottom: 0
+    bottom: 0,
   },
-  
-  dropdown1BtnTxtStyle: {color: '#444', textAlign: 'left', fontSize: 16, fontFamily: font.QuicksandM, paddingBottom: 3, marginLeft: 2},
+
+  dropdown1BtnTxtStyle: {
+    color: '#444',
+    textAlign: 'left',
+    fontSize: 16,
+    fontFamily: font.QuicksandM,
+    paddingBottom: 3,
+    marginLeft: 2,
+  },
 
   dropdown1DropdownStyle: {backgroundColor: '#EFEFEF'},
 
   dropdown1RowStyle: {backgroundColor: '#EFEFEF', borderBottomColor: '#C5C5C5'},
 
-  dropdown1RowTxtStyle: {color: '#444', textAlign: 'left', fontSize: 16, fontFamily: font.QuicksandM, padding:0, margin: 0},
-
+  dropdown1RowTxtStyle: {
+    color: '#444',
+    textAlign: 'left',
+    fontSize: 16,
+    fontFamily: font.QuicksandM,
+    padding: 0,
+    margin: 0,
+  },
 });
 export default styles;
